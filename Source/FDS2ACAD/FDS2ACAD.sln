@@ -1,12 +1,45 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlugIn", "PlugIn\PlugIn.csproj", "{166C3D96-3C0E-4F82-B885-09B6F3744928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialManager", "MaterialManager\MaterialManager.csproj", "{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryConverter", "GeometryConverter\GeometryConverter.csproj", "{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs08.codeplex.com/
 		SccLocalPath0 = .
+		SccProjectUniqueName1 = PlugIn\\PlugIn.csproj
+		SccProjectName1 = PlugIn
+		SccLocalPath1 = PlugIn
+		SccProjectUniqueName2 = MaterialManager\\MaterialManager.csproj
+		SccProjectName2 = MaterialManager
+		SccLocalPath2 = MaterialManager
+		SccProjectUniqueName3 = GeometryConverter\\GeometryConverter.csproj
+		SccProjectName3 = GeometryConverter
+		SccLocalPath3 = GeometryConverter
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{166C3D96-3C0E-4F82-B885-09B6F3744928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166C3D96-3C0E-4F82-B885-09B6F3744928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166C3D96-3C0E-4F82-B885-09B6F3744928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166C3D96-3C0E-4F82-B885-09B6F3744928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
