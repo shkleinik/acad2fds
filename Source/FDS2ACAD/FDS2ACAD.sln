@@ -2,14 +2,28 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlugIn", "PlugIn\PlugIn.csproj", "{166C3D96-3C0E-4F82-B885-09B6F3744928}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17} = {4B31AA7C-201D-45B9-974D-9A9D30ED9B17}
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7} = {C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialManager", "MaterialManager\MaterialManager.csproj", "{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryConverter", "GeometryConverter\GeometryConverter.csproj", "{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Fds2AcadSetup", "Fds2AcadSetup\Fds2AcadSetup.vdproj", "{0FCE2A90-705E-4482-A6F9-9359F32D1C58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2A691B60-4E5C-4E74-B063-104BA1470B6E} = {2A691B60-4E5C-4E74-B063-104BA1470B6E}
+		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17} = {4B31AA7C-201D-45B9-974D-9A9D30ED9B17}
+		{166C3D96-3C0E-4F82-B885-09B6F3744928} = {166C3D96-3C0E-4F82-B885-09B6F3744928}
+		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7} = {C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fds2AcadSetupActions", "Fds2AcadSetupActions\Fds2AcadSetupActions.csproj", "{2A691B60-4E5C-4E74-B063-104BA1470B6E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs08.codeplex.com/
 		SccLocalPath0 = .
@@ -22,6 +36,12 @@ Global
 		SccProjectUniqueName3 = GeometryConverter\\GeometryConverter.csproj
 		SccProjectName3 = GeometryConverter
 		SccLocalPath3 = GeometryConverter
+		SccProjectUniqueName4 = Fds2AcadSetup\\Fds2AcadSetup.vdproj
+		SccProjectName4 = Fds2AcadSetup
+		SccLocalPath4 = Fds2AcadSetup
+		SccProjectUniqueName5 = Fds2AcadSetupActions\\Fds2AcadSetupActions.csproj
+		SccProjectName5 = Fds2AcadSetupActions
+		SccLocalPath5 = Fds2AcadSetupActions
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +60,12 @@ Global
 		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FCE2A90-705E-4482-A6F9-9359F32D1C58}.Debug|Any CPU.ActiveCfg = Debug
+		{0FCE2A90-705E-4482-A6F9-9359F32D1C58}.Release|Any CPU.ActiveCfg = Release
+		{2A691B60-4E5C-4E74-B063-104BA1470B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A691B60-4E5C-4E74-B063-104BA1470B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A691B60-4E5C-4E74-B063-104BA1470B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A691B60-4E5C-4E74-B063-104BA1470B6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
