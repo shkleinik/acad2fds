@@ -7,15 +7,15 @@ namespace UnitTests.InstallerTests
     public class RegistryHelperTests
     {
         [Test]
-        public void CreateFdsBrunchTest()
+        public void CreateFdsBranchTest()
         {
-            RegistryHelper.CreateFdsBrunch();
+            RegistryHelper.CreateFdsBranch();
         }
 
         [Test]
-        public void RemoveFdsBrunchTest()
+        public void RemoveFdsBranchTest()
         {
-            RegistryHelper.RemoveFdsBrunch();
+            RegistryHelper.RemoveFdsBranch();
         }
 
         [Test]

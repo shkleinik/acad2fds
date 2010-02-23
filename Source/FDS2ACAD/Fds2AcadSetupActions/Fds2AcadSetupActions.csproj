@@ -38,10 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\AcadAutoLoadModifier.cs" />
@@ -60,12 +57,6 @@
     <Compile Include="SetupActions.Designer.cs">
       <DependentUpon>SetupActions.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserInterface\PluginOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserInterface\PluginOptions.Designer.cs">
-      <DependentUpon>PluginOptions.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -73,13 +64,18 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInterface\PluginOptions.resx">
-      <DependentUpon>PluginOptions.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlugIn\PlugIn.csproj">
+      <Project>{166C3D96-3C0E-4F82-B885-09B6F3744928}</Project>
+      <Name>PlugIn</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserInterface\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

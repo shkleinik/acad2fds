@@ -1,4 +1,4 @@
-﻿namespace Fds2AcadSetupActions.UserInterface
+﻿namespace Fds2AcadPlugin.UserInterface
 {
     partial class PluginOptions
     {
@@ -51,7 +51,7 @@
             // tbFdsPath
             // 
             this.tbFdsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                          | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFdsPath.Enabled = false;
             this.tbFdsPath.Location = new System.Drawing.Point(102, 19);
             this.tbFdsPath.Name = "tbFdsPath";
@@ -81,7 +81,7 @@
             // tbSmokeViewPath
             // 
             this.tbSmokeViewPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                                | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSmokeViewPath.Enabled = false;
             this.tbSmokeViewPath.Location = new System.Drawing.Point(102, 49);
             this.tbSmokeViewPath.Name = "tbSmokeViewPath";
@@ -102,7 +102,7 @@
             // gbFdsOptions
             // 
             this.gbFdsOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbFdsOptions.Controls.Add(this.lblFdsPath);
             this.gbFdsOptions.Controls.Add(this.tbSmokeViewPath);
             this.gbFdsOptions.Controls.Add(this.btnBrowseSvPath);

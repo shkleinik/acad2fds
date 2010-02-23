@@ -18,6 +18,8 @@ namespace Fds2AcadSetupActions.BLL
         public const string FdsPluginRegistryKey = "FDS2ACAD";
         public const string AutoCadRegistryKey = @"SOFTWARE\Autodesk\AutoCAD";
         public const string AutoCadApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7001:409\Applications\";
+        public const string CommandsRegistryKey = "Commands";
+        public const string BuildMenuCommandName = "BuildFdsMenu";
 
         #endregion
 

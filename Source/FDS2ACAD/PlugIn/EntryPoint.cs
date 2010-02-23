@@ -1,62 +1,85 @@
-﻿using Autodesk.AutoCAD.Interop.Common;
-
-namespace Fds2AcadPlugin
+﻿namespace Fds2AcadPlugin
 {
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
     using Autodesk.AutoCAD.Interop;
+    using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
+    using BLL;
+    using BLL.Helpers;
+    using BLL.NativeMethods;
+    using UserInterface;
 
     public class EntryPoint
     {
-        [CommandMethod("BuildFdsMenu")]
+        [CommandMethod(Constants.BuildMenuCommandName)]
         public static void BuildFdsMenu()
         {
             try
             {
-                AcadApplication app = (AcadApplication)Marshal.GetActiveObject("AutoCAD.Application.17");
-
+                AcadApplication app = new DefaultFactory().CreateAcadApplication();
                 AcadMenuBar menuBar = app.MenuBar;
                 AcadMenuGroup menuGroup = app.MenuGroups.Item(1);
                 AcadPopupMenus menus = menuGroup.Menus;
 
-                AcadPopupMenu mymenu = menus.Add("FDS to Acad plugin");
+                for (var i = 0; i < menuBar.Count; i++)
+                {
+                    AcadPopupMenu existingMenu = menuBar.Item(i);
+                    if (existingMenu.Name == Constants.FdsMenuName)
+                        return;
+                }
 
-                mymenu.AddMenuItem(0, "Start calculation", "RunCalculationInFds");
-                //mymenu.AddSeparator(1);
-                mymenu.AddMenuItem(1, "View result in SmokeView", "ViewResultInSmokeView");
-                mymenu.AddMenuItem(2, "Options", "PluginOptions");
-                //AcadPopupMenu ext = mymenu.AddSubMenu(4, "Ext");
-                //ext.AddMenuItem(0, "Hello", "hello");
-                //ext.AddSeparator(1);
-                //ext.AddMenuItem(2, "Hello2", "hello");
+                AcadPopupMenu mymenu = menus.Add(Constants.FdsMenuName);
+
+                mymenu.AddMenuItem(0, Constants.RunFdsMenuItem, Constants.RunFdsCommandName);
+                mymenu.AddMenuItem(1, Constants.RunSmokeViewMenuItem, Constants.RunSmokeViewCommandName);
+                mymenu.AddMenuItem(2, Constants.OptionsMenuItem, Constants.OptionsCommandName);
                 mymenu.InsertInMenuBar(menuBar.Count);
-                menuGroup.Save(AcMenuFileType.acMenuFileSource);
-
-                // MessageBox.Show("Hello, world in messagebox");
+                menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
             }
-            catch (Exception)
+            catch (COMException ex)
             {
-                MessageBox.Show("Error occured during FDS menu building");
+                MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
         }
 
-        [CommandMethod("RunCalculationInFds")]
+        [CommandMethod(Constants.RunFdsCommandName)]
         public static void RunCalculationInFds()
         {
             MessageBox.Show("Unfortunately not implemnted yet.");
+            // Note : how to use factory
+            // var pathToFds = new DefaultFactory().CreateConfigProvider().PathToFds;
         }
 
-        [CommandMethod("ViewResultInSmokeView")]
+        [CommandMethod(Constants.RunSmokeViewCommandName)]
         public static void ViewResultInSmokeView()
         {
-            MessageBox.Show("Unfortunately not implemnted yet.");
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "SmokeView files|*.smv",
+            };
+
+            var dialogResult = openFileDialog.ShowDialog();
+
+            if (DialogResult.OK != dialogResult)
+                return;
+
+            var smokeViewHandle = CommonHelper.StartSmokeViewProcess( new DefaultFactory().CreateConfigProvider().PathToSmokeView, openFileDialog.FileName);
+            var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory().CreateAcadActiveWindow().Handle);
+
+            NativeMethods.SetParent(smokeViewHandle, mdiHostHandle);
         }
 
-        [CommandMethod("PluginOptions")]
+        [CommandMethod(Constants.OptionsCommandName)]
         public static void PluginOptions()
         {
-            MessageBox.Show("Unfortunately not implemnted yet.");
+            var plugionOptions = new PluginOptions();
+            plugionOptions.ShowDialog();
         }
     }
 }

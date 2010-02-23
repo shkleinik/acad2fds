@@ -1,8 +1,8 @@
-namespace UnitTests.InstallerTests
-{
-    using MbUnit.Framework;
-    using Fds2AcadSetupActions.UserInterface;
+using Fds2AcadPlugin.UserInterface;
+using MbUnit.Framework;
 
+namespace UnitTests.PluginTests
+{
     [TestFixture]
     public class UserInterfaceTests
     {
