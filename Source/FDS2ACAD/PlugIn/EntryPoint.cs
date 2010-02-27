@@ -50,7 +50,13 @@
         [CommandMethod(Constants.RunFdsCommandName)]
         public static void RunCalculationInFds()
         {
-            MessageBox.Show("Unfortunately not implemnted yet.");
+            var calculationInfo = new CalculationInfo();
+            var dialogResult = calculationInfo.ShowDialog();
+
+            if (dialogResult == DialogResult.Cancel)
+                return;
+
+            MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
             // Note : how to use factory
             // var pathToFds = new DefaultFactory().CreateConfigProvider().PathToFds;
         }
@@ -69,7 +75,7 @@
             if (DialogResult.OK != dialogResult)
                 return;
 
-            var smokeViewHandle = CommonHelper.StartSmokeViewProcess( new DefaultFactory().CreateConfigProvider().PathToSmokeView, openFileDialog.FileName);
+            var smokeViewHandle = CommonHelper.StartSmokeViewProcess(new DefaultFactory().CreateConfigProvider().PathToSmokeView, openFileDialog.FileName);
             var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory().CreateAcadActiveWindow().Handle);
 
             NativeMethods.SetParent(smokeViewHandle, mdiHostHandle);
