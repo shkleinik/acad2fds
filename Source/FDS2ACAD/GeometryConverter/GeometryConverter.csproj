@@ -46,13 +46,18 @@
     <Reference Include="Autodesk.AutoCAD.Interop.Common, Version=17.2.0.0, Culture=neutral, PublicKeyToken=eed84259d7cbf30b, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Bases\BasePoint.cs" />
     <Compile Include="BLL\Bases\Element.cs" />
+    <Compile Include="BLL\Bases\ElementBase.cs" />
+    <Compile Include="BLL\Collections\ElementCollection.cs" />
+    <Compile Include="BLL\Helpers\MCD.cs" />
     <Compile Include="BLL\Helpers\PointBridge.cs" />
-    <Compile Include="DAL\Solid.cs" />
+    <Compile Include="DAL\SolidOperations.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -73,9 +78,6 @@
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BLL\Collections\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
