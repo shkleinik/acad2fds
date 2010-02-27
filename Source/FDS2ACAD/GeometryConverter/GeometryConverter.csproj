@@ -12,10 +12,14 @@
     <AssemblyName>GeometryConverter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,13 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\Bases\BasePoint.cs" />
-    <Compile Include="BLL\Bases\Element.cs" />
-    <Compile Include="BLL\Bases\ElementBase.cs" />
-    <Compile Include="BLL\Collections\ElementCollection.cs" />
-    <Compile Include="BLL\Helpers\CollectionDrawer.cs" />
-    <Compile Include="BLL\Helpers\MCD.cs" />
-    <Compile Include="BLL\Helpers\PointBridge.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
@@ -86,6 +83,9 @@
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BLL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
