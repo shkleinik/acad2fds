@@ -176,20 +176,20 @@ namespace GeometryConverter.DAL
 
 
 
-        public static ElementCollection GetBlocksFromElements(ElementCollection input)
-        {
-            List<ElementCollection> listOfCollections = new List<ElementCollection>();
-            while (input.Elements.Count > 0)
-            {
-                ElementCollection collection = new ElementCollection();
-                int current = 0;
+        //public static ElementCollection GetBlocksFromElements(ElementCollection input)
+        //{
+        //    List<ElementCollection> listOfCollections = new List<ElementCollection>();
+        //    while (input.Elements.Count > 0)
+        //    {
+        //        ElementCollection collection = new ElementCollection();
+        //        int current = 0;
 
-                if (input.Elements[current].NeighbourRight != null)
-                {
+        //        if (input.Elements[current].NeighbourRight != null)
+        //        {
 
-                }
-            }
-            return result;
-        }
+        //        }
+        //    }
+        //    return result;
+        //}
     }
 }
