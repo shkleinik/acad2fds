@@ -7,10 +7,10 @@
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
-"SccProjectName" = "8:"
-"SccLocalPath" = "8:"
-"SccAuxPath" = "8:"
-"SccProvider" = "8:"
+"SccProjectName" = "8:$/fds2acad/Source/FDS2ACAD/Fds2AcadSetup"
+"SccLocalPath" = "8:."
+"SccAuxPath" = "8:https://tfs08.codeplex.com"
+"SccProvider" = "8:{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}"
     "Hierarchy"
     {
         "Entry"
@@ -21,8 +21,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
+        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
         "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
+        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -33,8 +51,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8660305FFF15253F0D64139FE552AF2B"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
         "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
+        "OwnerKey" = "8:_F62D2C539B9DBB30B3DF4376EB0547CC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,8 +81,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
         "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
+        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,7 +118,25 @@
         "Entry"
         {
         "MsmKey" = "8:_E6126E87B2F9A43FFF97AA7420BD3369"
+        "OwnerKey" = "8:_F62D2C539B9DBB30B3DF4376EB0547CC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E6126E87B2F9A43FFF97AA7420BD3369"
         "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F62D2C539B9DBB30B3DF4376EB0547CC"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FA5A05C3DDBE3A3389027EC850A939E7"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,7 +148,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
+        "OwnerKey" = "8:_D998AB809557497770AB2B18C806E26F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -94,7 +160,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D998AB809557497770AB2B18C806E26F"
+        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FA5A05C3DDBE3A3389027EC850A939E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F62D2C539B9DBB30B3DF4376EB0547CC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8660305FFF15253F0D64139FE552AF2B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -338,6 +428,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8660305FFF15253F0D64139FE552AF2B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:acdbmgd, Version=17.2.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_8660305FFF15253F0D64139FE552AF2B"
+                    {
+                    "Name" = "8:acdbmgd.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:acdbmgd.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_97E139184BF206B7CDC122C7116F23E3"
             {
             "AssemblyRegister" = "3:1"
@@ -352,6 +473,37 @@
                     }
                 }
             "SourcePath" = "8:acdbmgd.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CD2A153213398073DD2107EFF4434F92"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Fds2AcadPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_CD2A153213398073DD2107EFF4434F92"
+                    {
+                    "Name" = "8:Fds2AcadPlugin.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Fds2AcadPlugin.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
@@ -408,6 +560,68 @@
                 "ScatterAssemblies"
                 {
                     "_E6126E87B2F9A43FFF97AA7420BD3369"
+                    {
+                    "Name" = "8:AdWindows.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AdWindows.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F62D2C539B9DBB30B3DF4376EB0547CC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:acmgd, Version=17.2.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_F62D2C539B9DBB30B3DF4376EB0547CC"
+                    {
+                    "Name" = "8:acmgd.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:acmgd.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA5A05C3DDBE3A3389027EC850A939E7"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AdWindows, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FA5A05C3DDBE3A3389027EC850A939E7"
                     {
                     "Name" = "8:AdWindows.dll"
                     "Attributes" = "3:512"

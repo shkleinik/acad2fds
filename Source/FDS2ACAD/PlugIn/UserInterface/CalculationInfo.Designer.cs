@@ -33,7 +33,7 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.lblPath = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbPath = new System.Windows.Forms.TextBox();
             this.tbTime = new System.Windows.Forms.TextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.lblUnits = new System.Windows.Forms.Label();
@@ -81,12 +81,14 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.On_btnCancel_Click);
             // 
-            // textBox1
+            // tbPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(100, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(257, 20);
-            this.textBox1.TabIndex = 4;
+            this.tbPath.Enabled = false;
+            this.tbPath.Location = new System.Drawing.Point(100, 9);
+            this.tbPath.Name = "tbPath";
+            this.tbPath.Size = new System.Drawing.Size(246, 20);
+            this.tbPath.TabIndex = 4;
+            this.tbPath.Validating += new System.ComponentModel.CancelEventHandler(this.On_tbPath_Validating);
             // 
             // tbTime
             // 
@@ -95,6 +97,7 @@
             this.tbTime.Size = new System.Drawing.Size(52, 20);
             this.tbTime.TabIndex = 5;
             this.tbTime.TextChanged += new System.EventHandler(this.On_tbTime_TextChanged);
+            this.tbTime.Validating += new System.ComponentModel.CancelEventHandler(this.On_tbTime_Validating);
             // 
             // btnBrowse
             // 
@@ -104,11 +107,12 @@
             this.btnBrowse.TabIndex = 6;
             this.btnBrowse.Text = "...";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.On_btnBrowse_Click);
             // 
             // lblUnits
             // 
             this.lblUnits.AutoSize = true;
-            this.lblUnits.Location = new System.Drawing.Point(177, 39);
+            this.lblUnits.Location = new System.Drawing.Point(169, 39);
             this.lblUnits.Name = "lblUnits";
             this.lblUnits.Size = new System.Drawing.Size(27, 13);
             this.lblUnits.TabIndex = 7;
@@ -126,7 +130,7 @@
             this.Controls.Add(this.lblUnits);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.tbTime);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbPath);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.lblTime);
@@ -136,6 +140,7 @@
             this.MinimizeBox = false;
             this.Name = "CalculationInfo";
             this.Text = "Calculation Info";
+            this.Load += new System.EventHandler(this.On_CalculationInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -148,7 +153,7 @@
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbPath;
         private System.Windows.Forms.TextBox tbTime;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Label lblUnits;
