@@ -55,8 +55,16 @@
     <Compile Include="BLL\Bases\Element.cs" />
     <Compile Include="BLL\Bases\ElementBase.cs" />
     <Compile Include="BLL\Collections\ElementCollection.cs" />
+    <Compile Include="BLL\Helpers\CollectionDrawer.cs" />
     <Compile Include="BLL\Helpers\MCD.cs" />
     <Compile Include="BLL\Helpers\PointBridge.cs" />
+    <Compile Include="DAL\Bases\BasePoint.cs" />
+    <Compile Include="DAL\Bases\Element.cs" />
+    <Compile Include="DAL\Bases\ElementBase.cs" />
+    <Compile Include="DAL\Collections\ElementCollection.cs" />
+    <Compile Include="DAL\Helpers\CollectionDrawer.cs" />
+    <Compile Include="DAL\Helpers\MCD.cs" />
+    <Compile Include="DAL\Helpers\PointBridge.cs" />
     <Compile Include="DAL\SolidOperations.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
