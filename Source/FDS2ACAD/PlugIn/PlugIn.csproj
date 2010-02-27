@@ -48,6 +48,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -79,6 +80,12 @@
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInterface\CalculationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInterface\CalculationInfo.Designer.cs">
+      <DependentUpon>CalculationInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface\PluginOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,10 +94,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UserInterface\CalculationInfo.resx">
+      <DependentUpon>CalculationInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\PluginOptions.resx">
       <DependentUpon>PluginOptions.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeometryConverter\GeometryConverter.csproj">
+      <Project>{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}</Project>
+      <Name>GeometryConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

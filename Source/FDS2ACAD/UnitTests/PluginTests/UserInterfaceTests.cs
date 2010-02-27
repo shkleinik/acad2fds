@@ -12,5 +12,13 @@ namespace UnitTests.PluginTests
             var plugionOptions = new PluginOptions();
             plugionOptions.ShowDialog();
         }
+
+
+        [Test]
+        public void CalculationInfoTest()
+        {
+            var calculationInfo = new CalculationInfo();
+            calculationInfo.ShowDialog();
+        }
     }
 }
