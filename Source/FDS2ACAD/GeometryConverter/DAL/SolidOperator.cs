@@ -9,7 +9,7 @@ using Element = GeometryConverter.DAL.Bases.Element;
 
 namespace GeometryConverter.DAL
 {
-    static class SolidOperations
+    static class SolidOperator
     {
         private static Entity _solid;
 
