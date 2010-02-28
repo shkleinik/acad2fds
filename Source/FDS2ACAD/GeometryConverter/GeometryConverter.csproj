@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\ElementParser.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
@@ -80,7 +81,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BLL\" />
+    <None Include="BLL\templates\OBST.template" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
