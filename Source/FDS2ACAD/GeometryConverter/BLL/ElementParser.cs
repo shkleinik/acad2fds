@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using GeometryConverter.DAL.Collections;
 
 namespace GeometryConverter.BLL
@@ -8,7 +9,6 @@ namespace GeometryConverter.BLL
         public static string ToString(this ElementCollection collection)
         {
             StringBuilder output = new StringBuilder();
-
 
 
             return output.ToString();
