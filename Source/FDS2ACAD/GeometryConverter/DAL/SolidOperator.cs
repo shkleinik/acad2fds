@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.BoundaryRepresentation;
 using Autodesk.AutoCAD.DatabaseServices;
 using GeometryConverter.DAL.Bases;
@@ -11,6 +12,8 @@ namespace GeometryConverter.DAL
 {
     public static class SolidOperator
     {
+        private const double OrthDeviation = 0.001;
+
         private static Entity _solid;
         public static BasePoint[] MaxMinPoint;
         public static ElementBase ElementBase;
@@ -75,8 +78,15 @@ namespace GeometryConverter.DAL
                     }
                 }
             }
+            //todo: round values
+            xMin = Math.Round(xMin, 0);
+            yMin = Math.Round(yMin, 0);
+            zMin = Math.Round(zMin, 0);
+            xMax = Math.Round(xMax, 0);
+            yMax = Math.Round(yMax, 0);
+            zMax = Math.Round(zMax, 0);
             result[0] = new BasePoint(xMin, yMin, zMin);
-            result[1] = new BasePoint(zMax, yMax, zMax);
+            result[1] = new BasePoint(xMax, yMax, zMax);
             return result;
         }
 
@@ -106,11 +116,11 @@ namespace GeometryConverter.DAL
                                 {
                                     // filling 3 collection of edges, each collection responses for X, Y or Z direction
                                     // todo: be sure that ALL edges are orthogonal
-                                    if ((edg.Vertex1.Point.Y == edg.Vertex2.Point.Y) && (edg.Vertex1.Point.Z == edg.Vertex2.Point.Z))
+                                    if (edg.IsAlongX())
                                         xEdges.Add(edg);
-                                    else if ((edg.Vertex1.Point.X == edg.Vertex2.Point.X) && (edg.Vertex1.Point.Z == edg.Vertex2.Point.Z))
+                                    else if (edg.IsAlongY())
                                         yEdges.Add(edg);
-                                    else if ((edg.Vertex1.Point.X == edg.Vertex2.Point.X) && (edg.Vertex1.Point.Y == edg.Vertex2.Point.Y))
+                                    else if (edg.IsAlongZ())
                                         zEdges.Add(edg);
                                 }
                             }
@@ -127,6 +137,27 @@ namespace GeometryConverter.DAL
             return result;
         }
 
+        private static bool IsAlongX(this Edge edg)
+        {
+            bool isOrthY = Math.Abs(edg.Vertex1.Point.Y - edg.Vertex2.Point.Y) < OrthDeviation;
+            bool isOrthZ = Math.Abs(edg.Vertex1.Point.Z - edg.Vertex2.Point.Z) < OrthDeviation;
+            return (isOrthY && isOrthZ);
+        }
+
+        private static bool IsAlongY(this Edge edg)
+        {
+            bool isOrthX = Math.Abs(edg.Vertex1.Point.X - edg.Vertex2.Point.X) < OrthDeviation;
+            bool isOrthZ = Math.Abs(edg.Vertex1.Point.Z - edg.Vertex2.Point.Z) < OrthDeviation;
+            return (isOrthX && isOrthZ);
+        }
+
+        private static bool IsAlongZ(this Edge edg)
+        {
+            bool isOrthY = Math.Abs(edg.Vertex1.Point.Y - edg.Vertex2.Point.Y) < OrthDeviation;
+            bool isOrthX = Math.Abs(edg.Vertex1.Point.X - edg.Vertex2.Point.X) < OrthDeviation;
+            return (isOrthY && isOrthX);
+        }
+
         /// <summary>
         /// Provides collection of all elements bounded by rectangle of MaxMinPoint
         /// </summary>
@@ -136,9 +167,9 @@ namespace GeometryConverter.DAL
         private static ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
         {
             ElementCollection result = new ElementCollection();
-            int limitX = (int)((int)(maxMinPoint[0].X - maxMinPoint[1].X) / elementBase.XLength);
-            int limitY = (int)((int)(maxMinPoint[0].Y - maxMinPoint[1].Y) / elementBase.YLength);
-            int limitZ = (int)((int)(maxMinPoint[0].Z - maxMinPoint[1].Z) / elementBase.ZLength);
+            int limitX = Math.Abs((int)((int)(maxMinPoint[0].X - maxMinPoint[1].X) / elementBase.XLength));
+            int limitY = Math.Abs((int)((int)(maxMinPoint[0].Y - maxMinPoint[1].Y) / elementBase.YLength));
+            int limitZ = Math.Abs((int)((int)(maxMinPoint[0].Z - maxMinPoint[1].Z) / elementBase.ZLength));
             for (int z = 0; z < limitZ; z++)
                 for (int y = 0; y < limitY; y++)
                     for (int x = 0; x < limitX; x++)

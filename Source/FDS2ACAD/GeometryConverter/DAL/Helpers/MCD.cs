@@ -12,7 +12,7 @@ namespace GeometryConverter.DAL.Helpers
         /// <returns>MCD</returns>
         public static double FindMcd(List<Edge> edges)
         {
-            double result = 1;
+            double result = 100;
             //todo: find max common divider
             return result;
         }

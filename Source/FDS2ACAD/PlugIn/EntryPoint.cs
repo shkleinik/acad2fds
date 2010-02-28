@@ -97,13 +97,13 @@ namespace Fds2AcadPlugin
         [CommandMethod(Constants.RunFdsCommandName)]
         static public void RunCalculationInFds()
         {
-            var calculationInfo = new CalculationInfo();
-            var dialogResult = calculationInfo.ShowDialog();
+            //var calculationInfo = new CalculationInfo();
+            //var dialogResult = calculationInfo.ShowDialog();
 
-            if (dialogResult == DialogResult.Cancel)
-                return;
+            //if (dialogResult == DialogResult.Cancel)
+                //return;
 
-            MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
+            //MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
 
             Document doc = new DefaultFactory().CreateDocumentManager().MdiActiveDocument;
             Database db = doc.Database;
