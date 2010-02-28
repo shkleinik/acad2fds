@@ -9,9 +9,12 @@ using Element = GeometryConverter.DAL.Bases.Element;
 
 namespace GeometryConverter.DAL
 {
-    static class SolidOperator
+    public static class SolidOperator
     {
         private static Entity _solid;
+        public static BasePoint[] MaxMinPoint;
+        public static ElementBase ElementBase;
+        public static ElementCollection FullCollection;
 
         public static ElementCollection Analyze(Entity solid)
         {
@@ -19,10 +22,10 @@ namespace GeometryConverter.DAL
             if (solid.GetType() == typeof(Solid3d))
             {
                 _solid = solid;
-                BasePoint[] maxMinPoint = GetMaxMinPoint(_solid);
-                ElementBase elementBase = InitializeElementBase(_solid);
-                ElementCollection fullCollection = GetAllElements(maxMinPoint, elementBase);
-                result = GetValuableElements(fullCollection, _solid);
+                MaxMinPoint = GetMaxMinPoint(_solid);
+                ElementBase = InitializeElementBase(_solid);
+                FullCollection = GetAllElements(MaxMinPoint, ElementBase);
+                result = GetValuableElements(FullCollection, _solid);
                 result.SetNeighbourhoodRelations();
             }
             else
@@ -40,8 +43,12 @@ namespace GeometryConverter.DAL
         private static BasePoint[] GetMaxMinPoint(Entity solid)
         {
             BasePoint[] result = new BasePoint[2];
-            result[0] = new BasePoint(double.MaxValue, double.MaxValue, double.MaxValue);
-            result[1] = new BasePoint(double.MinValue, double.MinValue, double.MinValue);
+            double xMax = double.MinValue;
+            double yMax = double.MinValue;
+            double zMax = double.MinValue;
+            double xMin = double.MaxValue;
+            double yMin = double.MaxValue;
+            double zMin = double.MaxValue;
             Brep brep = new Brep(solid);
             using (brep)
             {
@@ -55,18 +62,21 @@ namespace GeometryConverter.DAL
                             {
                                 foreach (Edge edg in lp.Edges)
                                 {
-                                    //todo: rethink maxmin point algorythm
                                     BasePoint tmp = PointBridge.ConvertToBasePoint(edg.Vertex1.Point);
-                                    if (tmp.IsGreater(result[1]))
-                                        result[1] = tmp.Round();
-                                    if (tmp.IsLower(result[0]))
-                                        result[0] = tmp.Round();
+                                    if (tmp.X > xMax) xMax = tmp.X;
+                                    if (tmp.X < xMin) xMin = tmp.X;
+                                    if (tmp.Y > yMax) yMax = tmp.Y;
+                                    if (tmp.Y < yMin) yMin = tmp.Y;
+                                    if (tmp.Z > zMax) zMax = tmp.Z;
+                                    if (tmp.Z < zMin) zMin = tmp.Z;
                                 }
                             }
                         }
                     }
                 }
             }
+            result[0] = new BasePoint(xMin, yMin, zMin);
+            result[1] = new BasePoint(zMax, yMax, zMax);
             return result;
         }
 
@@ -118,7 +128,7 @@ namespace GeometryConverter.DAL
         }
 
         /// <summary>
-        /// Provides collection of all elements bounded by rectangle of maxMinPoint
+        /// Provides collection of all elements bounded by rectangle of MaxMinPoint
         /// </summary>
         /// <param name="maxMinPoint">Array of MAX and MIN bound points</param>
         /// <param name="elementBase">Element base that provides size of element</param>
