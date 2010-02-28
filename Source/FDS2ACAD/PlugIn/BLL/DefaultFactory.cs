@@ -21,5 +21,10 @@ namespace Fds2AcadPlugin.BLL
         {
             return Application.DocumentManager.MdiActiveDocument.Window;
         }
+
+        public DocumentCollection CreateDocumentManager()
+        {
+            return Application.DocumentManager;
+        }
     }
 }

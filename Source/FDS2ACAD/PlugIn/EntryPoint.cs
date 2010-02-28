@@ -1,4 +1,10 @@
-﻿namespace Fds2AcadPlugin
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using GeometryConverter.DAL;
+using GeometryConverter.DAL.Collections;
+
+namespace Fds2AcadPlugin
 {
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
@@ -47,19 +53,19 @@
             }
         }
 
-        [CommandMethod(Constants.RunFdsCommandName)]
-        public static void RunCalculationInFds()
-        {
-            var calculationInfo = new CalculationInfo();
-            var dialogResult = calculationInfo.ShowDialog();
+        //[CommandMethod(Constants.RunFdsCommandName)]
+        //public static void RunCalculationInFds()
+        //{
+        //    var calculationInfo = new CalculationInfo();
+        //    var dialogResult = calculationInfo.ShowDialog();
 
-            if (dialogResult == DialogResult.Cancel)
-                return;
+        //    if (dialogResult == DialogResult.Cancel)
+        //        return;
 
-            MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
-            // Note : how to use factory
-            // var pathToFds = new DefaultFactory().CreateConfigProvider().PathToFds;
-        }
+        //    MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
+        //    // Note : how to use factory
+        //    // var pathToFds = new DefaultFactory().CreateConfigProvider().PathToFds;
+        //}
 
         [CommandMethod(Constants.RunSmokeViewCommandName)]
         public static void ViewResultInSmokeView()
@@ -86,6 +92,49 @@
         {
             var plugionOptions = new PluginOptions();
             plugionOptions.ShowDialog();
+        }
+
+        [CommandMethod(Constants.RunFdsCommandName)]
+        static public void RunCalculationInFds()
+        {
+            var calculationInfo = new CalculationInfo();
+            var dialogResult = calculationInfo.ShowDialog();
+
+            if (dialogResult == DialogResult.Cancel)
+                return;
+
+            MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
+
+            Document doc = new DefaultFactory().CreateDocumentManager().MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            Transaction tr = db.TransactionManager.StartTransaction();
+
+            using (tr)
+            {
+                try
+                {
+                    // Prompt for selection of a solid to be traversed
+                    PromptEntityOptions prEntOpt = new PromptEntityOptions("\nSelect a 3D solid:");
+                    prEntOpt.SetRejectMessage("\nMust be a 3D solid.");
+                    prEntOpt.AddAllowedClass(typeof(Solid3d), true);
+
+                    PromptEntityResult prEntRes = ed.GetEntity(prEntOpt);
+
+                    Solid3d sol = (Solid3d)tr.GetObject(prEntRes.ObjectId, OpenMode.ForRead);
+
+
+                    Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;
+                    ed.WriteMessage("\nSolid type: {0}", oSol.SolidType);
+                    ElementCollection result = SolidOperator.Analyze(sol);
+                    ed.WriteMessage("\nElement count: {0}", result.Elements.Count);
+                }
+                catch (System.Exception ex)
+                {
+                    ed.WriteMessage("\nException during analysis: {0}", ex.Message);
+                }
+
+            }
         }
     }
 }
