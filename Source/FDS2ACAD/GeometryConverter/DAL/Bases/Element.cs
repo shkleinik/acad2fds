@@ -3,6 +3,7 @@
     public class Element : ElementBase
     {
         public BasePoint Center;
+        public string ElementId;
 
         /// <summary>
         /// Imagine OX runing from lefts to rights...
@@ -16,6 +17,13 @@
         public int? NeighbourBack;
         public int? NeighbourLeft;
         public int? NeighbourRight;
+
+        public double X1 { get { return Center.X - XLength / 2; } }
+        public double X2 { get { return Center.X + XLength / 2; } }
+        public double Y1 { get { return Center.Y - YLength / 2; } }
+        public double Y2 { get { return Center.Y + YLength / 2; } }
+        public double Z1 { get { return Center.Z - ZLength / 2; } }
+        public double Z2 { get { return Center.Z + ZLength / 2; } }
 
         #region Constructors
 
