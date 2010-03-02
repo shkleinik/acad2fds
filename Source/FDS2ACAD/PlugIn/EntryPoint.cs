@@ -1,20 +1,20 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using GeometryConverter.DAL;
-using GeometryConverter.DAL.Collections;
-
-namespace Fds2AcadPlugin
+﻿namespace Fds2AcadPlugin
 {
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using Autodesk.AutoCAD.ApplicationServices;
+    using Autodesk.AutoCAD.DatabaseServices;
+    using Autodesk.AutoCAD.EditorInput;
     using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
+    using GeometryConverter.DAL;
+    using GeometryConverter.DAL.Collections;
     using UserInterface;
+    using UserInterface.Materials;
 
     public class EntryPoint
     {
@@ -35,12 +35,13 @@ namespace Fds2AcadPlugin
                         return;
                 }
 
-                AcadPopupMenu mymenu = menus.Add(Constants.FdsMenuName);
+                AcadPopupMenu fdsMenu = menus.Add(Constants.FdsMenuName);
 
-                mymenu.AddMenuItem(0, Constants.RunFdsMenuItem, Constants.RunFdsCommandName);
-                mymenu.AddMenuItem(1, Constants.RunSmokeViewMenuItem, Constants.RunSmokeViewCommandName);
-                mymenu.AddMenuItem(2, Constants.OptionsMenuItem, Constants.OptionsCommandName);
-                mymenu.InsertInMenuBar(menuBar.Count);
+                fdsMenu.AddMenuItem(0, Constants.RunFdsMenuItem, Constants.RunFdsCommandName);
+                fdsMenu.AddMenuItem(1, Constants.RunSmokeViewMenuItem, Constants.RunSmokeViewCommandName);
+                fdsMenu.AddMenuItem(2, Constants.OpenMaterialManagerMenuItem, Constants.OpenMaterialManagerCommandName);
+                fdsMenu.AddMenuItem(3, Constants.OptionsMenuItem, Constants.OptionsCommandName);
+                fdsMenu.InsertInMenuBar(menuBar.Count);
                 menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
             }
             catch (COMException ex)
@@ -52,20 +53,6 @@ namespace Fds2AcadPlugin
                 MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
         }
-
-        //[CommandMethod(Constants.RunFdsCommandName)]
-        //public static void RunCalculationInFds()
-        //{
-        //    var calculationInfo = new CalculationInfo();
-        //    var dialogResult = calculationInfo.ShowDialog();
-
-        //    if (dialogResult == DialogResult.Cancel)
-        //        return;
-
-        //    MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
-        //    // Note : how to use factory
-        //    // var pathToFds = new DefaultFactory().CreateConfigProvider().PathToFds;
-        //}
 
         [CommandMethod(Constants.RunSmokeViewCommandName)]
         public static void ViewResultInSmokeView()
@@ -135,6 +122,13 @@ namespace Fds2AcadPlugin
                 }
 
             }
+        }
+
+        [CommandMethod(Constants.OpenMaterialManagerCommandName)]
+        static public void OpenMaterialManager()
+        {
+            var materialProvider = new MaterialProvider();
+            materialProvider.ShowDialog();
         }
     }
 }
