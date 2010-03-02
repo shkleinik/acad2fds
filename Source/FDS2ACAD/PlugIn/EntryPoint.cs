@@ -1,7 +1,5 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Fds2AcadPlugin;
+﻿using System.Collections.Generic;
 
-[assembly: CommandClass(typeof(EntryPoint))]
 namespace Fds2AcadPlugin
 {
     using System.Runtime.InteropServices;
@@ -11,6 +9,7 @@ namespace Fds2AcadPlugin
     using Autodesk.AutoCAD.EditorInput;
     using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Interop.Common;
+    using Autodesk.AutoCAD.Runtime;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
@@ -19,7 +18,6 @@ namespace Fds2AcadPlugin
     using UserInterface;
     using UserInterface.Materials;
 
-    
     public class EntryPoint
     {
         [CommandMethod(Constants.BuildMenuCommandName)]
@@ -101,24 +99,37 @@ namespace Fds2AcadPlugin
             Editor ed = doc.Editor;
             Transaction tr = db.TransactionManager.StartTransaction();
 
+            List<Solid3d> solids = new List<Solid3d>();
+
             using (tr)
             {
                 try
                 {
                     // Prompt for selection of a solid to be traversed
-                    PromptEntityOptions prEntOpt = new PromptEntityOptions("\nSelect a 3D solid:");
-                    prEntOpt.SetRejectMessage("\nMust be a 3D solid.");
-                    prEntOpt.AddAllowedClass(typeof(Solid3d), true);
+                    //PromptEntityOptions prEntOpt = new PromptEntityOptions("\nSelect a 3D solid:");
+                    PromptSelectionOptions prSelOpt = new PromptSelectionOptions { MessageForAdding = "Select solids to analyze: " };
+                    //prEntOpt.SetRejectMessage("\nMust be a 3D solid.");
+                    //prEntOpt.AddAllowedClass(typeof(Solid3d), true);
 
-                    PromptEntityResult prEntRes = ed.GetEntity(prEntOpt);
+                    PromptSelectionResult prEntRes = ed.GetSelection(prSelOpt);
+                    SelectionSet set = prEntRes.Value;
+                    var idArray = set.GetObjectIds();
 
-                    Solid3d sol = (Solid3d)tr.GetObject(prEntRes.ObjectId, OpenMode.ForRead);
-
-
-                    Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;
-                    ed.WriteMessage("\nSolid type: {0}", oSol.SolidType);
-                    ElementCollection result = SolidOperator.Analyze(sol);
+                    foreach (var id in idArray)
+                    {
+                        var solid = tr.GetObject(id, OpenMode.ForRead);
+                        if (solid.GetType() == typeof(Solid3d))
+                        solids.Add((Solid3d) solid);
+                    }
+                    
+                    //Solid3d sol = (Solid3d)tr.GetObject(prEntRes., OpenMode.ForRead);
+                    //Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;
+                    //ed.WriteMessage("\nSolid type: {0}", oSol.SolidType);
+                    SolidOperator op = new SolidOperator();
+                    ElementCollection result = op.Analyze(solids);
+                    List<string> elements = MaterialManager.BLL.MaterialFinder.ReturnMaterials(result);
                     ed.WriteMessage("\nElement count: {0}", result.Elements.Count);
+                    ed.WriteMessage("\nMaterials count: {0}", elements.Count);
                 }
                 catch (System.Exception ex)
                 {

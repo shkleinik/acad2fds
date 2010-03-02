@@ -34,11 +34,11 @@ namespace GeometryConverter
 
                     Solid3d sol = (Solid3d)tr.GetObject(prEntRes.ObjectId, OpenMode.ForRead);
 
-
+                    
                     Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;
                     ed.WriteMessage("\nSolid type: {0}", oSol.SolidType);
-                    ElementCollection result = SolidOperator.Analyze(sol);
-                    ed.WriteMessage("\nElement count: {0}", result.Elements.Count);
+                    //ElementCollection result = SolidOperator.Analyze(sol);
+                    //ed.WriteMessage("\nElement count: {0}", result.Elements.Count);
                 }
                 catch (System.Exception ex)
                 {

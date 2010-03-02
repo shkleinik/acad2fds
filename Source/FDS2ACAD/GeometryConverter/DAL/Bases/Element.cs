@@ -3,7 +3,7 @@
     public class Element : ElementBase
     {
         public BasePoint Center;
-        public string ElementId;
+        public string Material;
 
         /// <summary>
         /// Imagine OX runing from lefts to rights...
@@ -34,6 +34,7 @@
             XLength = xLength;
             YLength = yLength;
             ZLength = zLength;
+            Material = string.Empty;
             ResetNeighbours();
         }
 
@@ -44,6 +45,7 @@
             XLength = elementBase.XLength;
             YLength = elementBase.YLength;
             ZLength = elementBase.ZLength;
+            Material = string.Empty;
             ResetNeighbours();
         }
 
