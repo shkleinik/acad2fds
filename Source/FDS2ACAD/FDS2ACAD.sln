@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3DFEAA06-5D18-4247-AAB1-7B629A3781F1}"
 	ProjectSection(SolutionItems) = preProject
 		SolutionItems\MbUnit.Framework.dll = SolutionItems\MbUnit.Framework.dll
+		SolutionItems\NVelocity.dll = SolutionItems\NVelocity.dll
 	EndProjectSection
 EndProject
 Global
