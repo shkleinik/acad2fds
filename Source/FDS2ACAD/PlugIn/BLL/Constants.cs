@@ -11,6 +11,8 @@ namespace Fds2AcadPlugin.BLL
         public const string RunSmokeViewCommandName = "ViewResultInSmokeView";
         public const string OptionsMenuItem = "Options";
         public const string OptionsCommandName = "PluginOptions";
+        public const string OpenMaterialManagerMenuItem = "Material manager";
+        public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
 
         public const string BuildMenuCommandName = "BuildFdsMenu";
 
@@ -19,6 +21,7 @@ namespace Fds2AcadPlugin.BLL
         #region Error Messages
 
         public const string MenuBuildErrorMessagePattern = "Error occured during FDS menu building.\n\n {0}";
+
         #endregion
     }
 }

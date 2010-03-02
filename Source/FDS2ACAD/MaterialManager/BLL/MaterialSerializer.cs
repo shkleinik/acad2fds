@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
+
+namespace MaterialManager.BLL
+{
+    public static class MaterialSerializer
+    {
+        public static void SerializeMaterials(string path, List<Material> materials)
+        {
+            Stream writer = new FileStream(path, FileMode.Create);
+
+            try
+            {
+                var serializer = new XmlSerializer(typeof(List<Material>));
+                serializer.Serialize(writer, materials);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        public static List<Material> DeserializeMaterials(string path)
+        {
+            Stream reader = null;
+            try
+            {
+                reader = new FileStream(path, FileMode.Open, FileAccess.Read);
+                var serializer = new XmlSerializer(typeof(List<Material>));
+                return (List<Material>)serializer.Deserialize(reader);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+        }
+    }
+}
