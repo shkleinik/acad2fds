@@ -48,6 +48,10 @@
       <HintPath>C:\Program Files\AutoCAD 2009\acmgd.dll</HintPath>
     </Reference>
     <Reference Include="Autodesk.AutoCAD.Interop.Common, Version=17.2.0.0, Culture=neutral, PublicKeyToken=eed84259d7cbf30b, processorArchitecture=MSIL" />
+    <Reference Include="NVelocity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SolutionItems\NVelocity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -59,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\ElementParser.cs" />
+    <Compile Include="BLL\Templates\FileTemplateProvider.cs" />
+    <Compile Include="BLL\Templates\ITemplateManager.cs" />
+    <Compile Include="BLL\Templates\TemplateManager.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
@@ -81,7 +88,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BLL\templates\OBST.template" />
+    <None Include="BLL\Templates\fds.template" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

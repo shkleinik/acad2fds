@@ -1,4 +1,8 @@
-﻿namespace Fds2AcadPlugin
+﻿using Autodesk.AutoCAD.Runtime;
+using Fds2AcadPlugin;
+
+[assembly: CommandClass(typeof(EntryPoint))]
+namespace Fds2AcadPlugin
 {
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
@@ -7,7 +11,6 @@
     using Autodesk.AutoCAD.EditorInput;
     using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Interop.Common;
-    using Autodesk.AutoCAD.Runtime;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
@@ -16,6 +19,7 @@
     using UserInterface;
     using UserInterface.Materials;
 
+    
     public class EntryPoint
     {
         [CommandMethod(Constants.BuildMenuCommandName)]
