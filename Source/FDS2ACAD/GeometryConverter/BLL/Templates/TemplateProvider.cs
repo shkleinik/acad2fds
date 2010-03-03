@@ -1,13 +1,9 @@
 ﻿namespace GeometryConverter.BLL.Templates
 {
-    using System;
     using NVelocity;
     using NVelocity.App;
-    using Commons.Collections;
-    using System.IO;
 
-    // Note: rename to "TemplateProvider" after check-in
-    public class FileTemplateProvider
+    public class TemplateProvider
     {
         #region Methods
 
