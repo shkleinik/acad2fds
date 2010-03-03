@@ -8,15 +8,15 @@ namespace GeometryConverter.BLL.Templates
     {
         private readonly Template template;
 
-        private FileTemplateProvider templateProvider;
+        private TemplateProvider templateProvider;
 
-        public FileTemplateProvider TemplateProvider
+        public TemplateProvider TemplateProvider
         {
             get
             {
                 if (templateProvider == null)
                 {
-                    templateProvider = new FileTemplateProvider();
+                    templateProvider = new TemplateProvider();
                 }
                 return templateProvider;
             }

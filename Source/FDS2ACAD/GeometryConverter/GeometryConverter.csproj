@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\ElementParser.cs" />
-    <Compile Include="BLL\Templates\FileTemplateProvider.cs" />
+    <Compile Include="BLL\Templates\TemplateProvider.cs" />
     <Compile Include="BLL\Templates\ITemplateManager.cs" />
     <Compile Include="BLL\Templates\TemplateManager.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />

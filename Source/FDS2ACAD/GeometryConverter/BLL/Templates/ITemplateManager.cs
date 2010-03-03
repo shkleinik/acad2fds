@@ -4,6 +4,6 @@ namespace GeometryConverter.BLL.Templates
     {
         string TemplatePath { get; set; }
         string TemplateName { get; set; }
-        FileTemplateProvider  TemplateProvider{ get; set; }
+        TemplateProvider  TemplateProvider{ get; set; }
     }
 }
