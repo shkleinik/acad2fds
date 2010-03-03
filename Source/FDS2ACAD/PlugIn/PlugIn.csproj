@@ -72,6 +72,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AcadInfoProvider.cs" />
     <Compile Include="BLL\Configuration\ConfigProvider.cs" />
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />

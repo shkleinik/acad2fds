@@ -2,6 +2,15 @@ namespace Fds2AcadPlugin.BLL
 {
     public class Constants
     {
+        #region Common Constants
+
+        public const string PluginFileSystemLocationPattern = @"{0}\Walash Ltd\Fds to AutoCad plugin\";
+
+        public const string FdsTemplateName = "fds.template";
+
+        #endregion
+
+
         #region Menu
 
         public const string FdsMenuName = "FDS to Acad plugin";

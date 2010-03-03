@@ -17,6 +17,14 @@
             }
         }
 
+        public int CalculationTime
+        {
+            get
+            {
+                return int.Parse(tbTime.Text);
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -32,6 +40,12 @@
 
         private void On_CalculationInfo_Load(object sender, EventArgs e)
         {
+#if DEBUG
+
+            tbPath.Text = @"D:\!Study\Diplom\FDS tests\PluginTest";
+            tbTime.Text = "2";
+#endif
+
             btnStart.Enabled = ValidateChildren();
         }
 
