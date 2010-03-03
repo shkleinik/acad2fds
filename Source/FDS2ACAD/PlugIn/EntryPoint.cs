@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Autodesk.AutoCAD.Runtime;
+using Fds2AcadPlugin;
 
+[assembly: CommandClass(typeof(EntryPoint))]
 namespace Fds2AcadPlugin
 {
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-    using Autodesk.AutoCAD.ApplicationServices;
-    using Autodesk.AutoCAD.DatabaseServices;
-    using Autodesk.AutoCAD.EditorInput;
     using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
+    using GeometryConverter.BLL.Templates;
     using GeometryConverter.DAL;
-    using GeometryConverter.DAL.Collections;
+    using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
 
@@ -86,57 +87,39 @@ namespace Fds2AcadPlugin
         [CommandMethod(Constants.RunFdsCommandName)]
         static public void RunCalculationInFds()
         {
-            //var calculationInfo = new CalculationInfo();
-            //var dialogResult = calculationInfo.ShowDialog();
+            // ask user input
+            var calculationInfo = new CalculationInfo();
+            var dialogResult = calculationInfo.ShowDialog();
 
-            //if (dialogResult == DialogResult.Cancel)
-                //return;
+            if (dialogResult == DialogResult.Cancel)
+                return;
 
-            //MessageBox.Show(string.Format("Calculation results were saved here: {0}", calculationInfo.OutputPath));
+            // get solids
+            var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
 
-            Document doc = new DefaultFactory().CreateDocumentManager().MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-            Transaction tr = db.TransactionManager.StartTransaction();
+            // convert geometry
+            // Note: move handling to SolidOperator
+            if (selectedSolids.Count < 1)
+                return;
+            var solidOperator = new SolidOperator(selectedSolids);
+            var elements = solidOperator.RenameMe.Elements;
+            var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
 
-            List<Solid3d> solids = new List<Solid3d>();
+            // save to file
+            var documentName = AcadInfoProvider.GetDocumentName();
 
-            using (tr)
-            {
-                try
-                {
-                    // Prompt for selection of a solid to be traversed
-                    //PromptEntityOptions prEntOpt = new PromptEntityOptions("\nSelect a 3D solid:");
-                    PromptSelectionOptions prSelOpt = new PromptSelectionOptions { MessageForAdding = "Select solids to analyze: " };
-                    //prEntOpt.SetRejectMessage("\nMust be a 3D solid.");
-                    //prEntOpt.AddAllowedClass(typeof(Solid3d), true);
+            var pathToFile = string.Concat(calculationInfo.OutputPath, "\\", documentName, ".fds");
 
-                    PromptSelectionResult prEntRes = ed.GetSelection(prSelOpt);
-                    SelectionSet set = prEntRes.Value;
-                    var idArray = set.GetObjectIds();
+            var templateManager = new TemplateManager(AcadInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
+            var parameters = new Dictionary<string, object>
+                                         {
+                                             {"elements", elements},
+                                             {"materials", uniqueMaterials},
+                                             {"calculationTime", calculationInfo.CalculationTime},
+                                             {"name", documentName}
+                                         };
 
-                    foreach (var id in idArray)
-                    {
-                        var solid = tr.GetObject(id, OpenMode.ForRead);
-                        if (solid.GetType() == typeof(Solid3d))
-                        solids.Add((Solid3d) solid);
-                    }
-                    
-                    //Solid3d sol = (Solid3d)tr.GetObject(prEntRes., OpenMode.ForRead);
-                    //Acad3DSolid oSol = (Acad3DSolid)sol.AcadObject;
-                    //ed.WriteMessage("\nSolid type: {0}", oSol.SolidType);
-                    SolidOperator op = new SolidOperator();
-                    ElementCollection result = op.Analyze(solids);
-                    List<string> elements = MaterialManager.BLL.MaterialFinder.ReturnMaterials(result);
-                    ed.WriteMessage("\nElement count: {0}", result.Elements.Count);
-                    ed.WriteMessage("\nMaterials count: {0}", elements.Count);
-                }
-                catch (System.Exception ex)
-                {
-                    ed.WriteMessage("\nException during analysis: {0}", ex.Message);
-                }
-
-            }
+            templateManager.MergeTemplateWithObjects(parameters, pathToFile);
         }
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
@@ -145,5 +128,7 @@ namespace Fds2AcadPlugin
             var materialProvider = new MaterialProvider();
             materialProvider.ShowDialog();
         }
+
+
     }
 }

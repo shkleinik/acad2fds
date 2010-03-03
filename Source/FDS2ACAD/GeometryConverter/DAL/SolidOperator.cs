@@ -1,50 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.BoundaryRepresentation;
-using Autodesk.AutoCAD.DatabaseServices;
-using GeometryConverter.DAL.Bases;
-using GeometryConverter.DAL.Collections;
-using GeometryConverter.DAL.Helpers;
-using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
-using Element = GeometryConverter.DAL.Bases.Element;
-
-namespace GeometryConverter.DAL
+﻿namespace GeometryConverter.DAL
 {
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.AutoCAD.BoundaryRepresentation;
+    using Autodesk.AutoCAD.DatabaseServices;
+    using Bases;
+    using Collections;
+    using Helpers;
+    using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
+    using Element = Bases.Element;
+
     public class SolidOperator
     {
+        #region Fields
+
         private List<Solid3d> _solids;
         private BasePoint[] MaxMinPoint;
         private ElementBase ElementBase;
-        private ElementCollection FullCollection;
+        private ElementCollection FullCollection; 
 
-        public ElementCollection Analyze(Solid3d solid)
+        #endregion
+
+        #region Properties
+
+        public ElementCollection RenameMe
         {
-            _solids = new List<Solid3d> {solid};
-            MaxMinPoint = GetMaxMinPoint();
-            ElementBase = InitializeElementBase();
-            FullCollection = GetAllElements(MaxMinPoint, ElementBase);
-            ElementCollection result = GetValuableElements(FullCollection);
-            //result.SetNeighbourhoodRelations();
-            return result;
-        }
+            get
+            {
+                return GetValuableElements(FullCollection).SetNeighbourhoodRelations();
+            }
+        } 
 
-        public ElementCollection Analyze(List<Solid3d> solids)
+        #endregion
+
+        #region Constructors
+
+        public SolidOperator(List<Solid3d> solids)
         {
             _solids = new List<Solid3d>();
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint();
             ElementBase = InitializeElementBase();
             FullCollection = GetAllElements(MaxMinPoint, ElementBase);
-            ElementCollection result = GetValuableElements(FullCollection);
-            result.SetNeighbourhoodRelations();
-            return result;
-        }
+        } 
+
+        #endregion
+
+        #region Internal implementation
 
         /// <summary>
         /// Returns minimal and maximal Bases point
         /// </summary>
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
-        private  BasePoint[] GetMaxMinPoint()
+        private BasePoint[] GetMaxMinPoint()
         {
             BasePoint[] result = new BasePoint[2];
             double xMax = double.MinValue;
@@ -97,7 +105,7 @@ namespace GeometryConverter.DAL
         /// Initialize ElementBase through the information about mcd of edges
         /// </summary>
         /// <returns>Element base</returns>
-        private  ElementBase InitializeElementBase()
+        private ElementBase InitializeElementBase()
         {
             List<Edge> xEdges = new List<Edge>();
             List<Edge> yEdges = new List<Edge>();
@@ -147,7 +155,7 @@ namespace GeometryConverter.DAL
         /// <param name="maxMinPoint">Array of MAX and MIN bound points</param>
         /// <param name="elementBase">Element base that provides size of element</param>
         /// <returns>Collection of all elements</returns>
-        private  ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
+        private ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
         {
             ElementCollection result = new ElementCollection();
             int limitX = Math.Abs((int)((int)(maxMinPoint[0].X - maxMinPoint[1].X) / elementBase.XLength));
@@ -168,9 +176,9 @@ namespace GeometryConverter.DAL
         /// Provides collection of valuable elements that belongs to the Solid from all elements
         /// </summary>
         /// <param name="input">All elements collection</param>
-        /// <param name="solid">Solid</param>
+        /// <param name="input">Input</param>
         /// <returns>Collection of valuable elements</returns>
-        private  ElementCollection GetValuableElements(ElementCollection input)
+        private ElementCollection GetValuableElements(ElementCollection input)
         {
             ElementCollection result = new ElementCollection();
             for (int i = 0; i < input.Elements.Count; i++)
@@ -189,6 +197,7 @@ namespace GeometryConverter.DAL
                 }
             }
             return result;
-        }
+        } 
+        #endregion
     }
 }

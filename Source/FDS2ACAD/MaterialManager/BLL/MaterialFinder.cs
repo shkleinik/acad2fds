@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using GeometryConverter.DAL.Bases;
-using GeometryConverter.DAL.Collections;
-
-namespace MaterialManager.BLL
+﻿namespace MaterialManager.BLL
 {
+    using System.Collections.Generic;
+    using GeometryConverter.DAL.Bases;
+
     public class MaterialFinder
     {
-        public static List<string> ReturnMaterials(ElementCollection collection)
+        public static List<string> ReturnMaterials(List<Element> elements)
         {
-            List<string> materials = new List<string>();
-            foreach (Element element in collection.Elements)
+            var materials = new List<string>();
+            foreach (var element in elements)
             {
                 if (!materials.Contains(element.Material))
                     materials.Add(element.Material);

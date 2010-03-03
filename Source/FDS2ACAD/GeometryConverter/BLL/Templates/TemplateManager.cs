@@ -1,15 +1,16 @@
 namespace GeometryConverter.BLL.Templates
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using NVelocity;
 
     public class TemplateManager
     {
+        private readonly Template template;
+
         private FileTemplateProvider templateProvider;
 
-        public virtual FileTemplateProvider TemplateProvider
+        public FileTemplateProvider TemplateProvider
         {
             get
             {
@@ -28,25 +29,28 @@ namespace GeometryConverter.BLL.Templates
             }
         }
 
-        public string MergeTemplateWithObjects(string templatePath, string templateName, Dictionary<string, object> objects)
+        private TemplateManager()
         {
-            Template template = TemplateProvider.GetTemplate(templatePath, templateName);
+        }
 
-            if (template != null)
+        public TemplateManager(string templatePath, string templateName)
+        {
+            template = TemplateProvider.GetTemplate(templatePath, templateName);
+        }
+
+        public void MergeTemplateWithObjects(Dictionary<string, object> objects, string pathToFile)
+        {
+            var context = new VelocityContext();
+
+            foreach (KeyValuePair<string, object> obj in objects)
             {
-                VelocityContext context = new VelocityContext();
-
-                foreach (KeyValuePair<string, object> obj in objects)
-                {
-                    context.Put(obj.Key, obj.Value);
-                }
-
-                StringWriter writer = new StringWriter();
-                template.Merge(context, writer);
-                return writer.GetStringBuilder().ToString();
+                context.Put(obj.Key, obj.Value);
             }
 
-            throw new InvalidOperationException(String.Format("Template with name {0} and path {1} was not found", templateName, templatePath));
+            var writer = new StreamWriter(pathToFile);
+            template.Merge(context, writer);
+            writer.Flush();
+            writer.Close();
         }
     }
 }

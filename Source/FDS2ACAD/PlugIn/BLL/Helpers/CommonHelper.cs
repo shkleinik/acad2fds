@@ -31,19 +31,6 @@ namespace Fds2AcadPlugin.BLL.Helpers
             smvProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
             smvProcess.Start();
 
-            //var count = 0;
-            //// wait to smoke view window be opened
-            //while (smvProcess.MainWindowHandle == IntPtr.Zero)
-            //{
-            //    count++;
-
-            //    if(count > 100)
-            //        break;
-            //    System.Threading.Thread.Sleep(100);
-            //}
-            // return smvProcess.MainWindowHandle;
-
-
             var count = 0;
             var smokeViewHandle = IntPtr.Zero;
             // wait to smoke view window to be opened

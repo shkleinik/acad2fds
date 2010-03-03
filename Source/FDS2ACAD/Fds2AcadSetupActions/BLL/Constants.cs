@@ -5,7 +5,7 @@ namespace Fds2AcadSetupActions.BLL
         #region File system
 
         public const string FdsPluginAssemblyName = "Fds2AcadPlugin.dll";
-        public const string FdsFileSystemLocationPattern = @"{0}\Walash Ltd\Fds to AutoCad plugin\{1}";
+        public const string PluginFileSystemLocationPattern = @"{0}\Walash Ltd\Fds to AutoCad plugin\{1}";
 
         #endregion
 

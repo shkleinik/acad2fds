@@ -16,7 +16,7 @@ namespace Fds2AcadSetupActions.BLL
             var acadApplicationsKey = Registry.LocalMachine.OpenSubKey(Constants.AutoCadApplicationsRegistryKey, true);
             var fdsKey = acadApplicationsKey.CreateSubKey(Constants.FdsPluginRegistryKey, RegistryKeyPermissionCheck.ReadWriteSubTree);
             fdsKey.SetValue(Constants.DescriptionRegValue, Resources.FdsPluginDescription, RegistryValueKind.String);
-            var pathToPluginAssembly = string.Format(Constants.FdsFileSystemLocationPattern,
+            var pathToPluginAssembly = string.Format(Constants.PluginFileSystemLocationPattern,
                                                      Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                                                      Constants.FdsPluginAssemblyName
                                                      );
