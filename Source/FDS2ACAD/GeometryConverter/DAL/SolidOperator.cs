@@ -39,7 +39,7 @@
         {
             _solids = new List<Solid3d>();
             _solids = solids;
-            MaxMinPoint = GetMaxMinPoint();
+            MaxMinPoint = GetMaxMinPoint(_solids);
             ElementBase = InitializeElementBase();
             FullCollection = GetAllElements(MaxMinPoint, ElementBase);
         } 
@@ -52,7 +52,7 @@
         /// Returns minimal and maximal Bases point
         /// </summary>
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
-        private BasePoint[] GetMaxMinPoint()
+        public static BasePoint[] GetMaxMinPoint(List<Solid3d> solids)
         {
             BasePoint[] result = new BasePoint[2];
             double xMax = double.MinValue;
@@ -61,7 +61,7 @@
             double xMin = double.MaxValue;
             double yMin = double.MaxValue;
             double zMin = double.MaxValue;
-            foreach (Solid3d solid in _solids)
+            foreach (Solid3d solid in solids)
             {
                 Brep brep = new Brep(solid);
                 using (brep)
