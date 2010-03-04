@@ -73,6 +73,7 @@ FYI                   = '$copyrightInfo'
 &OBST XB= $element.X1, $element.X2, $element.Y1, $element.Y2, $element.Z1, $element.Z2, SURF_ID='WALL' /
 #end
 
+&VENT XB= $burner.X1, $burner.X2, $burner.Y1, $burner.Y2, $burner.Z1, $burner.Z2, SURF_ID='BURNER'
 
 &BNDF QUANTITY='GAUGE HEAT FLUX' / 
 &BNDF QUANTITY='WALL TEMPERATURE' / 

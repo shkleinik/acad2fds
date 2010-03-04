@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using GeometryConverter.DAL.Bases;
 
@@ -11,11 +8,11 @@ namespace GeometryConverter.DAL
     {
         private readonly Solid3d _solid;
 
-        public BasePoint[] element
+        public Element Element
         {
             get
             {
-                return SolidOperator.GetMaxMinPoint(new List<Solid3d> {_solid});
+                return new Element(SolidOperator.GetMaxMinPoint(new List<Solid3d> {_solid}));
             }
         }
 
