@@ -3,7 +3,7 @@
     public class Element : ElementBase
     {
         public BasePoint Center;
-        public string Material;
+        public string Material { get; set; }
 
         /// <summary>
         /// Imagine OX runing from lefts to rights...
