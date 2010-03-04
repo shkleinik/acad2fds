@@ -1,4 +1,6 @@
-﻿namespace GeometryConverter.DAL.Bases
+﻿using System;
+
+namespace GeometryConverter.DAL.Bases
 {
     public class ElementBase
     {

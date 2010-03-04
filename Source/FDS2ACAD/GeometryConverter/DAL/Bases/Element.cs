@@ -49,6 +49,20 @@
             ResetNeighbours();
         }
 
+        public Element(BasePoint[] basePoint)
+            : base(basePoint[0].X - basePoint[1].X, basePoint[0].Y - basePoint[1].Y, basePoint[0].Z - basePoint[1].Z)
+        {
+            Center = new BasePoint(basePoint[0].X - (basePoint[0].X - basePoint[1].X) / 2,
+                                   basePoint[0].Y - (basePoint[0].Y - basePoint[1].Y) / 2,
+                                   basePoint[0].Z - (basePoint[0].Z - basePoint[1].Z) / 2);
+            XLength = (basePoint[0].X - basePoint[1].X) / 2;
+            YLength = (basePoint[0].Y - basePoint[1].Y) / 2;
+            ZLength = (basePoint[0].Z - basePoint[1].Z) / 2;
+            Material = string.Empty;
+            ResetNeighbours();
+
+        }
+
         /// <summary>
         /// Set all neighbourhood relations of current element to null
         /// </summary>
