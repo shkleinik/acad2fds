@@ -69,6 +69,7 @@
     <Compile Include="DAL\Bases\BasePoint.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
+    <Compile Include="DAL\BurnerOperator.cs" />
     <Compile Include="DAL\Collections\ElementCollection.cs" />
     <Compile Include="DAL\Helpers\CollectionDrawer.cs" />
     <Compile Include="DAL\Helpers\MCD.cs" />
