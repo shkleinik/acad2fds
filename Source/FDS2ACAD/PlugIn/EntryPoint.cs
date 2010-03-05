@@ -11,6 +11,7 @@ namespace Fds2AcadPlugin
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
     using BLL;
+    using Autodesk.AutoCAD.DatabaseServices;
     using BLL.Helpers;
     using BLL.NativeMethods;
     using GeometryConverter.BLL.Templates;
@@ -18,6 +19,7 @@ namespace Fds2AcadPlugin
     using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
+    using System.Diagnostics;
 
     public class EntryPoint
     {
@@ -101,9 +103,27 @@ namespace Fds2AcadPlugin
             // Note: move handling to SolidOperator
             if (selectedSolids.Count < 1)
                 return;
+
+            Solid3d burnerSolid = null;
+
             var solidOperator = new SolidOperator(selectedSolids);
+
+            foreach (Solid3d solid in selectedSolids)
+            {
+                if (solid.Material == "Red")
+                {
+                    burnerSolid = solid;
+                    break;
+                }
+            }
+
+            var burner = new BurnerOperator(burnerSolid).Element;
+
             var elements = solidOperator.RenameMe.Elements;
-            var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
+            var maxPoint = solidOperator.MaxMinPoint[1];
+            // var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
+
+            var uniqueMaterials = MaterialSerializer.DeserializeMaterials(string.Concat(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath));
 
             // save to file
             var documentName = AcadInfoProvider.GetDocumentName();
@@ -116,11 +136,25 @@ namespace Fds2AcadPlugin
                                              {"elements", elements},
                                              {"materials", uniqueMaterials},
                                              {"calculationTime", calculationInfo.CalculationTime},
-                                             {"name", documentName}
+                                             {"name", documentName},
+                                             {"maxPoint", maxPoint},
+                                             {"burner", burner}
                                          };
 
             templateManager.MergeTemplateWithObjects(parameters, pathToFile);
+
+            var startInfo = new ProcessStartInfo
+                                {
+                                    FileName = new DefaultFactory().CreateConfigProvider().PathToFds,
+                                    Arguments = string.Concat("\"", pathToFile, "\""),
+                                    WorkingDirectory = calculationInfo.OutputPath
+                                };
+#if DEBUG
+            // startInfo.Arguments = "\"D:\\!Study\\Diplom\\FDS tests\\PluginTest\\room_fire.fds";
+#endif
+            Process.Start(startInfo);
         }
+
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
         static public void OpenMaterialManager()
@@ -128,7 +162,5 @@ namespace Fds2AcadPlugin
             var materialProvider = new MaterialProvider();
             materialProvider.ShowDialog();
         }
-
-
     }
 }

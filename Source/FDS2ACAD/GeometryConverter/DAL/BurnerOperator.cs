@@ -4,7 +4,7 @@ using GeometryConverter.DAL.Bases;
 
 namespace GeometryConverter.DAL
 {
-    class BurnerOperator
+    public class BurnerOperator
     {
         private readonly Solid3d _solid;
 

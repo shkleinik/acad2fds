@@ -55,9 +55,9 @@
             Center = new BasePoint(basePoint[0].X - (basePoint[0].X - basePoint[1].X) / 2,
                                    basePoint[0].Y - (basePoint[0].Y - basePoint[1].Y) / 2,
                                    basePoint[0].Z - (basePoint[0].Z - basePoint[1].Z) / 2);
-            XLength = (basePoint[0].X - basePoint[1].X) / 2;
-            YLength = (basePoint[0].Y - basePoint[1].Y) / 2;
-            ZLength = (basePoint[0].Z - basePoint[1].Z) / 2;
+            XLength = (basePoint[0].X - basePoint[1].X);
+            YLength = (basePoint[0].Y - basePoint[1].Y);
+            ZLength = (basePoint[0].Z - basePoint[1].Z);
             Material = string.Empty;
             ResetNeighbours();
 
