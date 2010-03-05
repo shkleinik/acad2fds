@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using MaterialManager.BLL;
-
-namespace Fds2AcadPlugin.UserInterface.Materials
+﻿namespace Fds2AcadPlugin.UserInterface.Materials
 {
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+    using BLL;
+    using MaterialManager.BLL;
+
     public partial class MaterialProvider : Form
     {
         private readonly List<Material> materialsBase;
 
         // Note : Add this file with some basic materials to installer
-        private const string BASE_PATH = "materials.xml";
 
         public MaterialProvider()
         {
             InitializeComponent();
             
-            materialsBase = MaterialSerializer.DeserializeMaterials(BASE_PATH);
+            materialsBase = MaterialSerializer.DeserializeMaterials(Constants.MaterialsBasePath);
             if(materialsBase == null)
                 materialsBase = new List<Material>();
 
@@ -50,7 +50,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
 
         private void On_MaterialProvider_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MaterialSerializer.SerializeMaterials(BASE_PATH, materialsBase);
+            MaterialSerializer.SerializeMaterials(Constants.MaterialsBasePath, materialsBase);
         }
 
         private void On_cbMaterialType_SelectedIndexChanged(object sender, System.EventArgs e)

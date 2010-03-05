@@ -15,7 +15,7 @@
         #region Fields
 
         private List<Solid3d> _solids;
-        private BasePoint[] MaxMinPoint;
+        
         private ElementBase ElementBase;
         private ElementCollection FullCollection; 
 
@@ -29,7 +29,9 @@
             {
                 return GetValuableElements(FullCollection).SetNeighbourhoodRelations();
             }
-        } 
+        }
+
+        public BasePoint[] MaxMinPoint { get; set; }
 
         #endregion
 

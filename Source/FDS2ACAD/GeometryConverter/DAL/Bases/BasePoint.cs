@@ -5,9 +5,9 @@ namespace GeometryConverter.DAL.Bases
 {
     public class BasePoint
     {
-        public double X;
-        public double Y;
-        public double Z;
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
 
         /// <summary>
         /// Provides new Base point from 3 coordinates
