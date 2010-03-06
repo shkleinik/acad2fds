@@ -129,7 +129,6 @@
                                     foreach (Edge edg in lp.Edges)
                                     {
                                         // filling 3 collection of edges, each collection responses for X, Y or Z direction
-                                        // todo: be sure that ALL edges are orthogonal
                                         if (edg.IsAlongX())
                                             xEdges.Add(edg);
                                         else if (edg.IsAlongY())
@@ -143,9 +142,9 @@
                     }
                 }
             }
-            double xLength = MathOperations.FindMcd(xEdges);
-            double yLength = MathOperations.FindMcd(yEdges);
-            double zLength = MathOperations.FindMcd(zEdges);
+            double xLength = MathOperations.FindGcd(xEdges);
+            double yLength = MathOperations.FindGcd(yEdges);
+            double zLength = MathOperations.FindGcd(zEdges);
             ElementBase result = new ElementBase(xLength, yLength, zLength);
 
             return result;

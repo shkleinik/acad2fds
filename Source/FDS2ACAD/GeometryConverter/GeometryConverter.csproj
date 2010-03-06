@@ -72,7 +72,7 @@
     <Compile Include="DAL\BurnerOperator.cs" />
     <Compile Include="DAL\Collections\ElementCollection.cs" />
     <Compile Include="DAL\Helpers\CollectionDrawer.cs" />
-    <Compile Include="DAL\Helpers\MCD.cs" />
+    <Compile Include="DAL\Helpers\MathOperations.cs" />
     <Compile Include="DAL\Helpers\PointBridge.cs" />
     <Compile Include="DAL\SolidOperator.cs" />
     <Compile Include="EntryPoint.cs" />
