@@ -14,20 +14,20 @@
     {
         #region Fields
 
-        private List<Solid3d> _solids;
-        
-        private ElementBase ElementBase;
-        private ElementCollection FullCollection; 
+        private readonly List<Solid3d> _solids;
+        private readonly ElementBase _elementBase;
+        private readonly ElementCollection _fullCollection;
+        private readonly int _factor = 1;
 
         #endregion
 
         #region Properties
 
-        public ElementCollection RenameMe
+        public ElementCollection UsefulElementCollectionProvider
         {
             get
             {
-                return GetValuableElements(FullCollection).SetNeighbourhoodRelations();
+                return GetValuableElements(_fullCollection);//.SetNeighbourhoodRelations();
             }
         }
 
@@ -37,18 +37,90 @@
 
         #region Constructors
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="solids">Array of selected solids</param>
         public SolidOperator(List<Solid3d> solids)
         {
             _solids = new List<Solid3d>();
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
-            ElementBase = InitializeElementBase();
-            FullCollection = GetAllElements(MaxMinPoint, ElementBase);
+            _elementBase = InitializeElementBase();
+            _fullCollection = GetAllElements(MaxMinPoint, _elementBase);
+        } 
+        
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="solids">Array of selected solids</param>
+        /// <param name="factor">Unit factor</param>
+        public SolidOperator(List<Solid3d> solids, int factor)
+        {
+            _factor = factor;
+            _solids = new List<Solid3d>();
+            _solids = solids;
+            MaxMinPoint = GetMaxMinPoint(_solids, _factor);
+            _elementBase = InitializeElementBase();
+            _fullCollection = GetAllElements(MaxMinPoint, _elementBase);
         } 
 
         #endregion
 
         #region Internal implementation
+
+        /// <summary>
+        /// Returns minimal and maximal Bases point
+        /// </summary>
+        /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
+        private static BasePoint[] GetMaxMinPoint(IEnumerable<Solid3d> solids, int factor)
+        {
+            BasePoint[] result = new BasePoint[2];
+            double xMax = double.MinValue;
+            double yMax = double.MinValue;
+            double zMax = double.MinValue;
+            double xMin = double.MaxValue;
+            double yMin = double.MaxValue;
+            double zMin = double.MaxValue;
+            foreach (Solid3d solid in solids)
+            {
+                Brep brep = new Brep(solid);
+                using (brep)
+                {
+                    foreach (Complex cmp in brep.Complexes)
+                    {
+                        foreach (Shell shl in cmp.Shells)
+                        {
+                            foreach (BrFace fce in shl.Faces)
+                            {
+                                foreach (BoundaryLoop lp in fce.Loops)
+                                {
+                                    foreach (Edge edg in lp.Edges)
+                                    {
+                                        BasePoint tmp = PointBridge.ConvertToBasePoint(edg.Vertex1.Point);
+                                        if (tmp.X > xMax) xMax = tmp.X;
+                                        if (tmp.X < xMin) xMin = tmp.X;
+                                        if (tmp.Y > yMax) yMax = tmp.Y;
+                                        if (tmp.Y < yMin) yMin = tmp.Y;
+                                        if (tmp.Z > zMax) zMax = tmp.Z;
+                                        if (tmp.Z < zMin) zMin = tmp.Z;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            xMin = Math.Round(xMin, 0) * factor;
+            yMin = Math.Round(yMin, 0) * factor;
+            zMin = Math.Round(zMin, 0) * factor;
+            xMax = Math.Round(xMax, 0) * factor;
+            yMax = Math.Round(yMax, 0) * factor;
+            zMax = Math.Round(zMax, 0) * factor;
+            result[0] = new BasePoint(xMin, yMin, zMin);
+            result[1] = new BasePoint(xMax, yMax, zMax);
+            return result;
+        }
 
         /// <summary>
         /// Returns minimal and maximal Bases point
@@ -104,7 +176,7 @@
         }
 
         /// <summary>
-        /// Initialize ElementBase through the information about mcd of edges
+        /// Initialize _elementBase through the information about mcd of edges
         /// </summary>
         /// <returns>Element base</returns>
         private ElementBase InitializeElementBase()
@@ -142,9 +214,9 @@
                     }
                 }
             }
-            double xLength = MathOperations.FindGcd(xEdges);
-            double yLength = MathOperations.FindGcd(yEdges);
-            double zLength = MathOperations.FindGcd(zEdges);
+            double xLength = _factor * MathOperations.FindGcd(xEdges);
+            double yLength = _factor * MathOperations.FindGcd(yEdges);
+            double zLength = _factor * MathOperations.FindGcd(zEdges);
             ElementBase result = new ElementBase(xLength, yLength, zLength);
 
             return result;
@@ -156,7 +228,7 @@
         /// <param name="maxMinPoint">Array of MAX and MIN bound points</param>
         /// <param name="elementBase">Element base that provides size of element</param>
         /// <returns>Collection of all elements</returns>
-        private ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
+        private static ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
         {
             ElementCollection result = new ElementCollection();
             int limitX = Math.Abs((int)((int)(maxMinPoint[0].X - maxMinPoint[1].X) / elementBase.XLength));
@@ -189,7 +261,7 @@
                     string material = solid.Material;
                     var brep = new Brep(solid);
                     PointContainment containment;
-                    brep.GetPointContainment(input.Elements[i].Center.ConverToAcadPoint(), out containment);
+                    brep.GetPointContainment(input.Elements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
                     if (containment == PointContainment.Inside)
                     {
                         input.Elements[i].Material = material;

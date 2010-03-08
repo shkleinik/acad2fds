@@ -4,6 +4,7 @@ using GeometryConverter.DAL.Collections;
 
 namespace GeometryConverter.BLL
 {
+    //todo: eliminate
     public static class ElementParser
     {
         private const string OBST = "&OBST XB=<%X1%>,<%X2%>,<%Y1%>,<%Y2%>,<%Z1%>,<%Z2%>, SURF_ID='<%SURF_ID%>' /";

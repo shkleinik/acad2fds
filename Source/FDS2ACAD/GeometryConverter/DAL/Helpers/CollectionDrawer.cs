@@ -1,9 +1,9 @@
-﻿using Autodesk.AutoCAD.Interop.Common;
-using GeometryConverter.DAL.Bases;
+﻿using GeometryConverter.DAL.Bases;
 using GeometryConverter.DAL.Collections;
 
 namespace GeometryConverter.DAL.Helpers
 {
+    //todo: eliminate
     static class CollectionDrawer
     {
         static public void Draw(ElementCollection input)
