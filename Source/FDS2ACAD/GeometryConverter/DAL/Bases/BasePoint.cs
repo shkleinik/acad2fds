@@ -82,5 +82,22 @@ namespace GeometryConverter.DAL.Bases
             Z = Math.Round(Z, 0);
             return this;
         }
+
+        public BasePoint Factorize(int factor)
+        {
+            X *= factor;
+            Y *= factor;
+            Z *= factor;
+            return this;
+        }
+
+        public BasePoint Unfactorize(int factor)
+        {
+            X /= factor;
+            Y /= factor;
+            Z /= factor;
+            return this;
+        }
+
     }
 }

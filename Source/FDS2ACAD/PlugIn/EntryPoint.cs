@@ -119,7 +119,7 @@ namespace Fds2AcadPlugin
 
             var burner = new BurnerOperator(burnerSolid).Element;
 
-            var elements = solidOperator.RenameMe.Elements;
+            var elements = solidOperator.UsefulElementCollectionProvider.Elements;
             var maxPoint = solidOperator.MaxMinPoint[1];
             // var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
 

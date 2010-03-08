@@ -13,6 +13,7 @@ namespace GeometryConverter.DAL.Helpers
         /// </summary>
         /// <param name="edges">Edge collection</param>
         /// <returns>GCD</returns>
+        /// todo: check this sh*t
         public static double FindGcd(List<Edge> edges)
         {
             //double mcd = 100;
