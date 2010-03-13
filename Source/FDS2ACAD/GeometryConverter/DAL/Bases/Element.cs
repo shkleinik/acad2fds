@@ -4,7 +4,7 @@
     {
         public BasePoint Center;
         public string Material { get; set; }
-
+        public int Factor = 1;
         /// <summary>
         /// Imagine OX runing from lefts to rights...
         /// Imagine OY runing from you ahead far away...
@@ -24,6 +24,14 @@
         public double Y2 { get { return Center.Y + YLength / 2; } }
         public double Z1 { get { return Center.Z - ZLength / 2; } }
         public double Z2 { get { return Center.Z + ZLength / 2; } }
+
+        public double FdsX1 { get { return (Center.X - XLength / 2) / Factor; } }
+        public double FdsX2 { get { return (Center.X + XLength / 2) / Factor; } }
+        public double FdsY1 { get { return (Center.Y - YLength / 2) / Factor; } }
+        public double FdsY2 { get { return (Center.Y + YLength / 2) / Factor; } }
+        public double FdsZ1 { get { return (Center.Z - ZLength / 2) / Factor; } }
+        public double FdsZ2 { get { return (Center.Z + ZLength / 2) / Factor; } }
+
 
         #region Constructors
 
