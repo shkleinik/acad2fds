@@ -27,7 +27,7 @@
         {
             get
             {
-                return GetValuableElements(_fullCollection);//.SetNeighbourhoodRelations();
+                return GetValuableElements(Factorize(_fullCollection));//.SetNeighbourhoodRelations();
             }
         }
 
@@ -243,6 +243,20 @@
                         result.Elements.Add(element);
                     }
             return result;
+        }
+
+        /// <summary>
+        /// Set factor field for each element of Collection
+        /// </summary>
+        /// <param name="collection">Unfactorized collection</param>
+        /// <returns>Factorized collection</returns>
+        private ElementCollection Factorize(ElementCollection collection)
+        {
+            foreach (var element in collection.Elements)
+            {
+                element.Factor = _factor;
+            }
+            return collection;
         }
 
         /// <summary>
