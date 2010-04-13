@@ -67,6 +67,7 @@
     <Compile Include="BLL\Templates\ITemplateManager.cs" />
     <Compile Include="BLL\Templates\TemplateManager.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />
+    <Compile Include="DAL\Bases\Direction.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
     <Compile Include="DAL\BurnerOperator.cs" />

@@ -11,12 +11,16 @@
         /// Imagine OZ runing from ground to skies...
         /// Here are your neighbours:
         /// </summary>
-        public int? NeighbourTop;
-        public int? NeighbourBottom;
-        public int? NeighbourFront;
-        public int? NeighbourBack;
-        public int? NeighbourLeft;
-        public int? NeighbourRight;
+        public int? NeighbourTop { get { return Neighbours[0]; } set { Neighbours[0] = value; } }
+        public int? NeighbourBottom { get { return Neighbours[1]; } set { Neighbours[1] = value; } }
+        public int? NeighbourFront { get { return Neighbours[2]; } set { Neighbours[2] = value; } }
+        public int? NeighbourBack { get { return Neighbours[3]; } set { Neighbours[3] = value; } }
+        public int? NeighbourLeft { get { return Neighbours[4]; } set { Neighbours[4] = value; } }
+        public int? NeighbourRight { get { return Neighbours[5]; } set { Neighbours[5] = value; } }
+
+        public int?[] Neighbours;
+
+        public int? Index;
 
         public double X1 { get { return Center.X - XLength / 2; } }
         public double X2 { get { return Center.X + XLength / 2; } }
@@ -31,7 +35,6 @@
         public double FdsY2 { get { return (Center.Y + YLength / 2) / Factor; } }
         public double FdsZ1 { get { return (Center.Z - ZLength / 2) / Factor; } }
         public double FdsZ2 { get { return (Center.Z + ZLength / 2) / Factor; } }
-
 
         #region Constructors
 
@@ -76,6 +79,8 @@
         /// </summary>
         public void ResetNeighbours()
         {
+            Index = null;
+            Neighbours = new int?[6];
             NeighbourTop = null;
             NeighbourBottom = null;
             NeighbourFront = null;

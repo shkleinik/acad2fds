@@ -17,6 +17,7 @@
         private readonly List<Solid3d> _solids;
         private readonly ElementBase _elementBase;
         private readonly ElementCollection _fullCollection;
+        private readonly ElementCollection _valueableCollection;
         private readonly int _factor = 1;
 
         #endregion
@@ -27,7 +28,11 @@
         {
             get
             {
-                return GetValuableElements(Factorize(_fullCollection));//.SetNeighbourhoodRelations();
+                //uncomment to OPTIMIZE:
+                //return Optimize(GetValuableElements(Factorize(_fullCollection)).SetNeighbourhoodRelations());
+                
+                //comment if have uncommented previous:
+                return GetValuableElements(Factorize(_fullCollection));
             }
         }
 
@@ -48,8 +53,8 @@
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
             _fullCollection = GetAllElements(MaxMinPoint, _elementBase);
-        } 
-        
+        }
+
         /// <summary>
         /// Class constructor
         /// </summary>
@@ -63,7 +68,7 @@
             MaxMinPoint = GetMaxMinPoint(_solids, _factor);
             _elementBase = InitializeElementBase();
             _fullCollection = GetAllElements(MaxMinPoint, _elementBase);
-        } 
+        }
 
         #endregion
 
@@ -284,7 +289,111 @@
                 }
             }
             return result;
-        } 
+        }
+        #endregion
+
+        #region Collection optimization
+
+        /// <summary>
+        /// Optimizes collection of many equal elements into collection of several unequal ones
+        /// </summary>
+        /// <param name="elements">Unoptimized collection</param>
+        /// <returns>Optimezed collection</returns>
+        private static ElementCollection Optimize(ElementCollection elements)
+        {
+            ElementCollection probe = elements.Clone();
+            ElementCollection result = new ElementCollection();
+            ElementCollection stage1d;
+            ElementCollection stage2d;
+            ElementCollection stage3d;
+            do
+            {
+                List<Element> elementList = new List<Element> {probe.SelectFirstElement()};
+                ElementCollection localProbe = new ElementCollection(elementList);
+                stage1d = CalculateStage(localProbe);
+                stage2d = CalculateStage(stage1d);
+                stage3d = CalculateStage(stage2d);
+                probe.ClearAddedElements(stage3d);
+                result.Elements.Add(stage3d.ToElement());
+            } while (probe.SelectFirstElement() != null);
+            return result;
+        }
+
+        /// <summary>
+        /// Caclculate stage of optimization for temporary collection
+        /// </summary>
+        /// <param name="probe">Probe</param>
+        /// <returns>Level</returns>
+        private static ElementCollection CalculateStage(ElementCollection probe)
+        {
+            ElementCollection result = probe.Clone();
+
+            int levelRate = int.MinValue;
+            int levelRateTmp = 0;
+            int bestDirection = 1;
+
+            for (int i = 1; i < 7; i++)
+            {
+                while (LevelExistsInDirection(probe, i))
+                {
+                    levelRateTmp++;
+                }
+                if (levelRateTmp > levelRate)
+                {
+                    bestDirection = i;
+                    levelRate = levelRateTmp;
+                    levelRateTmp = 0;
+                }
+            }
+
+            ElementCollection addition;
+            while (LevelExistsInDirection(probe, bestDirection))
+            {    
+                AddLevel(probe, bestDirection, out addition);
+                result.AddCollection(addition);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Defines whether is an available level for the collection in the direction
+        /// </summary>
+        /// <param name="elementCollection">Collection</param>
+        /// <param name="direction">Direction</param>
+        /// <returns></returns>
+        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction)
+        {
+            bool result = false;
+            for (int i = 0; i < elementCollection.Elements.Count; i++)
+            {
+                if (elementCollection.Elements[i].Neighbours[direction] != null)
+                {
+                    result = true;
+                    continue;
+                }
+                result = false;
+                break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Adds level to the collection in appropriate direction
+        /// </summary>
+        /// <param name="elementCollection">Collection to be grown</param>
+        /// <param name="direction">Direction</param>
+        /// <param name="addition">Addition for output</param>
+        private static void AddLevel(ElementCollection elementCollection, int direction, out ElementCollection addition)
+        {
+            addition = new ElementCollection();
+            for (int i = 0; i < elementCollection.Elements.Count; i++)
+            {
+                int? elementIndex = elementCollection.Elements[i].Neighbours[direction];
+                addition.Elements.Add(elementCollection.Elements[(int)elementIndex]);
+            }
+        }
+
         #endregion
     }
 }

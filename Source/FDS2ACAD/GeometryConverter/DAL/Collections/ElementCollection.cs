@@ -14,6 +14,11 @@ namespace GeometryConverter.DAL.Collections
             Elements = new List<Element>();
         }
 
+        public ElementCollection(List<Element> elements)
+        {
+            Elements = elements;
+        }
+
         #endregion
 
         public int? GetElementNoByCenter(BasePoint center)
@@ -24,6 +29,10 @@ namespace GeometryConverter.DAL.Collections
             return null;
         }
 
+        /// <summary>
+        /// Converts collection to single element
+        /// </summary>
+        /// <returns>Element</returns>
         public Element ToElement()
         {
             BasePoint centerMin = new BasePoint(double.MaxValue, double.MaxValue, double.MaxValue);
@@ -53,6 +62,8 @@ namespace GeometryConverter.DAL.Collections
         {
             for (int i = 0; i < Elements.Count; i++)
             {
+                Elements[i].Index = i;
+
                 BasePoint tmpCenter = Elements[i].Center;
                 tmpCenter.X = Elements[i].Center.X + Elements[i].XLength;
                 if (GetElementNoByCenter(tmpCenter) != null)
@@ -84,6 +95,73 @@ namespace GeometryConverter.DAL.Collections
                     Elements[i].NeighbourBottom = i;
             }
             return this;
+        }
+
+        /// <summary>
+        /// Adds collection to collection
+        /// </summary>
+        /// <param name="collection">Addition</param>
+        public void AddCollection(ElementCollection collection)
+        {
+            foreach (Element element in Elements)
+            {
+                Elements.Add(element);
+            }
+        }
+
+        /// <summary>
+        /// Removes elements from the collection
+        /// </summary>
+        /// <param name="addition">Elements to remove</param>
+        public void ClearAddedElements(ElementCollection addition)
+        {
+            for (int i = 0; i < addition.Elements.Count; i++)
+            {
+                Elements[(int)addition.Elements[i].Index] = null;
+            }
+        }
+
+        /// <summary>
+        /// Clones collection
+        /// </summary>
+        /// <returns>Copy of the collection</returns>
+        public ElementCollection Clone()
+        {
+            ElementCollection result = new ElementCollection();
+            for (int i = 0; i < Elements.Count; i++)
+            {
+                result.Elements.Add(Elements[i]);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Return length of the collection
+        /// </summary>
+        /// <returns></returns>
+        public int Length()
+        {
+            int length = 0;
+            for (int i = 0; i < Elements.Count; i++)
+            {
+                if (Elements[i] != null)
+                    length++;
+            }
+            return length;
+        }
+
+        /// <summary>
+        /// Retuns first element which is not a null yet
+        /// </summary>
+        /// <returns>Element</returns>
+        public Element SelectFirstElement()
+        {
+            for (int i = 0; i < Elements.Count; i++)
+            {
+                if (Elements[i] != null)
+                    return Elements[i];
+            }
+            return null;
         }
     }
 }
