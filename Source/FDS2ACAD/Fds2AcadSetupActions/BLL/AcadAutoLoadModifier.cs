@@ -6,11 +6,11 @@ namespace Fds2AcadSetupActions.BLL
 {
     public class AcadAutoLoadModifier
     {
-        public static void AddCommandToAutocad2009StartUp(string commandName)
+        public static void AddCommandToAutocad2009StartUp(string commandName, string autoLoadFilePath)
         {
             var autoCadAutoLoadFilePath = string.Format(Constants.AutoCad2009AutoLoadFilePathPattern,
                                                         Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                                        Constants.AutoCad2009AutoLoadFilePath,
+                                                        autoLoadFilePath,
                                                         Constants.AutoCad2009AutoLoadFileName);
 
             if (!File.Exists(autoCadAutoLoadFilePath))
@@ -23,11 +23,11 @@ namespace Fds2AcadSetupActions.BLL
             streamWriter.Close();
         }
 
-        public static void RemoveCommandToAutocad2009StartUp(string commandName)
+        public static void RemoveCommandToAutocad2009StartUp(string commandName, string autoLoadFilePath)
         {
             var autoCadAutoLoadFilePath = string.Format(Constants.AutoCad2009AutoLoadFilePathPattern,
                                             Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                            Constants.AutoCad2009AutoLoadFilePath,
+                                            autoLoadFilePath,
                                             Constants.AutoCad2009AutoLoadFileName);
 
             if (!File.Exists(autoCadAutoLoadFilePath))

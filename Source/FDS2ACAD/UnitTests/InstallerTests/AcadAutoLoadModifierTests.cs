@@ -9,13 +9,15 @@ namespace UnitTests.InstallerTests
         [Test]
         public void AddCommandToAutocad2009StartUpTest()
         {
-            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp("BuildFdsMenu");
+            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
+            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
         }
 
         [Test]
         public void RemoveCommandToAutocad2009StartUpTest()
         {
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp("BuildFdsMenu");
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
         }
     }
 }

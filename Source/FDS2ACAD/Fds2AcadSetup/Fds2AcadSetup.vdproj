@@ -58,13 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
-        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
-        "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,7 +82,19 @@
         "Entry"
         {
         "MsmKey" = "8:_45FE186DC17DCB4B884945D9CDA82013"
+        "OwnerKey" = "8:_760D445D7FA82C23A1A3512061E6AC60"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_45FE186DC17DCB4B884945D9CDA82013"
         "OwnerKey" = "8:_CD2A153213398073DD2107EFF4434F92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_45FE186DC17DCB4B884945D9CDA82013"
+        "OwnerKey" = "8:_4A8226C1165DC19FAE1E3EEDC392C6D0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -208,6 +220,18 @@
         "Entry"
         {
         "MsmKey" = "8:_B2C138C135275B2DAB81901BD8587CDF"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B2C138C135275B2DAB81901BD8587CDF"
+        "OwnerKey" = "8:_3754EA34FBC499FD555BF29287DBD4A6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B2C138C135275B2DAB81901BD8587CDF"
         "OwnerKey" = "8:_81665686686D4617ABCED2326F6DFEE1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -238,12 +262,6 @@
         "Entry"
         {
         "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
-        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
         "OwnerKey" = "8:_3754EA34FBC499FD555BF29287DBD4A6"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -257,6 +275,12 @@
         {
         "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
         "OwnerKey" = "8:_45FE186DC17DCB4B884945D9CDA82013"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D998AB809557497770AB2B18C806E26F"
+        "OwnerKey" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -513,6 +537,20 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_930ADBDBEC8E41B6BCCFC614CE20464A"
+            {
+            "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
+            "FileType" = "3:1"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_42ECB88F_6BAC_4179_8AD7_7E77624CA88C"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F30CFE6601614971AB948F27782C3444"
             {
             "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
@@ -524,20 +562,6 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
             "Identifier" = "8:_7B651D32_97AF_4A31_911D_3B0DFC8F27BF"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F7D457B5C8424CE894961B03DA5CE8AA"
-            {
-            "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_C56F0D0AC0274E8B82C25069A2498F0B"
-            "FileType" = "3:1"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_EBF6BEBB_9989_44BA_9EDD_F0EE751C882C"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -1106,7 +1130,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Fds to AutoCad plugin"
         "ProductCode" = "8:{8212E92A-984E-406A-99FC-6C7787C11255}"
-        "PackageCode" = "8:{D4A1498D-DEE6-4EEA-A6A2-4EB24CB0D980}"
+        "PackageCode" = "8:{1AD94ED0-41F9-4BD5-8578-1E1781404B78}"
         "UpgradeCode" = "8:{22F55A49-B06F-409D-B47B-9DFADE61004C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"

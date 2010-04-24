@@ -120,10 +120,16 @@
   <data name="AcadIsRunningMessage" xml:space="preserve">
     <value>An instance of AutoCad is running now. Please, close it and try again.</value>
   </data>
+  <data name="AcadNotInstalledMessage" xml:space="preserve">
+    <value>You have no AutoCad installed. The installation will be canceled.</value>
+  </data>
   <data name="FdsPluginDescription" xml:space="preserve">
     <value>Plugin for AutoCad which facilitates interacting FDS (Fire Dynamics Simulation) with this CAD system</value>
   </data>
   <data name="InstallPreventionWindowCaption" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="UserSetupCancelation" xml:space="preserve">
+    <value>Setup has been cancelled by the user.</value>
   </data>
 </root>
