@@ -20,6 +20,7 @@ namespace Fds2AcadPlugin
     using UserInterface;
     using UserInterface.Materials;
     using System.Diagnostics;
+    using GeometryConverter.DAL.Bases;
 
     public class EntryPoint
     {
@@ -117,7 +118,10 @@ namespace Fds2AcadPlugin
                 }
             }
 
-            var burner = new BurnerOperator(burnerSolid).Element;
+            Element burner = null;
+
+            if (burnerSolid != null)
+                burner = new BurnerOperator(burnerSolid).Element;
 
             var elements = solidOperator.UsefulElementCollectionProvider.Elements;
             var maxPoint = solidOperator.MaxMinPoint[1];
@@ -154,7 +158,6 @@ namespace Fds2AcadPlugin
 #endif
             Process.Start(startInfo);
         }
-
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
         static public void OpenMaterialManager()

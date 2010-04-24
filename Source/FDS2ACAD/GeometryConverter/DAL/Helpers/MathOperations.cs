@@ -17,32 +17,31 @@ namespace GeometryConverter.DAL.Helpers
         public static double FindGcd(List<Edge> edges)
         {
             //double mcd = 100;
-            double mcd = 1;
+            int count = 1;
+            int gcd = count;
             bool ok = true;
             double minLength = edges[FindMinEdgeIndex(edges)].Length();
 
-            while (mcd <= minLength)
+            var halfEdgeLength = minLength / 2;
+
+            while (count <= halfEdgeLength)
             {
                 foreach (Edge edge in edges)
                 {
-                    if (Convert.ToInt32(edge.Length()) % mcd == 0)
-                    {
-                        ok = true;
+                    if (Convert.ToInt32(Math.Round(edge.Length(), 0)) % count == 0)
                         continue;
-                    }
-                    else
-                    {
-                        ok = false;
-                        break;
-                    }
-                }
-                if (!ok)
+
+                    ok = false;
                     break;
-                else
-                    mcd++;
+                }
+                if (ok)
+                    gcd = count;
+
+                count++;
+                ok = true;
             }
 
-            return mcd;
+            return gcd;
         }
 
         private static int FindMinEdgeIndex(IList<Edge> edges)

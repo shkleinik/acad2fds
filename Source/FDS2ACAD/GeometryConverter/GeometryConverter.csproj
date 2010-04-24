@@ -61,8 +61,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BLL\ElementParser.cs" />
+  <ItemGroup>    
     <Compile Include="BLL\Templates\TemplateProvider.cs" />
     <Compile Include="BLL\Templates\ITemplateManager.cs" />
     <Compile Include="BLL\Templates\TemplateManager.cs" />
