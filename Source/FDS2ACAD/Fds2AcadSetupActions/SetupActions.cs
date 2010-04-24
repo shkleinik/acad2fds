@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Fds2AcadSetupActions
+﻿namespace Fds2AcadSetupActions
 {
     using System;
     using System.Collections;
@@ -9,7 +7,6 @@ namespace Fds2AcadSetupActions
     using System.Windows.Forms;
     using BLL;
     using Properties;
-    using Fds2AcadPlugin.UserInterface;
 
     [RunInstaller(true)]
     public partial class SetupActions : Installer
@@ -29,76 +26,65 @@ namespace Fds2AcadSetupActions
         {
             base.Install(stateSaver);
 
-            // Note: Remove this stupid messagebox
-            // MessageBox.Show("Hello, Wolrld! I'm from Istall phase");
-
             if (!RegistryHelper.IsAutoCadInstalled())
-                throw new InvalidOperationException("You have no AutoCad installed. The installation will be canceled.");
+                throw new InvalidOperationException(Resources.AcadNotInstalledMessage);
 
-        CheckIfAutoCadIsRunning:
-            if (CommonHelper.IsAutoCadRunning())
-            {
-                var userChoice = MessageBox.Show(Resources.AcadIsRunningMessage,
-                                Resources.InstallPreventionWindowCaption,
-                                MessageBoxButtons.RetryCancel,
-                                MessageBoxIcon.Warning,
-                                MessageBoxDefaultButton.Button1
-                                );
-
-                if (DialogResult.Retry == userChoice)
-                    goto CheckIfAutoCadIsRunning;
-
-                throw new OperationCanceledException("Setup has been cancelled by the user.");
-            }
-
+            CheckIfAutoCadIsRunning();
 
             // Note: Add logging here
-            RegistryHelper.CreateFdsBranch();
-            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand);
-
-            // Note: need some work around to configure fds.
-            //var thread = new Thread(ConfigureFds);
-
-            //thread.SetApartmentState(ApartmentState.STA);
-
-            //thread.Start();
-        }
-
-        //private void ConfigureFds()
-        //{
-        //    // Note: some magic here
-        //    var plugionOptions = new PluginOptions();
-
-        //    if (plugionOptions.ShowDialog() != DialogResult.OK)
-        //        throw new OperationCanceledException("Setup has been cancelled by the user.");
-        //}
-
-        public override void Commit(IDictionary savedState)
-        {
-            base.Commit(savedState);
-            // MessageBox.Show("Hello, Wolrld! I'm from Commit phase");
+            RegistryHelper.CreateFdsBranch(Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.CreateFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
+            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
         }
 
         public override void Rollback(IDictionary savedState)
         {
-            // Note: Remove this stupid messagebox
-            // MessageBox.Show("Hello, Wolrld! I'm from Rollback phase");
-
-            RegistryHelper.RemoveFdsBranch();
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand);
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
 
             base.Rollback(savedState);
         }
 
         public override void Uninstall(IDictionary savedState)
         {
-            // Note: Remove this stupid messagebox
-            // MessageBox.Show("Hello, Wolrld! I'm from Unistall phase");
-
-            RegistryHelper.RemoveFdsBranch();
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand);
+            CheckIfAutoCadIsRunning();
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
+            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
 
             base.Uninstall(savedState);
+        }
+
+        #endregion
+
+        #region Internal implementation
+
+        /// <summary>
+        /// Checks if Autocad process is running. If not continues code runing in other
+        /// offer user to close AutoCad instance.
+        /// </summary>
+        public void CheckIfAutoCadIsRunning()
+        {
+
+        CheckIfAutoCadIsRunning:
+            if (!CommonHelper.IsAutoCadRunning())
+                return;
+
+            var userChoice = MessageBox.Show(Resources.AcadIsRunningMessage,
+                                             Resources.InstallPreventionWindowCaption,
+                                             MessageBoxButtons.RetryCancel,
+                                             MessageBoxIcon.Warning,
+                                             MessageBoxDefaultButton.Button1
+                );
+
+            if (DialogResult.Retry == userChoice)
+                goto CheckIfAutoCadIsRunning;
+
+            throw new OperationCanceledException(Resources.UserSetupCancelation);
         }
 
         #endregion

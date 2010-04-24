@@ -9,13 +9,15 @@ namespace UnitTests.InstallerTests
         [Test]
         public void CreateFdsBranchTest()
         {
-            RegistryHelper.CreateFdsBranch();
+            RegistryHelper.CreateFdsBranch(Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.CreateFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
         }
 
         [Test]
         public void RemoveFdsBranchTest()
         {
-            RegistryHelper.RemoveFdsBranch();
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
         }
 
         [Test]

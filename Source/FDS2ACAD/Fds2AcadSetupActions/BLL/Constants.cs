@@ -18,6 +18,7 @@ namespace Fds2AcadSetupActions.BLL
         public const string FdsPluginRegistryKey = "FDS2ACAD";
         public const string AutoCadRegistryKey = @"SOFTWARE\Autodesk\AutoCAD";
         public const string AutoCadApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7001:409\Applications\";
+        public const string AutoCadArchitectureApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7004:419\Applications\";
         public const string CommandsRegistryKey = "Commands";
         public const string BuildMenuCommandName = "BuildFdsMenu";
 
@@ -33,6 +34,7 @@ namespace Fds2AcadSetupActions.BLL
         
         public const string AutoCad2009AutoLoadFilePathPattern = @"{0}\{1}\{2}";
         public const string AutoCad2009AutoLoadFilePath = @"AutoCAD 2009\Support";
+        public const string AutoCad2009ArchitectureAutoLoadFilePath = @"AutoCAD Architecture 2009\Support";
         public const string AutoCad2009AutoLoadFileName = "acad2009.lsp";
         public const string LispCommandCallPattern = "(command \"{0}\")";
         public const string FdsMenuBuildCommand = "BuildFdsMenu";
