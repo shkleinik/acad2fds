@@ -3,8 +3,17 @@
 &HEAD CHID='$name', TITLE='$copyrightInfo' /
 
 ## Note: replace with configurable parameters
-&MESH IJK=52,54,24, XB=0.0,5.2,-0.8,4.6,0.0,2.4 /
+#set($X = $maxPoint.X / 1000)
+#set($Y = $maxPoint.Y / 1000)
+#set($Z = $maxPoint.Z / 1000)
 
+#set($sX = $maxPoint.X / 100)
+#set($sY = $maxPoint.Y / 100)
+#set($sZ = $maxPoint.Z / 100)
+
+&MESH IJK=$sX,$sY,$sZ, XB=0.0,$X,0.0,$Y,0.0,$Z /
+
+&TIME T_END=$calculationTime /
 
 ## hardcode BEGIN
 ## **********************************************************************
@@ -21,8 +30,6 @@
 
 &SURF ID='BURNER', HRRPUA=1000., COLOR='RASPBERRY' / 
 
-&TIME T_END=$calculationTime /
-
 &MATL ID            = 'GYPSUM PLASTER'
       FYI           = 'Quintiere, Fire Behavior'
       CONDUCTIVITY  = 0.48
@@ -37,44 +44,21 @@
 ## **********************************************************************
 ## hardcode END
 
-#foreach($material in $materials)
-&MATL 
-
-#if($material.ID)
-ID                    = '$material.ID'
-#else
-ID                    = '$material.ID'
-#end
-FYI                   = '$copyrightInfo'
-#if($material.SpecificHeat)
-	SPECIFIC_HEAT         = $material.SpecificHeat
-#else
-	SPECIFIC_HEAT         = 1.0
-#end
-#if($material.Conductivity)
-      CONDUCTIVITY          = $material.Conductivity
-#else
-      CONDUCTIVITY          = 0.1
-#end
-#if($material.Density)
-      DENSITY               = $material.Density
-#else
-      DENSITY               = 100.0
-#end
-      N_REACTIONS           = 1
-      NU_FUEL               = 1.
-      REFERENCE_TEMPERATURE = 350.
-      HEAT_OF_REACTION      = 3000.
-      HEAT_OF_COMBUSTION    = 15000. /
-#end
-
 #foreach($element in $elements)
-##&OBST XB= $element.X1, $element.X2, $element.Y1, $element.Y2, $element.Z1, $element.Z2, SURF_ID='$element.Material' /
-&OBST XB= $element.X1, $element.X2, $element.Y1, $element.Y2, $element.Z1, $element.Z2, SURF_ID='WALL' /
+#set($X1 = $element.X1 / 1000)
+#set($X2 = $element.X2 / 1000)
+#set($Y1 = $element.Y1 / 1000)
+#set($Y2 = $element.Y2 / 1000)
+#set($Z1 = $element.Z1 / 1000)
+#set($Z2 = $element.Z2 / 1000)
+&OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='WALL' /
 #end
 
-&VENT XB= $burner.X1, $burner.X2, $burner.Y1, $burner.Y2, $burner.Z1, $burner.Z2, SURF_ID='BURNER'
 
-&BNDF QUANTITY='GAUGE HEAT FLUX' / 
-&BNDF QUANTITY='WALL TEMPERATURE' / 
-&BNDF QUANTITY='BURNING RATE' / 
+#set($X1 = $burner.X1 / 1000)
+#set($X2 = $burner.X2 / 1000)
+#set($Y1 = $burner.Y1 / 1000)
+#set($Y2 = $burner.Y2 / 1000)
+#set($Z1 = $burner.Z1 / 1000)
+#set($Z2 = $burner.Z2 / 1000)
+&VENT XB= $X1, $X2, $Y1, $Y2, $Z1, $Z1, SURF_ID='BURNER'/
