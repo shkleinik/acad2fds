@@ -29,10 +29,10 @@
             get
             {
                 //uncomment to OPTIMIZE:
-                //return Optimize(GetValuableElements(Factorize(_fullCollection)).SetNeighbourhoodRelations());
+                return Optimize(GetValuableElements(Factorize(_fullCollection)).SetNeighbourhoodRelations());
                 
                 //comment if have uncommented previous:
-                return GetValuableElements(Factorize(_fullCollection));
+                //return GetValuableElements(Factorize(_fullCollection));
             }
         }
 
@@ -328,13 +328,14 @@
         {
             ElementCollection result = probe.Clone();
 
-            int levelRate = int.MinValue;
+            int levelRate = 0;
             int levelRateTmp = 0;
             int bestDirection = 1;
-
+            //todo: provide explanation for magic 7
             for (int i = 1; i < 7; i++)
             {
                 while (LevelExistsInDirection(probe, i))
+                //todo: resolve problem with infinitive neighbour index reference
                 {
                     levelRateTmp++;
                 }
@@ -347,11 +348,16 @@
             }
 
             ElementCollection addition;
-            while (LevelExistsInDirection(probe, bestDirection))
-            {    
+            for (int i = 0; i < levelRate; i++)
+            {
                 AddLevel(probe, bestDirection, out addition);
                 result.AddCollection(addition);
-            }
+            } 
+            //(LevelExistsInDirection(probe, bestDirection))
+            //{    
+            //    AddLevel(probe, bestDirection, out addition);
+            //    result.AddCollection(addition);
+            //}
 
             return result;
         }
@@ -365,10 +371,12 @@
         private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction)
         {
             bool result = false;
+            
             for (int i = 0; i < elementCollection.Elements.Count; i++)
             {
                 if (elementCollection.Elements[i].Neighbours[direction] != null)
                 {
+                    //index = (int)elementCollection.Elements[i].Neighbours[direction];
                     result = true;
                     continue;
                 }

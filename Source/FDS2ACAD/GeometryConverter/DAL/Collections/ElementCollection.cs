@@ -21,13 +21,13 @@ namespace GeometryConverter.DAL.Collections
 
         #endregion
 
-        public int? GetElementNoByCenter(BasePoint center)
-        {
-            for (int i = 0; i < Elements.Count; i++)
-                if (Elements[i].Center.Equals(center))
-                    return i;
-            return null;
-        }
+        //public int? GetElementNoByCenter(BasePoint center)
+        //{
+        //    for (int i = 0; i < Elements.Count; i++)
+        //        if (Elements[i].Center.AreEqual(center, Elements[i].GetDetlta()))
+        //            return i;
+        //    return null;
+        //}
 
         /// <summary>
         /// Converts collection to single element
@@ -60,39 +60,51 @@ namespace GeometryConverter.DAL.Collections
         /// </summary>
         public ElementCollection SetNeighbourhoodRelations()
         {
+            // Note : Set indeces on initialization
             for (int i = 0; i < Elements.Count; i++)
             {
                 Elements[i].Index = i;
+            }
 
-                BasePoint tmpCenter = Elements[i].Center;
-                tmpCenter.X = Elements[i].Center.X + Elements[i].XLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourRight = i;
+            for (int i = 0; i < Elements.Count; i++)
+            {
+                for (int j = 0; j < Elements.Count; j++)
+                {
+                    if (i != j)
+                    Elements[i].NoNameMethod(Elements[j]);
+                }
+                //Elements[i].NoNameMethod();
+                //
 
-                tmpCenter = Elements[i].Center;
-                tmpCenter.X = Elements[i].Center.X - Elements[i].XLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourLeft = i;
+                //BasePoint tmpCenter = Elements[i].Center;
+                //tmpCenter.X = Elements[i].Center.X + Elements[i].XLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourRight = i;
 
-                tmpCenter = Elements[i].Center;
-                tmpCenter.Y = Elements[i].Center.Y + Elements[i].YLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourBack = i;
+                //tmpCenter = Elements[i].Center;
+                //tmpCenter.X = Elements[i].Center.X - Elements[i].XLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourLeft = i;
 
-                tmpCenter = Elements[i].Center;
-                tmpCenter.Y = Elements[i].Center.Y - Elements[i].YLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourFront = i;
+                //tmpCenter = Elements[i].Center;
+                //tmpCenter.Y = Elements[i].Center.Y + Elements[i].YLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourBack = i;
 
-                tmpCenter = Elements[i].Center;
-                tmpCenter.Z = Elements[i].Center.Z + Elements[i].ZLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourTop = i;
+                //tmpCenter = Elements[i].Center;
+                //tmpCenter.Y = Elements[i].Center.Y - Elements[i].YLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourFront = i;
 
-                tmpCenter = Elements[i].Center;
-                tmpCenter.Z = Elements[i].Center.Z - Elements[i].ZLength;
-                if (GetElementNoByCenter(tmpCenter) != null)
-                    Elements[i].NeighbourBottom = i;
+                //tmpCenter = Elements[i].Center;
+                //tmpCenter.Z = Elements[i].Center.Z + Elements[i].ZLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourTop = i;
+
+                //tmpCenter = Elements[i].Center;
+                //tmpCenter.Z = Elements[i].Center.Z - Elements[i].ZLength;
+                //if (GetElementNoByCenter(tmpCenter) != null)
+                //    Elements[i].NeighbourBottom = i;
             }
             return this;
         }

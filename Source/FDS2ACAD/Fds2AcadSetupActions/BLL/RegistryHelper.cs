@@ -16,7 +16,8 @@ namespace Fds2AcadSetupActions.BLL
             var acadApplicationsKey = Registry.LocalMachine.OpenSubKey(acadRegistryKeyName, true);
 
             if (acadApplicationsKey == null)
-                throw new ArgumentException("Check if this acad product version is installed and this registry hive exists", "acadRegistryKeyName");
+                //throw new ArgumentException("Check if this acad product version is installed and this registry hive exists", "acadRegistryKeyName");
+                return;
 
             var fdsKey = acadApplicationsKey.CreateSubKey(Constants.FdsPluginRegistryKey, RegistryKeyPermissionCheck.ReadWriteSubTree);
             fdsKey.SetValue(Constants.DescriptionRegValue, Resources.FdsPluginDescription, RegistryValueKind.String);

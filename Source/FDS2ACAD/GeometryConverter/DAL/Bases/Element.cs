@@ -5,6 +5,9 @@
         public BasePoint Center;
         public string Material { get; set; }
         public int Factor = 1;
+
+        #region Neighbour properties
+
         /// <summary>
         /// Imagine OX runing from lefts to rights...
         /// Imagine OY runing from you ahead far away...
@@ -17,10 +20,13 @@
         public int? NeighbourBack { get { return Neighbours[3]; } set { Neighbours[3] = value; } }
         public int? NeighbourLeft { get { return Neighbours[4]; } set { Neighbours[4] = value; } }
         public int? NeighbourRight { get { return Neighbours[5]; } set { Neighbours[5] = value; } }
+        #endregion
 
         public int?[] Neighbours;
 
         public int? Index;
+
+        #region Properties
 
         public double X1 { get { return Center.X - XLength / 2; } }
         public double X2 { get { return Center.X + XLength / 2; } }
@@ -29,12 +35,18 @@
         public double Z1 { get { return Center.Z - ZLength / 2; } }
         public double Z2 { get { return Center.Z + ZLength / 2; } }
 
+        #endregion
+
+        #region Properties for FDS
+
         public double FdsX1 { get { return (Center.X - XLength / 2) / Factor; } }
         public double FdsX2 { get { return (Center.X + XLength / 2) / Factor; } }
         public double FdsY1 { get { return (Center.Y - YLength / 2) / Factor; } }
         public double FdsY2 { get { return (Center.Y + YLength / 2) / Factor; } }
         public double FdsZ1 { get { return (Center.Z - ZLength / 2) / Factor; } }
         public double FdsZ2 { get { return (Center.Z + ZLength / 2) / Factor; } }
+
+        #endregion
 
         #region Constructors
 
@@ -90,5 +102,18 @@
         }
 
         #endregion
+
+
+        public void NoNameMethod(Element anotherElement)
+        {
+            // this coef guaratees that center will fall in the interval
+            var k = 1.5;
+            if (!((Center.X - anotherElement.Center.X < k * XLength) &&
+                    (Center.Y - anotherElement.Center.Y < k * YLength) &&
+                    (Center.Z - anotherElement.Center.Z < k * ZLength)))
+                return;
+
+            Neighbours[(int)Center.GetPosition(anotherElement.Center) - 1] = anotherElement.Index;
+        }
     }
 }
