@@ -30,7 +30,7 @@
             {
                 //uncomment to OPTIMIZE:
                 return Optimize(GetValuableElements(Factorize(_fullCollection)).SetNeighbourhoodRelations());
-                
+
                 //comment if have uncommented previous:
                 //return GetValuableElements(Factorize(_fullCollection));
             }
@@ -308,7 +308,7 @@
             ElementCollection stage3d;
             do
             {
-                List<Element> elementList = new List<Element> {probe.SelectFirstElement()};
+                List<Element> elementList = new List<Element> { probe.SelectFirstElement() };
                 ElementCollection localProbe = new ElementCollection(elementList);
                 stage1d = CalculateStage(localProbe);
                 stage2d = CalculateStage(stage1d);
@@ -334,7 +334,7 @@
             //todo: provide explanation for magic 7
             for (int i = 1; i < 7; i++)
             {
-                while (LevelExistsInDirection(probe, i))
+                while (LevelExistsInDirection(probe, i, levelRate))
                 //todo: resolve problem with infinitive neighbour index reference
                 {
                     levelRateTmp++;
@@ -352,7 +352,7 @@
             {
                 AddLevel(probe, bestDirection, out addition);
                 result.AddCollection(addition);
-            } 
+            }
             //(LevelExistsInDirection(probe, bestDirection))
             //{    
             //    AddLevel(probe, bestDirection, out addition);
@@ -368,21 +368,22 @@
         /// <param name="elementCollection">Collection</param>
         /// <param name="direction">Direction</param>
         /// <returns></returns>
-        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction)
+        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction, int depth)
         {
             bool result = false;
-            
-            for (int i = 0; i < elementCollection.Elements.Count; i++)
-            {
-                if (elementCollection.Elements[i].Neighbours[direction] != null)
+
+            for (int j = 0; j < depth; j++)
+                for (int i = 0; i < elementCollection.Elements.Count; i++)
                 {
-                    //index = (int)elementCollection.Elements[i].Neighbours[direction];
-                    result = true;
-                    continue;
+                    if (elementCollection.Elements[i + depth].Neighbours[direction] != null)
+                    {
+                        //index = (int)elementCollection.Elements[i].Neighbours[direction];
+                        result = true;
+                        continue;
+                    }
+                    result = false;
+                    break;
                 }
-                result = false;
-                break;
-            }
             return result;
         }
 
