@@ -1,13 +1,25 @@
-﻿using System;
-using Autodesk.AutoCAD.Geometry;
-
-namespace GeometryConverter.DAL.Bases
+﻿namespace GeometryConverter.DAL.Bases
 {
+    using System;
+    using Autodesk.AutoCAD.Geometry;
+
     public class BasePoint
     {
+        //#region Constants
+
+        //private const double epsilon = 0.01;
+
+        //#endregion
+
+        #region Properties
+
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Provides new Base point from 3 coordinates
@@ -32,6 +44,10 @@ namespace GeometryConverter.DAL.Bases
             Y = point3D.Y;
             Z = point3D.Z;
         }
+
+        #endregion
+
+        #region Internal implementation
 
         /// <summary>
         /// Provides Acad point from this Base point
@@ -99,5 +115,49 @@ namespace GeometryConverter.DAL.Bases
             return this;
         }
 
+        #endregion
+
+        #region Overrides
+
+        //public bool AreEqual(object obj, double delta)
+        //{
+
+        //    BasePoint another = obj as BasePoint;
+
+        //    if (another == null)
+        //        throw new ArgumentException("Invalin parameter obj.");
+
+        //    return (X - another.X < delta) && (Y - another.Y < delta) && (Z - another.Z < delta);
+        //}
+
+        public Direction GetPosition(BasePoint another)
+        {
+            var result = new Direction();
+
+            if (Z < another.Z)
+                result =  Direction.Top;
+
+            if (Z > another.Z)
+                result = Direction.Bottom;
+
+            if (Y > another.Y)
+                result = Direction.Front;
+
+            if (Y < another.Y)
+                result = Direction.Back;
+
+            if (X < another.X)
+                result = Direction.Right;
+
+            if (X > another.X)
+                result = Direction.Left;
+
+            if (result == 0)
+                throw new ArgumentException("Ooops!");
+
+            return result;
+        }
+
+        #endregion
     }
 }

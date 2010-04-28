@@ -1,6 +1,6 @@
 ﻿namespace GeometryConverter.DAL.Bases
 {
-    enum Direction
+    public enum Direction
     {
         Top = 1,
         Bottom,
