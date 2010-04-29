@@ -92,17 +92,14 @@
         public void ResetNeighbours()
         {
             Index = null;
-            Neighbours = new int?[6];
-            NeighbourTop = null;
-            NeighbourBottom = null;
-            NeighbourFront = null;
-            NeighbourBack = null;
-            NeighbourLeft = null;
-            NeighbourRight = null;
+
+            for (var i = 0; i < Neighbours.Length; i++)
+            {
+                Neighbours[i] = null;
+            }
         }
 
         #endregion
-
 
         public void NoNameMethod(Element anotherElement)
         {
