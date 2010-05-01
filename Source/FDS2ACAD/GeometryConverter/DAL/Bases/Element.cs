@@ -4,7 +4,7 @@
     {
         public BasePoint Center;
         public string Material { get; set; }
-        // Note : calculate this value
+        // Todo : calculate this value or ask user to set
         public int Factor = 1;
 
         #region Neighbour properties
