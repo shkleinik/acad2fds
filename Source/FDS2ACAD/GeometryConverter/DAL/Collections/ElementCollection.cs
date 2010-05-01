@@ -21,23 +21,15 @@ namespace GeometryConverter.DAL.Collections
 
         #endregion
 
-        //public int? GetElementNoByCenter(BasePoint center)
-        //{
-        //    for (int i = 0; i < Elements.Count; i++)
-        //        if (Elements[i].Center.AreEqual(center, Elements[i].GetDetlta()))
-        //            return i;
-        //    return null;
-        //}
-
         /// <summary>
         /// Converts collection to single element
         /// </summary>
         /// <returns>Element</returns>
         public Element ToElement()
         {
-            BasePoint centerMin = new BasePoint(double.MaxValue, double.MaxValue, double.MaxValue);
-            BasePoint centerMax = new BasePoint(double.MinValue, double.MinValue, double.MinValue);
-            foreach (Element element in Elements)
+            var centerMin = new BasePoint(double.MaxValue, double.MaxValue, double.MaxValue);
+            var centerMax = new BasePoint(double.MinValue, double.MinValue, double.MinValue);
+            foreach (var element in Elements)
             {
                 if (element.Center.IsGreater(centerMax))
                     centerMax = element.Center;
@@ -47,11 +39,11 @@ namespace GeometryConverter.DAL.Collections
             double centerX = (centerMax.X + centerMin.X) / 2;
             double centerY = (centerMax.Y + centerMin.Y) / 2;
             double centerZ = (centerMax.Z + centerMin.Z) / 2;
-            BasePoint center = new BasePoint(centerX, centerY, centerZ);
+            var center = new BasePoint(centerX, centerY, centerZ);
             double lengthX = centerMax.X - centerMin.X + Elements[0].XLength;
             double lengthY = centerMax.Y - centerMin.Y + Elements[0].YLength;
             double lengthZ = centerMax.Z - centerMin.Z + Elements[0].ZLength;
-            Element result = new Element(center, lengthX, lengthY, lengthZ);
+            var result = new Element(center, lengthX, lengthY, lengthZ);
             return result;
         }
 
@@ -61,50 +53,18 @@ namespace GeometryConverter.DAL.Collections
         public ElementCollection SetNeighbourhoodRelations()
         {
             // Note : Set indeces on initialization
-            for (int i = 0; i < Elements.Count; i++)
+            for (var i = 0; i < Elements.Count; i++)
             {
                 Elements[i].Index = i;
             }
 
-            for (int i = 0; i < Elements.Count; i++)
+            for (var i = 0; i < Elements.Count; i++)
             {
-                for (int j = 0; j < Elements.Count; j++)
+                for (var j = 0; j < Elements.Count; j++)
                 {
                     if (i != j)
                     Elements[i].NoNameMethod(Elements[j]);
                 }
-                //Elements[i].NoNameMethod();
-                //
-
-                //BasePoint tmpCenter = Elements[i].Center;
-                //tmpCenter.X = Elements[i].Center.X + Elements[i].XLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourRight = i;
-
-                //tmpCenter = Elements[i].Center;
-                //tmpCenter.X = Elements[i].Center.X - Elements[i].XLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourLeft = i;
-
-                //tmpCenter = Elements[i].Center;
-                //tmpCenter.Y = Elements[i].Center.Y + Elements[i].YLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourBack = i;
-
-                //tmpCenter = Elements[i].Center;
-                //tmpCenter.Y = Elements[i].Center.Y - Elements[i].YLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourFront = i;
-
-                //tmpCenter = Elements[i].Center;
-                //tmpCenter.Z = Elements[i].Center.Z + Elements[i].ZLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourTop = i;
-
-                //tmpCenter = Elements[i].Center;
-                //tmpCenter.Z = Elements[i].Center.Z - Elements[i].ZLength;
-                //if (GetElementNoByCenter(tmpCenter) != null)
-                //    Elements[i].NeighbourBottom = i;
             }
             return this;
         }
@@ -115,7 +75,7 @@ namespace GeometryConverter.DAL.Collections
         /// <param name="collection">Addition</param>
         public void AddCollection(ElementCollection collection)
         {
-            foreach (Element element in Elements)
+            foreach (Element element in collection.Elements)
             {
                 Elements.Add(element);
             }
@@ -127,7 +87,7 @@ namespace GeometryConverter.DAL.Collections
         /// <param name="addition">Elements to remove</param>
         public void ClearAddedElements(ElementCollection addition)
         {
-            for (int i = 0; i < addition.Elements.Count; i++)
+            for (var i = 0; i < addition.Elements.Count; i++)
             {
                 Elements[(int)addition.Elements[i].Index] = null;
             }
@@ -139,8 +99,9 @@ namespace GeometryConverter.DAL.Collections
         /// <returns>Copy of the collection</returns>
         public ElementCollection Clone()
         {
-            ElementCollection result = new ElementCollection();
-            for (int i = 0; i < Elements.Count; i++)
+            //todo: checkcorrect clone implementation
+            var result = new ElementCollection();
+            for (var i = 0; i < Elements.Count; i++)
             {
                 result.Elements.Add(Elements[i]);
             }
