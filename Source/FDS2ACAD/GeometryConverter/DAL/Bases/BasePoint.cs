@@ -5,12 +5,6 @@
 
     public class BasePoint
     {
-        //#region Constants
-
-        //private const double epsilon = 0.01;
-
-        //#endregion
-
         #region Properties
 
         public double X { get; set; }
@@ -117,19 +111,6 @@
 
         #endregion
 
-        #region Overrides
-
-        //public bool AreEqual(object obj, double delta)
-        //{
-
-        //    BasePoint another = obj as BasePoint;
-
-        //    if (another == null)
-        //        throw new ArgumentException("Invalin parameter obj.");
-
-        //    return (X - another.X < delta) && (Y - another.Y < delta) && (Z - another.Z < delta);
-        //}
-
         public Direction GetPosition(BasePoint another)
         {
             var result = new Direction();
@@ -157,7 +138,5 @@
 
             return result;
         }
-
-        #endregion
     }
 }

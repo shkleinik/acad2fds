@@ -299,7 +299,7 @@
         /// </summary>
         /// <param name="elements">Unoptimized collection</param>
         /// <returns>Optimezed collection</returns>
-        private static ElementCollection Optimize(ElementCollection elements)
+        private ElementCollection Optimize(ElementCollection elements)
         {
             ElementCollection probe = elements.Clone();
             ElementCollection result = new ElementCollection();
@@ -324,17 +324,17 @@
         /// </summary>
         /// <param name="probe">Probe</param>
         /// <returns>Level</returns>
-        private static ElementCollection CalculateStage(ElementCollection probe)
+        private ElementCollection CalculateStage(ElementCollection probe)
         {
             ElementCollection result = probe.Clone();
 
             int levelRate = 0;
             int levelRateTmp = 0;
-            int bestDirection = 1;
+            int bestDirection = 0;
             //todo: provide explanation for magic 7
-            for (int i = 1; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
-                while (LevelExistsInDirection(probe, i, levelRate))
+                while (LevelExistsInDirection(probe, i, levelRateTmp))
                 //todo: resolve problem with infinitive neighbour index reference
                 {
                     levelRateTmp++;
@@ -367,15 +367,17 @@
         /// </summary>
         /// <param name="elementCollection">Collection</param>
         /// <param name="direction">Direction</param>
+        /// <param name="levelRate">Current rate of level</param>
         /// <returns></returns>
-        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction, int depth)
+        private bool LevelExistsInDirection(ElementCollection elementCollection, int direction, int levelRate)
         {
             bool result = false;
+            var sampleCollection = GetTmpCollection(elementCollection, direction, levelRate);
 
-            for (int j = 0; j < depth; j++)
+            for (int j = 0; j < levelRate + 1; j++)
                 for (int i = 0; i < elementCollection.Elements.Count; i++)
                 {
-                    if (elementCollection.Elements[i + depth].Neighbours[direction] != null)
+                    if (sampleCollection.Elements[i + levelRate].Neighbours[direction] != null)
                     {
                         //index = (int)elementCollection.Elements[i].Neighbours[direction];
                         result = true;
@@ -384,6 +386,44 @@
                     result = false;
                     break;
                 }
+            return result;
+        }
+
+        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction)
+        {
+            bool result = false;
+                for (int i = 0; i < elementCollection.Elements.Count; i++)
+                {
+                    if (elementCollection.Elements[i].Neighbours[direction] != null)
+                    {
+                        //index = (int)elementCollection.Elements[i].Neighbours[direction];
+                        result = true;
+                        continue;
+                    }
+                    result = false;
+                    break;
+                }
+            return result;
+        }
+
+        private ElementCollection GetTmpCollection(ElementCollection elementCollection, int direction, int levelRate)
+        {
+            var result = new ElementCollection();
+            result.AddCollection(elementCollection);
+
+            var tmpCollection = elementCollection.Clone();
+
+            for (int i = 0; i < levelRate + 1; i++)
+            {
+                if (!LevelExistsInDirection(tmpCollection, direction))
+                    break;
+                for (int j = 0; j < tmpCollection.Elements.Count; j++)
+                {
+                    tmpCollection.Elements[j] =
+                        _fullCollection.Elements[(int) tmpCollection.Elements[j].Neighbours[direction]];
+                }
+                result.AddCollection(tmpCollection);
+            }
             return result;
         }
 

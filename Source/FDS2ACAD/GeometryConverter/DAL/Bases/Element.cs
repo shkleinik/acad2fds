@@ -4,6 +4,7 @@
     {
         public BasePoint Center;
         public string Material { get; set; }
+        // Note : calculate this value
         public int Factor = 1;
 
         #region Neighbour properties
@@ -39,12 +40,12 @@
 
         #region Properties for FDS
 
-        public double FdsX1 { get { return (Center.X - XLength / 2) / Factor; } }
-        public double FdsX2 { get { return (Center.X + XLength / 2) / Factor; } }
-        public double FdsY1 { get { return (Center.Y - YLength / 2) / Factor; } }
-        public double FdsY2 { get { return (Center.Y + YLength / 2) / Factor; } }
-        public double FdsZ1 { get { return (Center.Z - ZLength / 2) / Factor; } }
-        public double FdsZ2 { get { return (Center.Z + ZLength / 2) / Factor; } }
+        public double FdsX1 { get { return X1 / Factor; } }
+        public double FdsX2 { get { return X2 / Factor; } }
+        public double FdsY1 { get { return Y1 / Factor; } }
+        public double FdsY2 { get { return Y2 / Factor; } }
+        public double FdsZ1 { get { return Z1 / Factor; } }
+        public double FdsZ2 { get { return Z2 / Factor; } }
 
         #endregion
 
@@ -92,6 +93,7 @@
         public void ResetNeighbours()
         {
             Index = null;
+            Neighbours = new int?[6];
 
             for (var i = 0; i < Neighbours.Length; i++)
             {
