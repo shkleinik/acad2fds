@@ -111,11 +111,11 @@ namespace Fds2AcadPlugin
 
             foreach (Solid3d solid in selectedSolids)
             {
-                if (solid.Material == "Red")
-                {
-                    burnerSolid = solid;
-                    break;
-                }
+                if (solid.Material != "Red") 
+                    continue;
+
+                burnerSolid = solid;
+                break;
             }
 
             Element burner = null;
