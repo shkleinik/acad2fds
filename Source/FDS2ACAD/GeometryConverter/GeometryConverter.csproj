@@ -75,7 +75,6 @@
     <Compile Include="DAL\Helpers\MathOperations.cs" />
     <Compile Include="DAL\Helpers\PointBridge.cs" />
     <Compile Include="DAL\SolidOperator.cs" />
-    <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
