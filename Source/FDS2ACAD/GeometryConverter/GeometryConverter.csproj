@@ -61,17 +61,16 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>    
-    <Compile Include="BLL\Templates\TemplateProvider.cs" />
-    <Compile Include="BLL\Templates\ITemplateManager.cs" />
-    <Compile Include="BLL\Templates\TemplateManager.cs" />
+  <ItemGroup>
+    <Compile Include="Templates\TemplateProvider.cs" />
+    <Compile Include="Templates\ITemplateManager.cs" />
+    <Compile Include="Templates\TemplateManager.cs" />
     <Compile Include="DAL\Bases\BasePoint.cs" />
     <Compile Include="DAL\Bases\Direction.cs" />
     <Compile Include="DAL\Bases\Element.cs" />
     <Compile Include="DAL\Bases\ElementBase.cs" />
     <Compile Include="DAL\BurnerOperator.cs" />
     <Compile Include="DAL\Collections\ElementCollection.cs" />
-    <Compile Include="DAL\Helpers\CollectionDrawer.cs" />
     <Compile Include="DAL\Helpers\MathOperations.cs" />
     <Compile Include="DAL\Helpers\PointBridge.cs" />
     <Compile Include="DAL\SolidOperator.cs" />
