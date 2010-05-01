@@ -9,6 +9,7 @@
     using Helpers;
     using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
     using Element = Bases.Element;
+    using EH = Helpers.EnumHelper;
 
     public class SolidOperator
     {
@@ -48,7 +49,6 @@
         /// <param name="solids">Array of selected solids</param>
         public SolidOperator(List<Solid3d> solids)
         {
-            _solids = new List<Solid3d>();
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
@@ -133,7 +133,7 @@
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
         public static BasePoint[] GetMaxMinPoint(List<Solid3d> solids)
         {
-            BasePoint[] result = new BasePoint[2];
+            var result = new BasePoint[2];
             double xMax = double.MinValue;
             double yMax = double.MinValue;
             double zMax = double.MinValue;
@@ -328,11 +328,11 @@
         {
             ElementCollection result = probe.Clone();
 
-            int levelRate = 0;
-            int levelRateTmp = 0;
-            int bestDirection = 0;
-            //todo: provide explanation for magic 7
-            for (int i = 0; i < 6; i++)
+            var levelRate = 0;
+            var levelRateTmp = 0;
+            var bestDirection = 0;
+            
+            for (var i = 0; i < EH.GetEnumElementsNumber(EH.Direction); i++)
             {
                 while (LevelExistsInDirection(probe, i, levelRateTmp))
                 //todo: resolve problem with infinitive neighbour index reference
@@ -348,7 +348,7 @@
             }
 
             ElementCollection addition;
-            for (int i = 0; i < levelRate; i++)
+            for (var i = 0; i < levelRate; i++)
             {
                 AddLevel(probe, bestDirection, out addition);
                 result.AddCollection(addition);
