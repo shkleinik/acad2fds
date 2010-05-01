@@ -1,6 +1,5 @@
-﻿namespace GeometryConverter.BLL.Templates
+﻿namespace GeometryConverter.Templates
 {
-    using System.IO;
     using Commons.Collections;
     using NVelocity;
     using NVelocity.App;

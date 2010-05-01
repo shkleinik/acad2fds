@@ -1,4 +1,4 @@
-namespace GeometryConverter.BLL.Templates
+namespace GeometryConverter.Templates
 {
     public interface ITemplateManager
     {

@@ -1,4 +1,4 @@
-namespace GeometryConverter.BLL.Templates
+namespace GeometryConverter.Templates
 {
     using System.Collections.Generic;
     using System.IO;

@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using Fds2AcadPlugin;
+using GeometryConverter.Templates;
 
 [assembly: CommandClass(typeof(EntryPoint))]
 namespace Fds2AcadPlugin
@@ -14,7 +15,6 @@ namespace Fds2AcadPlugin
     using Autodesk.AutoCAD.DatabaseServices;
     using BLL.Helpers;
     using BLL.NativeMethods;
-    using GeometryConverter.BLL.Templates;
     using GeometryConverter.DAL;
     using MaterialManager.BLL;
     using UserInterface;
