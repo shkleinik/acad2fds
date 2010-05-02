@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\Gluer.cs" />
     <Compile Include="DAL\Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />
     <Compile Include="Templates\ITemplateManager.cs" />

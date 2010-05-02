@@ -18,7 +18,7 @@
         private readonly List<Solid3d> _solids;
         private readonly ElementBase _elementBase;
         private readonly ElementCollection _fullCollection;
-        private readonly ElementCollection _valueableCollection;
+        private ElementCollection _valueableCollection;
         private readonly int _factor = 1;
 
         #endregion
@@ -30,7 +30,11 @@
             get
             {
                 //uncomment to OPTIMIZE:
-                return Optimize(GetValuableElements(Factorize(_fullCollection)).SetNeighbourhoodRelations());
+                _valueableCollection = GetValuableElements(Factorize(_fullCollection));
+                _valueableCollection.SetNeighbourhoodRelations();
+
+                // return _valueableCollection;
+                return Optimize(_valueableCollection);
 
                 //comment if have uncommented previous:
                 //return GetValuableElements(Factorize(_fullCollection));
@@ -235,16 +239,18 @@
         /// <returns>Collection of all elements</returns>
         private static ElementCollection GetAllElements(BasePoint[] maxMinPoint, ElementBase elementBase)
         {
-            ElementCollection result = new ElementCollection();
+            var result = new ElementCollection();
+
             int limitX = Math.Abs((int)((int)(maxMinPoint[0].X - maxMinPoint[1].X) / elementBase.XLength));
             int limitY = Math.Abs((int)((int)(maxMinPoint[0].Y - maxMinPoint[1].Y) / elementBase.YLength));
             int limitZ = Math.Abs((int)((int)(maxMinPoint[0].Z - maxMinPoint[1].Z) / elementBase.ZLength));
+
             for (int z = 0; z < limitZ; z++)
                 for (int y = 0; y < limitY; y++)
                     for (int x = 0; x < limitX; x++)
                     {
-                        BasePoint center = new BasePoint((x + 0.5) * elementBase.XLength, (y + 0.5) * elementBase.YLength, (z + 0.5) * elementBase.ZLength);
-                        Element element = new Element(center, elementBase);
+                        var center = new BasePoint((x + 0.5) * elementBase.XLength, (y + 0.5) * elementBase.YLength, (z + 0.5) * elementBase.ZLength);
+                        var element = new Element(center, elementBase, result.Elements.Count);
                         result.Elements.Add(element);
                     }
             return result;
@@ -272,20 +278,21 @@
         /// <returns>Collection of valuable elements</returns>
         private ElementCollection GetValuableElements(ElementCollection input)
         {
-            ElementCollection result = new ElementCollection();
-            for (int i = 0; i < input.Elements.Count; i++)
+            var result = new ElementCollection();
+            for (var i = 0; i < input.Elements.Count; i++)
             {
-                foreach (Solid3d solid in _solids)
+                foreach (var solid in _solids)
                 {
-                    string material = solid.Material;
+                    var material = solid.Material;
                     var brep = new Brep(solid);
                     PointContainment containment;
                     brep.GetPointContainment(input.Elements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
-                    if (containment == PointContainment.Inside)
-                    {
-                        input.Elements[i].Material = material;
-                        result.Elements.Add(input.Elements[i]);
-                    }
+
+                    if (containment != PointContainment.Inside)
+                        continue;
+
+                    input.Elements[i].Material = material;
+                    result.Elements.Add(input.Elements[i]);
                 }
             }
             return result;
@@ -301,19 +308,19 @@
         /// <returns>Optimezed collection</returns>
         private ElementCollection Optimize(ElementCollection elements)
         {
-            ElementCollection probe = elements.Clone();
-            ElementCollection result = new ElementCollection();
+            var probe = elements.Clone();
+            var result = new ElementCollection();
             ElementCollection stage1d;
             ElementCollection stage2d;
             ElementCollection stage3d;
+
             do
             {
-                List<Element> elementList = new List<Element> { probe.SelectFirstElement() };
-                ElementCollection localProbe = new ElementCollection(elementList);
+                var localProbe = new ElementCollection(probe.SelectFirstElement());
                 stage1d = CalculateStage(localProbe);
                 stage2d = CalculateStage(stage1d);
                 stage3d = CalculateStage(stage2d);
-                probe.ClearAddedElements(stage3d);
+                probe.RemoveElements(stage3d);
                 result.Elements.Add(stage3d.ToElement());
             } while (probe.SelectFirstElement() != null);
             return result;
@@ -356,7 +363,7 @@
             //(LevelExistsInDirection(probe, bestDirection))
             //{    
             //    AddLevel(probe, bestDirection, out addition);
-            //    result.AddCollection(addition);
+            //    res   ult.AddCollection(addition);
             //}
 
             return result;
@@ -419,8 +426,7 @@
                     break;
                 for (int j = 0; j < tmpCollection.Elements.Count; j++)
                 {
-                    tmpCollection.Elements[j] =
-                        _fullCollection.Elements[(int) tmpCollection.Elements[j].Neighbours[direction]];
+                    tmpCollection.Elements[j] = _valueableCollection.Elements[(int) tmpCollection.Elements[j].Neighbours[direction]];
                 }
                 result.AddCollection(tmpCollection);
             }
@@ -436,9 +442,10 @@
         private static void AddLevel(ElementCollection elementCollection, int direction, out ElementCollection addition)
         {
             addition = new ElementCollection();
-            for (int i = 0; i < elementCollection.Elements.Count; i++)
+
+            for (var i = 0; i < elementCollection.Elements.Count; i++)
             {
-                int? elementIndex = elementCollection.Elements[i].Neighbours[direction];
+                var elementIndex = elementCollection.Elements[i].Neighbours[direction];
                 addition.Elements.Add(elementCollection.Elements[(int)elementIndex]);
             }
         }
