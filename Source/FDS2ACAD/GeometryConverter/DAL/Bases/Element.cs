@@ -1,6 +1,8 @@
 ﻿namespace GeometryConverter.DAL.Bases
 {
-    public class Element : ElementBase
+    using System;
+
+    public class Element : ElementBase, ICloneable
     {
         public BasePoint Center;
         public string Material { get; set; }
@@ -62,10 +64,11 @@
             ResetNeighbours();
         }
 
-        public Element(BasePoint center, ElementBase elementBase)
+        public Element(BasePoint center, ElementBase elementBase, int index)
             : base(elementBase.XLength, elementBase.YLength, elementBase.ZLength)
         {
             Center = center;
+            Index = index;
             XLength = elementBase.XLength;
             YLength = elementBase.YLength;
             ZLength = elementBase.ZLength;
@@ -87,6 +90,19 @@
 
         }
 
+        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, int factor, int? index)
+            : base(xLength, yLength, zLength)
+        {
+            Center = center;
+            XLength = xLength;
+            YLength = yLength;
+            ZLength = zLength;
+            Material = material;
+            Neighbours = neighbours;
+            Factor = factor;
+            Index = index;
+        }
+
         /// <summary>
         /// Set all neighbourhood relations of current element to null
         /// </summary>
@@ -103,7 +119,7 @@
 
         #endregion
 
-        public void NoNameMethod(Element anotherElement)
+        public void DefinePositionIfNeighbour(Element anotherElement)
         {
             // this coef guaratees that center will fall in the interval
             var k = 1.5;
@@ -114,5 +130,14 @@
 
             Neighbours[(int)Center.GetPosition(anotherElement.Center) - 1] = anotherElement.Index;
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return new Element((BasePoint)Center.Clone(), XLength, YLength, ZLength, Neighbours, Material, Factor, Index);
+        }
+
+        #endregion
     }
 }

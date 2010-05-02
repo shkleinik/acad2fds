@@ -3,7 +3,7 @@
     using System;
     using Autodesk.AutoCAD.Geometry;
 
-    public class BasePoint
+    public class BasePoint : ICloneable
     {
         #region Properties
 
@@ -50,16 +50,6 @@
         public Point3d ConverToAcadPoint()
         {
             return new Point3d(X, Y, Z);
-        }
-
-        /// <summary>
-        /// Provides Acad point from Base point
-        /// </summary>
-        /// <param name="basePoint">Base point</param>
-        /// <returns>Acad point</returns>
-        public static Point3d ConverToAcadPoint(BasePoint basePoint)
-        {
-            return new Point3d(basePoint.X, basePoint.Y, basePoint.Z);
         }
 
         /// <summary>
@@ -138,5 +128,14 @@
 
             return result;
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return new BasePoint(X, Y, Z);
+        }
+
+        #endregion
     }
 }
