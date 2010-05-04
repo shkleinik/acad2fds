@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.BoundaryRepresentation;
-
-namespace GeometryConverter.DAL.Helpers
+﻿namespace GeometryConverter.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.AutoCAD.BoundaryRepresentation;
+
     static class MathOperations
     {
         private const double OrthDeviation = 0.001;

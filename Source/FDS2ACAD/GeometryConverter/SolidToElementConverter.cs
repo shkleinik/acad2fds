@@ -1,4 +1,4 @@
-﻿namespace GeometryConverter.DAL
+﻿namespace GeometryConverter
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,8 @@
     using Autodesk.AutoCAD.DatabaseServices;
     using Bases;
     using Collections;
+    using Helpers;
     using Element = Bases.Element;
-    using EH = Helpers.EnumHelper;
 
     public class SolidToElementConverter : BaseSolidToElementConverter
     {
@@ -178,10 +178,10 @@
             var levelRateTmp = 0;
             var bestDirection = 0;
 
-            for (var i = 0; i < EH.GetEnumElementsNumber(EH.Direction); i++)
+            for (var i = 0; i < EnumHelper.GetEnumElementsNumber(EnumHelper.Direction); i++)
             {
                 while (LevelExistsInDirection(probe, i, levelRateTmp))
-                //todo: resolve problem with infinitive neighbour index reference
+                    //todo: resolve problem with infinitive neighbour index reference
                 {
                     levelRateTmp++;
                 }

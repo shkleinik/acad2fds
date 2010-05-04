@@ -62,21 +62,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\BaseSolidToElementConverter.cs" />
-    <Compile Include="DAL\Optimization\Gluer.cs" />
-    <Compile Include="DAL\Helpers\EnumHelper.cs" />
+    <Compile Include="BaseSolidToElementConverter.cs" />
+    <Compile Include="Optimization\Gluer.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />
     <Compile Include="Templates\ITemplateManager.cs" />
     <Compile Include="Templates\TemplateManager.cs" />
-    <Compile Include="DAL\Bases\BasePoint.cs" />
-    <Compile Include="DAL\Bases\Direction.cs" />
-    <Compile Include="DAL\Bases\Element.cs" />
-    <Compile Include="DAL\Bases\ElementBase.cs" />
-    <Compile Include="DAL\BurnerOperator.cs" />
-    <Compile Include="DAL\Collections\ElementCollection.cs" />
-    <Compile Include="DAL\Helpers\MathOperations.cs" />
-    <Compile Include="DAL\Helpers\PointBridge.cs" />
-    <Compile Include="DAL\SolidToElementConverter.cs" />
+    <Compile Include="Bases\BasePoint.cs" />
+    <Compile Include="Bases\Direction.cs" />
+    <Compile Include="Bases\Element.cs" />
+    <Compile Include="Bases\ElementBase.cs" />
+    <Compile Include="BurnerOperator.cs" />
+    <Compile Include="Collections\ElementCollection.cs" />
+    <Compile Include="Helpers\MathOperations.cs" />
+    <Compile Include="Helpers\PointBridge.cs" />
+    <Compile Include="SolidToElementConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

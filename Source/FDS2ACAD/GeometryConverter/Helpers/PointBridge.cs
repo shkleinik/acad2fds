@@ -1,8 +1,8 @@
-﻿using Autodesk.AutoCAD.Geometry;
-using GeometryConverter.DAL.Bases;
-
-namespace GeometryConverter.DAL.Helpers
+﻿namespace GeometryConverter.Helpers
 {
+    using Autodesk.AutoCAD.Geometry;
+    using Bases;
+
     static class PointBridge
     {
         /// <summary>

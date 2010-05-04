@@ -1,12 +1,12 @@
-namespace GeometryConverter.DAL
+namespace GeometryConverter
 {
-    using Autodesk.AutoCAD.BoundaryRepresentation;
-    using Bases;
-    using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
-    using System.Collections.Generic;
-    using Helpers;
-    using Autodesk.AutoCAD.DatabaseServices;
     using System;
+    using System.Collections.Generic;
+    using Autodesk.AutoCAD.BoundaryRepresentation;
+    using Autodesk.AutoCAD.DatabaseServices;
+    using Bases;
+    using Helpers;
+    using Face = Autodesk.AutoCAD.BoundaryRepresentation.Face;
 
     public class BaseSolidToElementConverter
     {
@@ -66,7 +66,7 @@ namespace GeometryConverter.DAL
                     {
                         foreach (Shell shl in cmp.Shells)
                         {
-                            foreach (BrFace fce in shl.Faces)
+                            foreach (Face fce in shl.Faces)
                             {
                                 foreach (BoundaryLoop lp in fce.Loops)
                                 {
@@ -116,7 +116,7 @@ namespace GeometryConverter.DAL
                     {
                         foreach (Shell shl in cmp.Shells)
                         {
-                            foreach (BrFace fce in shl.Faces)
+                            foreach (Face fce in shl.Faces)
                             {
                                 foreach (BoundaryLoop lp in fce.Loops)
                                 {

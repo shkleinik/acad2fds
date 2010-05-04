@@ -1,10 +1,10 @@
-namespace GeometryConverter.DAL.Helpers
+namespace GeometryConverter.Helpers
 {
     using System;
 
     public static class EnumHelper
     {
-        public const string Direction = "GeometryConverter.DAL.Bases.Direction";
+        public const string Direction = "GeometryConverter.Bases.Direction";
 
         public static int GetEnumElementsNumber(string typeName)
         {

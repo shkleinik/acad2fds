@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
-using GeometryConverter.DAL.Bases;
-
-namespace GeometryConverter.DAL
+﻿namespace GeometryConverter
 {
+    using Autodesk.AutoCAD.DatabaseServices;
+    using Bases;
+
+
     public class BurnerOperator
     {
         private readonly Solid3d _solid;
