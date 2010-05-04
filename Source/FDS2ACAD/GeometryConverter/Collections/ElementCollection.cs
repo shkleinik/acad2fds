@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using GeometryConverter.DAL.Bases;
-
-namespace GeometryConverter.DAL.Collections
+﻿namespace GeometryConverter.Collections
 {
+    using System.Collections.Generic;
+    using Bases;
+
     public class ElementCollection
     {
         public List<Element> Elements;

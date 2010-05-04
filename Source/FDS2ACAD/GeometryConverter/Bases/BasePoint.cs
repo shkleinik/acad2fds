@@ -1,4 +1,4 @@
-﻿namespace GeometryConverter.DAL.Bases
+﻿namespace GeometryConverter.Bases
 {
     using System;
     using Autodesk.AutoCAD.Geometry;

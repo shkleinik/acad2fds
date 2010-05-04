@@ -1,4 +1,4 @@
-namespace GeometryConverter.DAL
+namespace GeometryConverter.Optimization
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace GeometryConverter.DAL.Bases
+﻿namespace GeometryConverter.Bases
 {
     using System;
 
@@ -124,8 +124,8 @@
             // this coef guaratees that center will fall in the interval
             var k = 1.5;
             if (!((Center.X - anotherElement.Center.X < k * XLength) &&
-                    (Center.Y - anotherElement.Center.Y < k * YLength) &&
-                    (Center.Z - anotherElement.Center.Z < k * ZLength)))
+                  (Center.Y - anotherElement.Center.Y < k * YLength) &&
+                  (Center.Z - anotherElement.Center.Z < k * ZLength)))
                 return;
 
             Neighbours[(int)Center.GetPosition(anotherElement.Center) - 1] = anotherElement.Index;

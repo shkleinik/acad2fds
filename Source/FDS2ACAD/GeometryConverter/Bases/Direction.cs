@@ -1,4 +1,4 @@
-﻿namespace GeometryConverter.DAL.Bases
+﻿namespace GeometryConverter.Bases
 {
     public enum Direction
     {

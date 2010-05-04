@@ -1,7 +1,7 @@
 ﻿namespace MaterialManager.BLL
 {
     using System.Collections.Generic;
-    using GeometryConverter.DAL.Bases;
+    using GeometryConverter.Bases;
 
     public class MaterialFinder
     {

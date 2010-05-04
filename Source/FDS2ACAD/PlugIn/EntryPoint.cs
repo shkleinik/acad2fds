@@ -1,6 +1,5 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using Fds2AcadPlugin;
-using GeometryConverter.Templates;
 
 [assembly: CommandClass(typeof(EntryPoint))]
 namespace Fds2AcadPlugin
@@ -12,15 +11,16 @@ namespace Fds2AcadPlugin
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
     using BLL;
+    using GeometryConverter;
+    using GeometryConverter.Bases;
+    using GeometryConverter.Templates;
     using Autodesk.AutoCAD.DatabaseServices;
     using BLL.Helpers;
     using BLL.NativeMethods;
-    using GeometryConverter.DAL;
     using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
     using System.Diagnostics;
-    using GeometryConverter.DAL.Bases;
 
     public class EntryPoint
     {
