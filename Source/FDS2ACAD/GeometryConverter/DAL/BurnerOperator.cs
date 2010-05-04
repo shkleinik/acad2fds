@@ -12,7 +12,11 @@ namespace GeometryConverter.DAL
         {
             get
             {
-                return new Element(SolidOperator.GetMaxMinPoint(new List<Solid3d> {_solid}));
+                var converter = new SolidToElementConverter(_solid);
+
+                var maxMinPoint = converter.MaxMinPoint;
+
+                return new Element(maxMinPoint);
             }
         }
 

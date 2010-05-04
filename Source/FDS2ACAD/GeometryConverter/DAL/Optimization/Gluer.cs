@@ -1,7 +1,6 @@
-using System;
-
 namespace GeometryConverter.DAL
 {
+    using System;
     using System.Collections.Generic;
     using Bases;
 
@@ -15,19 +14,24 @@ namespace GeometryConverter.DAL
 
         #endregion
 
+
+        #region Constructors
+
         public Gluer(List<Element> elements)
         {
             this.elements = elements;
             columns = new List<Element>();
             SetNeighbourhoodRelations();
-            PopulateHorizontalNeighboursInices(elements[0]);
-        }
+            PopulateHorizontalNeighboursIndices(elements[0]);
+        } 
+
+        #endregion
 
         public List<Element> GetGluedElements()
         {
             var result = new List<Element>();
 
-            foreach (int i in layerIndices)
+            foreach (var i in layerIndices)
             {
                 columns.Add(GetColumnFromElement(elements[i]));
             }
@@ -75,7 +79,7 @@ namespace GeometryConverter.DAL
             }
         }
 
-        private void PopulateHorizontalNeighboursInices(Element element)
+        private void PopulateHorizontalNeighboursIndices(Element element)
         {
             layerIndices = new List<int>();
             var stack = new List<Element>();
@@ -109,7 +113,7 @@ namespace GeometryConverter.DAL
             while (stack.Count > 0);
         }
 
-        Element GetNeighbourElement(Element center, int direction)
+        private Element GetNeighbourElement(Element center, int direction)
         {
             if(center.Neighbours[direction] == null)
                 return null;

@@ -101,13 +101,13 @@ namespace Fds2AcadPlugin
             var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
 
             // convert geometry
-            // Note: move handling to SolidOperator
+            // Note: move handling to SolidToElementConverter
             if (selectedSolids.Count < 1)
                 return;
 
             Solid3d burnerSolid = null;
 
-            var solidOperator = new SolidOperator(selectedSolids);
+            var solidOperator = new SolidToElementConverter(selectedSolids);
 
             foreach (Solid3d solid in selectedSolids)
             {
