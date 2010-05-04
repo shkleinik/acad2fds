@@ -62,7 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\Gluer.cs" />
+    <Compile Include="DAL\BaseSolidToElementConverter.cs" />
+    <Compile Include="DAL\Optimization\Gluer.cs" />
     <Compile Include="DAL\Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />
     <Compile Include="Templates\ITemplateManager.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="DAL\Collections\ElementCollection.cs" />
     <Compile Include="DAL\Helpers\MathOperations.cs" />
     <Compile Include="DAL\Helpers\PointBridge.cs" />
-    <Compile Include="DAL\SolidOperator.cs" />
+    <Compile Include="DAL\SolidToElementConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

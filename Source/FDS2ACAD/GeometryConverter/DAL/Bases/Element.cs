@@ -7,7 +7,7 @@
         public BasePoint Center;
         public string Material { get; set; }
         // Todo : calculate this value or ask user to set
-        public int Factor = 1;
+        public double Factor = 1;
 
         #region Neighbour properties
 
@@ -90,7 +90,7 @@
 
         }
 
-        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, int factor, int? index)
+        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, double factor, int? index)
             : base(xLength, yLength, zLength)
         {
             Center = center;

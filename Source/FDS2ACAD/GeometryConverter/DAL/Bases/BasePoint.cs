@@ -83,7 +83,7 @@
             return this;
         }
 
-        public BasePoint Factorize(int factor)
+        public BasePoint Factorize(double factor)
         {
             X *= factor;
             Y *= factor;
@@ -91,7 +91,7 @@
             return this;
         }
 
-        public BasePoint Unfactorize(int factor)
+        public BasePoint Unfactorize(double factor)
         {
             X /= factor;
             Y /= factor;
