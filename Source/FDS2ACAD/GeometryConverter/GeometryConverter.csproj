@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseSolidToElementConverter.cs" />
+    <Compile Include="Optimization\CommonOptimizer.cs" />
     <Compile Include="Optimization\Gluer.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />

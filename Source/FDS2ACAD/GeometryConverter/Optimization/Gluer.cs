@@ -8,7 +8,7 @@ namespace GeometryConverter.Optimization
     {
         #region Fields
 
-        private readonly List<Element> elements;
+        private readonly List<Element> initialElements;
         private readonly List<Element> columns;
         private List<int> layerIndices;
 
@@ -17,26 +17,30 @@ namespace GeometryConverter.Optimization
 
         #region Constructors
 
-        public Gluer(List<Element> elements)
+        public Gluer(List<Element> valueableElements)
         {
-            this.elements = elements;
+            if(valueableElements.Count < 1)
+                return;
+            
+            initialElements = valueableElements;
             columns = new List<Element>();
             SetNeighbourhoodRelations();
-            PopulateHorizontalNeighboursIndices(elements[0]);
+            PopulateHorizontalNeighboursIndices(valueableElements[0]);
         } 
 
         #endregion
 
         public List<Element> GetGluedElements()
         {
-            var result = new List<Element>();
+            if (layerIndices == null)
+                return new List<Element>();
 
             foreach (var i in layerIndices)
             {
-                columns.Add(GetColumnFromElement(elements[i]));
+                columns.Add(GetColumnFromElement(initialElements[i]));
             }
 
-            return result;
+            return columns;
         }
 
         private Element GetColumnFromElement(Element element)
@@ -45,18 +49,22 @@ namespace GeometryConverter.Optimization
 
             int topNeighbours = 0;
             int bottomNeighbours = 0;
-            int? current = element.NeighbourTop;
+            int? current = element.Index;
 
             if (current != null)
-                while (elements[(int)current].NeighbourTop != null)
+                while (initialElements[(int)current].NeighbourTop != null)
                 {
                     topNeighbours++;
+                    current = initialElements[(int)current].NeighbourTop;
                 }
 
+            current = element.Index;
+
             if (current != null)
-                while (elements[(int)current].NeighbourBottom != null)
+                while (initialElements[(int)current].NeighbourBottom != null)
                 {
                     bottomNeighbours++;
+                    current = initialElements[(int)current].NeighbourBottom;
                 }
 
             column.NeighbourTop = null;
@@ -69,12 +77,12 @@ namespace GeometryConverter.Optimization
 
         private void SetNeighbourhoodRelations()
         {
-            for (var i = 0; i < elements.Count; i++)
+            for (var i = 0; i < initialElements.Count; i++)
             {
-                for (var j = 0; j < elements.Count; j++)
+                for (var j = 0; j < initialElements.Count; j++)
                 {
                     if (i != j)
-                        elements[i].DefinePositionIfNeighbour(elements[j]);
+                        initialElements[i].DefinePositionIfNeighbour(initialElements[j]);
                 }
             }
         }
@@ -120,7 +128,7 @@ namespace GeometryConverter.Optimization
 
             var index = (int)center.Neighbours[direction];
 
-            return !layerIndices.Contains(index) ? elements[index] : null;
+            return !layerIndices.Contains(index) ? initialElements[index] : null;
         }
     }
 }

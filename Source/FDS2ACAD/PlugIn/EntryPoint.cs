@@ -14,13 +14,13 @@ namespace Fds2AcadPlugin
     using GeometryConverter;
     using GeometryConverter.Bases;
     using GeometryConverter.Templates;
-    using Autodesk.AutoCAD.DatabaseServices;
     using BLL.Helpers;
     using BLL.NativeMethods;
     using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
     using System.Diagnostics;
+    using GeometryConverter.Optimization;
 
     public class EntryPoint
     {
@@ -99,25 +99,10 @@ namespace Fds2AcadPlugin
 
             // get solids
             var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
-
-            // convert geometry
-            // Note: move handling to SolidToElementConverter
             if (selectedSolids.Count < 1)
                 return;
 
-             
-
-            var solidOperator = new SolidToElementConverter(selectedSolids);
-
-            //foreach (var solid in selectedSolids)
-            //{
-            //    if (solid.Material != "Red") 
-            //        continue;
-
-            //    burnerSolid = solid;
-            //    break;
-            //}
-
+            // convert geometry
             var burnerSolid = selectedSolids.Find(s => s.Material == "Red");
 
             Element burner = null;
@@ -125,14 +110,27 @@ namespace Fds2AcadPlugin
             if (burnerSolid != null)
                 burner = new BurnerOperator(burnerSolid).Element;
 
-            // var elements = solidOperator.AllElements;
 
-            var elements = solidOperator.UsefulElementCollectionProvider;
+            var allOptimizedElements = new List<Element>();
+            foreach (var solid in selectedSolids)
+            {
+                //var valuableElements = new SolidToElementConverter(solid).ValueableElements;
+                //var gluer = new Gluer(valuableElements);
+                //var gluedElements = gluer.GetGluedElements();
 
+                // allOptimizedElements.AddRange(gluedElements);
+                allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+            }
 
-            var maxPoint = solidOperator.MaxMinPoint[1];
+            // var valueableElements = elementConverter.ValueableElements;
+            // var gluer = new Gluer(valueableElements);
+            // var optimizedElements = gluer.GetGluedElements();
+
+            // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
+            var elementConverter = new SolidToElementConverter(selectedSolids);
+            var maxPoint = elementConverter.MaxMinPoint[1];
+
             // var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
-
             var uniqueMaterials = MaterialSerializer.DeserializeMaterials(string.Concat(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath));
 
             // save to file
@@ -143,7 +141,9 @@ namespace Fds2AcadPlugin
             var templateManager = new TemplateManager(AcadInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
             var parameters = new Dictionary<string, object>
                                          {
-                                             {"elements", elements},
+                                             // {"elements", valueableElements},
+                                             // {"elements", optimizedElements},
+                                             {"elements", allOptimizedElements},
                                              {"materials", uniqueMaterials},
                                              {"calculationTime", calculationInfo.CalculationTime},
                                              {"name", documentName},
@@ -162,7 +162,10 @@ namespace Fds2AcadPlugin
 #if DEBUG
             // startInfo.Arguments = "\"D:\\!Study\\Diplom\\FDS tests\\PluginTest\\room_fire.fds";
 #endif
-            Process.Start(startInfo);
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            /*!!!!!!!!!!!!!*/  Process.Start(startInfo); //!!!!!!!!!!!!!
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
