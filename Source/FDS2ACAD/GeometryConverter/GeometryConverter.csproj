@@ -73,9 +73,9 @@
     <Compile Include="Bases\Element.cs" />
     <Compile Include="Bases\ElementBase.cs" />
     <Compile Include="BurnerOperator.cs" />
-    <Compile Include="Collections\ElementCollection.cs" />
+    <Compile Include="Collections\ElementManager.cs" />
     <Compile Include="Helpers\MathOperations.cs" />
-    <Compile Include="Helpers\PointBridge.cs" />
+    <Compile Include="Helpers\CastHelper.cs" />
     <Compile Include="SolidToElementConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

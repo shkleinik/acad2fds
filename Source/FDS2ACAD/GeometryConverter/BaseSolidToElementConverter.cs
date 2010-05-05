@@ -7,6 +7,7 @@ namespace GeometryConverter
     using Bases;
     using Helpers;
     using Face = Autodesk.AutoCAD.BoundaryRepresentation.Face;
+    using Element = Bases.Element;
 
     public class BaseSolidToElementConverter
     {
@@ -21,7 +22,7 @@ namespace GeometryConverter
         protected double _factor = 1;
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
-        private List<Bases.Element> _fullCollection;
+        private List<Element> _fullCollection;
 
         #endregion
 
@@ -29,13 +30,13 @@ namespace GeometryConverter
 
         public BasePoint[] MaxMinPoint { get; set; }
 
-        public List<Bases.Element> AllElements { get { return GetAllElements(); } }
+        public List<Element> AllElements { get { return GetAllElements(); } }
 
         #endregion
 
         #region Constructors
 
-        public BaseSolidToElementConverter(List<Solid3d> solids, double factor)
+        protected BaseSolidToElementConverter(List<Solid3d> solids, double factor)
         {
             _factor = factor;
             _solids = solids;
@@ -75,7 +76,7 @@ namespace GeometryConverter
                                 {
                                     foreach (Edge edg in lp.Edges)
                                     {
-                                        BasePoint tmp = PointBridge.ConvertToBasePoint(edg.Vertex1.Point);
+                                        BasePoint tmp = CastHelper.ConvertToBasePoint(edg.Vertex1.Point);
                                         if (tmp.X > xMax) xMax = tmp.X;
                                         if (tmp.X < xMin) xMin = tmp.X;
                                         if (tmp.Y > yMax) yMax = tmp.Y;
@@ -151,10 +152,10 @@ namespace GeometryConverter
         /// Provides collection of all elements bounded by rectangle of MaxMinPoint
         /// </summary>
         /// <returns>Collection of all elements</returns>
-        public List<Bases.Element> GetAllElements()
+        protected List<Element> GetAllElements()
         {
             if (_fullCollection == null)
-                _fullCollection = new List<Bases.Element>();
+                _fullCollection = new List<Element>();
             else
                 return _fullCollection;
 
@@ -167,7 +168,7 @@ namespace GeometryConverter
                     for (var x = 0; x < limitX; x++)
                     {
                         var center = new BasePoint((x + 0.5) * _elementBase.XLength, (y + 0.5) * _elementBase.YLength, (z + 0.5) * _elementBase.ZLength);
-                        var element = new Bases.Element(center, _elementBase, _fullCollection.Count);
+                        var element = new Element(center, _elementBase, _fullCollection.Count);
                         _fullCollection.Add(element);
                     }
 

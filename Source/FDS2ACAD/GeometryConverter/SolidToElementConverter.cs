@@ -1,10 +1,8 @@
 ﻿namespace GeometryConverter
 {
-    using System;
     using System.Collections.Generic;
     using Autodesk.AutoCAD.BoundaryRepresentation;
     using Autodesk.AutoCAD.DatabaseServices;
-    using Bases;
     using Collections;
     using Helpers;
     using Element = Bases.Element;
@@ -13,22 +11,21 @@
     {
         #region Fields
 
-        private ElementCollection _valueableCollection;
+        private List<Element> _valueableCollection;
 
         #endregion
 
         #region Properties
 
-        public ElementCollection UsefulElementCollectionProvider
+        public List<Element> UsefulElementCollectionProvider
         {
             get
             {
-                //uncomment to OPTIMIZE:
                 _valueableCollection = GetValuableElements(Factorize(AllElements));
-                _valueableCollection.SetNeighbourhoodRelations();
+                ElementManager.SetNeighbourhoodRelations(_valueableCollection);
 
                 // return _valueableCollection;
-                // return new ElementCollection();
+                // return new ElementManager();
                 return Optimize(_valueableCollection);
 
                 //comment if have uncommented previous:
@@ -85,12 +82,10 @@
         /// <summary>
         /// Provides collection of valuable elements that belongs to the Solid from all elements
         /// </summary>
-        /// <param name="input">All elements collection</param>
-        /// <param name="input">Input</param>
         /// <returns>Collection of valuable elements</returns>
-        private ElementCollection GetValuableElements(IList<Element> elements)
+        private List<Element> GetValuableElements(IList<Element> elements)
         {
-            var result = new ElementCollection();
+            var result = new List<Element>();
             for (var i = 0; i < elements.Count; i++)
             {
                 foreach (var solid in _solids)
@@ -104,7 +99,7 @@
                         continue;
 
                     elements[i].Material = material;
-                    result.Elements.Add(elements[i]);
+                    result.Add(elements[i]);
                 }
             }
 
@@ -119,23 +114,26 @@
         /// </summary>
         /// <param name="elements">Unoptimized collection</param>
         /// <returns>Optimezed collection</returns>
-        private ElementCollection Optimize(ElementCollection elements)
+        private List<Element>  Optimize(List<Element> elements)
         {
             var probe = elements.Clone();
-            var result = new ElementCollection();
-            ElementCollection stage1d;
-            ElementCollection stage2d;
-            ElementCollection stage3d;
+            var result = new List<Element>();
+            List<Element>  stage1d;
+            List<Element>  stage2d;
+            List<Element>  stage3d;
 
             do
             {
-                var localProbe = new ElementCollection(probe.SelectFirstElement());
+                var localProbe =  new List<Element>{probe[0]};/*SelectFirstElement()*/
                 stage1d = CalculateStage(localProbe);
                 stage2d = CalculateStage(stage1d);
                 stage3d = CalculateStage(stage2d);
+
                 probe.RemoveElements(stage3d);
-                result.Elements.Add(stage3d.ToElement());
-            } while (probe.SelectFirstElement() != null);
+                //probe.Elements.;
+                
+                result.Add(stage3d.ToElement());
+            } while (probe.Count > 0);
             return result;
         }
 
@@ -144,9 +142,9 @@
         /// </summary>
         /// <param name="probe">Probe</param>
         /// <returns>Level</returns>
-        private ElementCollection CalculateStage(ElementCollection probe)
+        private List<Element> CalculateStage(List<Element> probe)
         {
-            ElementCollection result = probe.Clone();
+            List<Element> result = probe.Clone();
 
             var levelRate = 0;
             var levelRateTmp = 0;
@@ -167,11 +165,11 @@
                 }
             }
 
-            ElementCollection addition;
+            List<Element> addition;
             for (var i = 0; i < levelRate; i++)
             {
                 AddLevel(probe, bestDirection, out addition);
-                result.AddCollection(addition);
+                result.AddRange(addition);
             }
 
             //(LevelExistsInDirection(probe, bestDirection))
@@ -190,15 +188,15 @@
         /// <param name="direction">Direction</param>
         /// <param name="levelRate">Current rate of level</param>
         /// <returns></returns>
-        private bool LevelExistsInDirection(ElementCollection elementCollection, int direction, int levelRate)
+        private bool LevelExistsInDirection(List<Element> elementCollection, int direction, int levelRate)
         {
             bool result = false;
             var sampleCollection = GetTmpCollection(elementCollection, direction, levelRate);
 
             for (int j = 0; j < levelRate + 1; j++)
-                for (int i = 0; i < elementCollection.Elements.Count; i++)
+                for (int i = 0; i < elementCollection.Count; i++)
                 {
-                    if (sampleCollection.Elements[i + levelRate].Neighbours[direction] != null)
+                    if (sampleCollection[i + levelRate].Neighbours[direction] != null)
                     {
                         //index = (int)elementCollection.Elements[i].Neighbours[direction];
                         result = true;
@@ -210,12 +208,12 @@
             return result;
         }
 
-        private static bool LevelExistsInDirection(ElementCollection elementCollection, int direction)
+        private static bool LevelExistsInDirection(List<Element> elementCollection, int direction)
         {
             bool result = false;
-            for (int i = 0; i < elementCollection.Elements.Count; i++)
+            for (int i = 0; i < elementCollection.Count; i++)
             {
-                if (elementCollection.Elements[i].Neighbours[direction] != null)
+                if (elementCollection[i].Neighbours[direction] != null)
                 {
                     //index = (int)elementCollection.Elements[i].Neighbours[direction];
                     result = true;
@@ -227,10 +225,10 @@
             return result;
         }
 
-        private ElementCollection GetTmpCollection(ElementCollection elementCollection, int direction, int levelRate)
+        private List<Element> GetTmpCollection(List<Element> elementCollection, int direction, int levelRate)
         {
-            var result = new ElementCollection();
-            result.AddCollection(elementCollection);
+            var result = new List<Element>();
+            result.AddRange(elementCollection);
 
             var tmpCollection = elementCollection.Clone();
 
@@ -238,11 +236,12 @@
             {
                 if (!LevelExistsInDirection(tmpCollection, direction))
                     break;
-                for (int j = 0; j < tmpCollection.Elements.Count; j++)
+                for (int j = 0; j < tmpCollection.Count; j++)
                 {
-                    tmpCollection.Elements[j] = _valueableCollection.Elements[(int)tmpCollection.Elements[j].Neighbours[direction]];
+                    tmpCollection[j] = _valueableCollection[(int)tmpCollection[j].Neighbours[direction]];
                 }
-                result.AddCollection(tmpCollection);
+
+                result.AddRange(tmpCollection);
             }
             return result;
         }
@@ -253,14 +252,14 @@
         /// <param name="elementCollection">Collection to be grown</param>
         /// <param name="direction">Direction</param>
         /// <param name="addition">Addition for output</param>
-        private static void AddLevel(ElementCollection elementCollection, int direction, out ElementCollection addition)
+        private static void AddLevel(List<Element> elementCollection, int direction, out List<Element> addition)
         {
-            addition = new ElementCollection();
+            addition = new List<Element>();
 
-            for (var i = 0; i < elementCollection.Elements.Count; i++)
+            for (var i = 0; i < elementCollection.Count; i++)
             {
-                var elementIndex = elementCollection.Elements[i].Neighbours[direction];
-                addition.Elements.Add(elementCollection.Elements[(int)elementIndex]);
+                var elementIndex = elementCollection[i].Neighbours[direction];
+                addition.Add(elementCollection[(int)elementIndex]);
             }
         }
 
