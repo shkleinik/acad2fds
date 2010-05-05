@@ -23,15 +23,17 @@ namespace GeometryConverter
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
         private List<Element> _fullCollection;
+        private List<Element> _valueableElements;
 
         #endregion
 
         #region Properties
 
-        public BasePoint[] MaxMinPoint { get; set; }
+        public BasePoint[] MaxMinPoint { get; private set; }
 
         public List<Element> AllElements { get { return GetAllElements(); } }
 
+        public List<Element> ValueableElements { get { return GetValuableElements(); } }
         #endregion
 
         #region Constructors
@@ -140,12 +142,20 @@ namespace GeometryConverter
                     }
                 }
             }
-            double xLength = _factor * MathOperations.FindGcd(xEdges);
-            double yLength = _factor * MathOperations.FindGcd(yEdges);
-            double zLength = _factor * MathOperations.FindGcd(zEdges);
-            var result = new ElementBase(xLength, yLength, zLength);
 
-            return result;
+            xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+
+            var xLength = xEdges[0].Length();
+            var yLength = yEdges[0].Length();
+            var zLength = zEdges[0].Length();
+
+            //double xLength = _factor * MathOperations.FindGcd(xEdges);
+            //double yLength = _factor * MathOperations.FindGcd(yEdges);
+            //double zLength = _factor * MathOperations.FindGcd(zEdges);
+
+            return new ElementBase(xLength, yLength, zLength);
         }
 
         /// <summary>
@@ -163,16 +173,58 @@ namespace GeometryConverter
             var limitY = Math.Abs((int)((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / _elementBase.YLength));
             var limitZ = Math.Abs((int)((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / _elementBase.ZLength));
 
+            var startX = MaxMinPoint[0].X;
+            var startY = MaxMinPoint[0].Y;
+            var startZ = MaxMinPoint[0].Z;
+
             for (var z = 0; z < limitZ; z++)
                 for (var y = 0; y < limitY; y++)
                     for (var x = 0; x < limitX; x++)
                     {
-                        var center = new BasePoint((x + 0.5) * _elementBase.XLength, (y + 0.5) * _elementBase.YLength, (z + 0.5) * _elementBase.ZLength);
+                        var center = new BasePoint(startX + (x + 0.5) * _elementBase.XLength,
+                                                   startY + (y + 0.5) * _elementBase.YLength,
+                                                   startZ + (z + 0.5) * _elementBase.ZLength);
+
                         var element = new Element(center, _elementBase, _fullCollection.Count);
                         _fullCollection.Add(element);
                     }
 
             return _fullCollection;
+        }
+
+        /// <summary>
+        /// Provides collection of valuable elements that belongs to the Solid from all elements
+        /// </summary>
+        /// <returns>Collection of valuable elements</returns>
+        private List<Element> GetValuableElements()
+        {
+            if (_valueableElements == null)
+                _valueableElements = new List<Element>();
+            else
+                return _valueableElements;
+
+
+            for (var i = 0; i < AllElements.Count; i++)
+            {
+                foreach (var solid in _solids)
+                {
+                    var brep = new Brep(solid);
+                    PointContainment containment;
+                    brep.GetPointContainment(AllElements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
+
+                    if (containment != PointContainment.Inside)
+                        continue;
+
+                    AllElements[i].Material = solid.Material;
+
+                    var tmpElement = (Element)AllElements[i].Clone();
+                    tmpElement.Index = _valueableElements.Count;
+
+                    _valueableElements.Add(tmpElement);
+                }
+            }
+
+            return _valueableElements;
         }
 
         #endregion

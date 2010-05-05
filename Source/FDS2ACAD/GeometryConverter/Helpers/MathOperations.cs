@@ -58,7 +58,7 @@
             return result;
         }
 
-        private static double Length(this Edge edge)
+        public static double Length(this Edge edge)
         {
             return Math.Sqrt(
                 Math.Pow(edge.Vertex1.Point.X - edge.Vertex2.Point.X, 2) +
