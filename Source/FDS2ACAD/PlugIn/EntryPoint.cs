@@ -105,18 +105,20 @@ namespace Fds2AcadPlugin
             if (selectedSolids.Count < 1)
                 return;
 
-            Solid3d burnerSolid = null;
+             
 
             var solidOperator = new SolidToElementConverter(selectedSolids);
 
-            foreach (Solid3d solid in selectedSolids)
-            {
-                if (solid.Material != "Red") 
-                    continue;
+            //foreach (var solid in selectedSolids)
+            //{
+            //    if (solid.Material != "Red") 
+            //        continue;
 
-                burnerSolid = solid;
-                break;
-            }
+            //    burnerSolid = solid;
+            //    break;
+            //}
+
+            var burnerSolid = selectedSolids.Find(s => s.Material == "Red");
 
             Element burner = null;
 
@@ -125,7 +127,7 @@ namespace Fds2AcadPlugin
 
             // var elements = solidOperator.AllElements;
 
-            var elements = solidOperator.UsefulElementCollectionProvider.Elements;
+            var elements = solidOperator.UsefulElementCollectionProvider;
 
 
             var maxPoint = solidOperator.MaxMinPoint[1];
