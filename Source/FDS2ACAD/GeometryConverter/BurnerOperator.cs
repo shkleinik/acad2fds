@@ -2,7 +2,7 @@
 {
     using Autodesk.AutoCAD.DatabaseServices;
     using Bases;
-
+    using Helpers;
 
     public class BurnerOperator
     {
@@ -16,7 +16,7 @@
 
                 var maxMinPoint = converter.MaxMinPoint;
 
-                return new Element(maxMinPoint);
+                return maxMinPoint.ToElement();
             }
         }
 

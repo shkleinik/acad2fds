@@ -13,7 +13,6 @@
     {
         #region Fields
 
-        private ElementCollection _fullCollection;
         private ElementCollection _valueableCollection;
 
         #endregion
@@ -25,10 +24,11 @@
             get
             {
                 //uncomment to OPTIMIZE:
-                _valueableCollection = GetValuableElements(Factorize(_fullCollection));
+                _valueableCollection = GetValuableElements(Factorize(AllElements));
                 _valueableCollection.SetNeighbourhoodRelations();
 
                 // return _valueableCollection;
+                // return new ElementCollection();
                 return Optimize(_valueableCollection);
 
                 //comment if have uncommented previous:
@@ -69,40 +69,13 @@
         #region Internal implementation
 
         /// <summary>
-        /// Provides collection of all elements bounded by rectangle of MaxMinPoint
-        /// </summary>
-        /// <returns>Collection of all elements</returns>
-        public ElementCollection GetAllElements()
-        {
-            if(_fullCollection == null)
-                _fullCollection = new ElementCollection();
-
-            // var result = new ElementCollection();
-
-            var limitX = Math.Abs((int)((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / _elementBase.XLength));
-            var limitY = Math.Abs((int)((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / _elementBase.YLength));
-            var limitZ = Math.Abs((int)((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / _elementBase.ZLength));
-
-            for (var z = 0; z < limitZ; z++)
-                for (var y = 0; y < limitY; y++)
-                    for (var x = 0; x < limitX; x++)
-                    {
-                        var center = new BasePoint((x + 0.5) * _elementBase.XLength, (y + 0.5) * _elementBase.YLength, (z + 0.5) * _elementBase.ZLength);
-                        var element = new Element(center, _elementBase, _fullCollection.Elements.Count);
-                        _fullCollection.Elements.Add(element);
-                    }
-
-            return _fullCollection;
-        }
-
-        /// <summary>
         /// Set factor field for each element of Collection
         /// </summary>
         /// <param name="collection">Unfactorized collection</param>
         /// <returns>Factorized collection</returns>
-        private ElementCollection Factorize(ElementCollection collection)
+        private List<Element> Factorize(List<Element> collection)
         {
-            foreach (var element in collection.Elements)
+            foreach (var element in collection)
             {
                 element.Factor = _factor;
             }
@@ -115,25 +88,26 @@
         /// <param name="input">All elements collection</param>
         /// <param name="input">Input</param>
         /// <returns>Collection of valuable elements</returns>
-        private ElementCollection GetValuableElements(ElementCollection input)
+        private ElementCollection GetValuableElements(IList<Element> elements)
         {
             var result = new ElementCollection();
-            for (var i = 0; i < input.Elements.Count; i++)
+            for (var i = 0; i < elements.Count; i++)
             {
                 foreach (var solid in _solids)
                 {
                     var material = solid.Material;
                     var brep = new Brep(solid);
                     PointContainment containment;
-                    brep.GetPointContainment(input.Elements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
+                    brep.GetPointContainment(elements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
 
                     if (containment != PointContainment.Inside)
                         continue;
 
-                    input.Elements[i].Material = material;
-                    result.Elements.Add(input.Elements[i]);
+                    elements[i].Material = material;
+                    result.Elements.Add(elements[i]);
                 }
             }
+
             return result;
         }
         #endregion

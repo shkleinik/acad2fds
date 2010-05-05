@@ -44,7 +44,6 @@
     <Compile Include="BLL\MaterialFinder.cs" />
     <Compile Include="BLL\MaterialSerializer.cs" />
     <Compile Include="BLL\MaterialType.cs" />
-    <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
