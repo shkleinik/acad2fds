@@ -21,12 +21,15 @@ namespace GeometryConverter
         protected double _factor = 1;
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
+        private List<Bases.Element> _fullCollection;
 
         #endregion
 
         #region Properties
 
         public BasePoint[] MaxMinPoint { get; set; }
+
+        public List<Bases.Element> AllElements { get { return GetAllElements(); } }
 
         #endregion
 
@@ -142,6 +145,33 @@ namespace GeometryConverter
             var result = new ElementBase(xLength, yLength, zLength);
 
             return result;
+        }
+
+        /// <summary>
+        /// Provides collection of all elements bounded by rectangle of MaxMinPoint
+        /// </summary>
+        /// <returns>Collection of all elements</returns>
+        public List<Bases.Element> GetAllElements()
+        {
+            if (_fullCollection == null)
+                _fullCollection = new List<Bases.Element>();
+            else
+                return _fullCollection;
+
+            var limitX = Math.Abs((int)((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / _elementBase.XLength));
+            var limitY = Math.Abs((int)((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / _elementBase.YLength));
+            var limitZ = Math.Abs((int)((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / _elementBase.ZLength));
+
+            for (var z = 0; z < limitZ; z++)
+                for (var y = 0; y < limitY; y++)
+                    for (var x = 0; x < limitX; x++)
+                    {
+                        var center = new BasePoint((x + 0.5) * _elementBase.XLength, (y + 0.5) * _elementBase.YLength, (z + 0.5) * _elementBase.ZLength);
+                        var element = new Bases.Element(center, _elementBase, _fullCollection.Count);
+                        _fullCollection.Add(element);
+                    }
+
+            return _fullCollection;
         }
 
         #endregion

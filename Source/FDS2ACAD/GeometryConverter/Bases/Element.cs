@@ -5,9 +5,14 @@
     public class Element : ElementBase, ICloneable
     {
         public BasePoint Center;
+
         public string Material { get; set; }
+
         // Todo : calculate this value or ask user to set
         public double Factor = 1;
+
+        private const double DefaultFactor = 1;
+        private const int NeighboursNumber = 6;
 
         #region Neighbour properties
 
@@ -54,40 +59,13 @@
         #region Constructors
 
         public Element(BasePoint center, double xLength, double yLength, double zLength)
-            : base(xLength, yLength, zLength)
+            : this(center, xLength, yLength, zLength, new int?[NeighboursNumber], string.Empty, DefaultFactor, null)
         {
-            Center = center;
-            XLength = xLength;
-            YLength = yLength;
-            ZLength = zLength;
-            Material = string.Empty;
-            ResetNeighbours();
         }
 
         public Element(BasePoint center, ElementBase elementBase, int index)
-            : base(elementBase.XLength, elementBase.YLength, elementBase.ZLength)
+            : this(center, elementBase.XLength, elementBase.YLength, elementBase.ZLength, new int?[NeighboursNumber], string.Empty, DefaultFactor, index)
         {
-            Center = center;
-            Index = index;
-            XLength = elementBase.XLength;
-            YLength = elementBase.YLength;
-            ZLength = elementBase.ZLength;
-            Material = string.Empty;
-            ResetNeighbours();
-        }
-
-        public Element(BasePoint[] basePoint)
-            : base(basePoint[0].X - basePoint[1].X, basePoint[0].Y - basePoint[1].Y, basePoint[0].Z - basePoint[1].Z)
-        {
-            Center = new BasePoint(basePoint[0].X - (basePoint[0].X - basePoint[1].X) / 2,
-                                   basePoint[0].Y - (basePoint[0].Y - basePoint[1].Y) / 2,
-                                   basePoint[0].Z - (basePoint[0].Z - basePoint[1].Z) / 2);
-            XLength = (basePoint[0].X - basePoint[1].X);
-            YLength = (basePoint[0].Y - basePoint[1].Y);
-            ZLength = (basePoint[0].Z - basePoint[1].Z);
-            Material = string.Empty;
-            ResetNeighbours();
-
         }
 
         protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, double factor, int? index)
@@ -108,8 +86,7 @@
         /// </summary>
         public void ResetNeighbours()
         {
-            Index = null;
-            Neighbours = new int?[6];
+            Neighbours = new int?[NeighboursNumber];
 
             for (var i = 0; i < Neighbours.Length; i++)
             {
@@ -123,6 +100,7 @@
         {
             // this coef guaratees that center will fall in the interval
             var k = 1.5;
+
             if (!((Center.X - anotherElement.Center.X < k * XLength) &&
                   (Center.Y - anotherElement.Center.Y < k * YLength) &&
                   (Center.Z - anotherElement.Center.Z < k * ZLength)))
