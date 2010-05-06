@@ -11,8 +11,9 @@ namespace GeometryConverter.Optimization
         #region Fields
 
         private readonly List<Element> initialElements;
+        private readonly List<Direction> usedDirections = new List<Direction>();
         private List<Element> optimizedElements;
-        private int dirNum;
+        private readonly int directionsNumber;
 
         #endregion
 
@@ -20,10 +21,10 @@ namespace GeometryConverter.Optimization
 
         public LevelOptimizer(List<Element> valueableElements)
         {
-            dirNum = EnumHelper.GetEnumElementsNumber(EnumHelper.Direction);
-            this.initialElements = valueableElements;
+            directionsNumber = EnumHelper.GetEnumElementsNumber(EnumHelper.Direction);
+            initialElements = valueableElements;
             // Todo : Need factorize?
-            ElementManager.SetNeighbourhoodRelations(this.initialElements);
+            ElementManager.SetNeighbourhoodRelations(initialElements);
         }
 
         #endregion
@@ -36,6 +37,9 @@ namespace GeometryConverter.Optimization
         /// <returns>Optimezed collection</returns>
         public List<Element> Optimize()
         {
+            if(initialElements.Count < 1)
+                return new List<Element>();
+
             var probe = initialElements.Clone();
 
             if (optimizedElements != null)
@@ -49,15 +53,16 @@ namespace GeometryConverter.Optimization
 
             do
             {
-                var localProbe = GetCornerElement();
+                var freeElement = GetMostFreeElement();
 
-                return CalculateStage(localProbe);
-
-                stage1d = CalculateStage(localProbe);
+                stage1d = CalculateStage(freeElement);
                 stage2d = CalculateStage(stage1d);
                 stage3d = CalculateStage(stage2d);
 
+                return stage3d;
+
                 probe.RemoveElements(stage3d);
+                usedDirections.Clear();
 
                 optimizedElements.Add(stage3d.ToElement());
             } while (probe.Count > 0);
@@ -77,52 +82,7 @@ namespace GeometryConverter.Optimization
         /// <returns>Level</returns>
         private List<Element> CalculateStage(List<Element> probe)
         {
-            List<Element> result = probe.Clone();
-
-            var levelRate = 0;
-            var levelRateTmp = 0;
-            var bestDirection = 0;
-
-            var maxDepthCollection = new List<Element>();
-            for (var i = 0; i < probe.Count; i++)
-            {
-                maxDepthCollection = GetMaxDepthCollection(probe[0]);
-            }
-
-
-            return maxDepthCollection;
-
-            for (var i = 0; i < dirNum; i++)
-            {
-                while (LevelExistsInDirection(probe, i, levelRateTmp))
-                // Todo: resolve problem with infinitive neighbour index reference
-                {
-                    levelRateTmp++;
-                }
-                if (levelRateTmp > levelRate)
-                {
-                    bestDirection = i;
-                    levelRate = levelRateTmp;
-                    levelRateTmp = 0;
-                }
-            }
-
-            List<Element> addition;
-            for (var i = 0; i < levelRate; i++)
-            {
-                AddLevel(probe, bestDirection, out addition);
-                result.AddRange(addition);
-            }
-
-
-
-            //(LevelExistsInDirection(probe, bestDirection))
-            //{    
-            //    AddLevel(probe, bestDirection, out addition);
-            //    res   ult.AddCollection(addition);
-            //}
-
-            return result;
+            return GetMaxDepthCollection(probe);
         }
 
         /// <summary>
@@ -207,45 +167,83 @@ namespace GeometryConverter.Optimization
             }
         }
 
-        private Element GetCornerElement()
+        private Element GetMostFreeElement()
         {
             var maxEmpty = int.MinValue;
-            var idxCornerElement = int.MinValue;
+            var idxFreeElement = int.MinValue;
 
             for (var i = 0; i < initialElements.Count; i++)
             {
                 var nullElements = Array.FindAll(initialElements[i].Neighbours, (el => el == null)).Length;
 
                 if (maxEmpty < nullElements)
-                    idxCornerElement = i;
+                    idxFreeElement = i;
             }
 
-            return initialElements[idxCornerElement];
+            return initialElements[idxFreeElement];
         }
 
-        private int[] GetLevelsInAllDirections(Element element)
+        // Todo : break this big ugly method to smaller
+        private int[] GetLevelsInAllDirections(IList<Element> elements)
         {
-            var levels = new int[dirNum];
+            var levels = new int[directionsNumber];
             var levelNeighbours = 0;
-            var current = element.Index;
+            var currentIndices = GetCurrentIndices(elements);
+            var allElementsHasNeighbourInDirection = true;
+            var neighboursInDirection = new List<Element>();
 
+            // go in all directions
             for (var i = 0; i < levels.Length; i++)
             {
-                while (initialElements[(int)current].Neighbours[i] != null)
+                if (usedDirections.Contains((Direction)i))
+                    continue;
+
+                // check if all elements in direction have neighbours
+                while (allElementsHasNeighbourInDirection)
                 {
-                    levelNeighbours++;
-                    current = initialElements[(int)current].Neighbours[i];
+                    foreach (var index in currentIndices)
+                    {
+                        if (initialElements[index].Neighbours[i] == null)
+                            break;
+
+                        var neighbourIdx = (int)initialElements[index].Neighbours[i];
+                        neighboursInDirection.Add(initialElements[neighbourIdx]);
+                    }
+
+                    if (neighboursInDirection.Count == currentIndices.Length)
+                    {
+                        levelNeighbours++;
+                        currentIndices = GetCurrentIndices(neighboursInDirection);
+                        neighboursInDirection.Clear();
+                    }
+                    else
+                    {
+                        allElementsHasNeighbourInDirection = false;
+                    }
                 }
 
                 levels[i] = levelNeighbours;
-                current = element.Index;
+                currentIndices = GetCurrentIndices(elements);
                 levelNeighbours = 0;
+                allElementsHasNeighbourInDirection = true;
             }
 
             return levels;
         }
 
-        private Direction GetDirectionOfMaxDepth(int[] levels)
+        private static int[] GetCurrentIndices(IList<Element> elements)
+        {
+            var currentIndices = new int[elements.Count];
+
+            for (var i = 0; i < elements.Count; i++)
+            {
+                currentIndices[i] = (int)elements[i].Index;
+            }
+
+            return currentIndices;
+        }
+
+        private static Direction GetDirectionOfMaxDepth(int[] levels)
         {
             var max = int.MinValue;
             var idxMax = int.MinValue;
@@ -262,28 +260,69 @@ namespace GeometryConverter.Optimization
             return (Direction)idxMax;
         }
 
-        private List<Element> Get1dCollection(Element element, Direction direction, int depth)
+        private List<Element> GetMaxDepthCollectionInDirection(List<Element> elements, Direction direction, int depth)
         {
             var oneDcollection = new List<Element>();
 
-            var current = element;
-            oneDcollection.Add(current);
+            var current = elements;
+            oneDcollection.AddRange(current);
 
             for (var i = 0; i < depth; i++)
             {
-                current = initialElements[(int)current.Neighbours[(int)direction]];
-                oneDcollection.Add(current);
+                var nextLevel = new List<Element>();
+
+                foreach (var element in current)
+                {
+                    var neighbourIdx = (int)element.Neighbours[(int)direction];
+                    nextLevel.Add(initialElements[neighbourIdx]);
+                }
+
+                oneDcollection.AddRange(nextLevel);
+                current = nextLevel;
             }
 
             return oneDcollection;
         }
 
-        private List<Element> GetMaxDepthCollection(Element element)
+        private List<Element> GetMaxDepthCollection(List<Element> elements)
         {
-            var levelsDepthes = GetLevelsInAllDirections(element);
+            var levelsDepthes = GetLevelsInAllDirections(elements);
             var maxDepthDirection = GetDirectionOfMaxDepth(levelsDepthes);
+            usedDirections.Add(maxDepthDirection);
+            usedDirections.Add(GetInverseDirection(maxDepthDirection));
 
-            return Get1dCollection(element, maxDepthDirection, levelsDepthes[(int)maxDepthDirection]);
+            return GetMaxDepthCollectionInDirection(elements, maxDepthDirection, levelsDepthes[(int)maxDepthDirection]);
+        }
+
+        private static Direction GetInverseDirection(Direction direction)
+        {
+            Direction inverseDirection;
+
+            switch (direction)
+            {
+                case Direction.Top:
+                    inverseDirection = Direction.Bottom;
+                    break;
+                case Direction.Bottom:
+                    inverseDirection = Direction.Top;
+                    break;
+                case Direction.Left:
+                    inverseDirection = Direction.Right;
+                    break;
+                case Direction.Right:
+                    inverseDirection = Direction.Left;
+                    break;
+                case Direction.Front:
+                    inverseDirection = Direction.Back;
+                    break;
+                case Direction.Back:
+                    inverseDirection = Direction.Front;
+                    break;
+                default:
+                    throw new NotSupportedException("This direction is not supported!");
+            }
+
+            return inverseDirection;
         }
 
         #endregion
