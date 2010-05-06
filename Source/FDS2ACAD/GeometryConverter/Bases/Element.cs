@@ -106,7 +106,7 @@
                   (Center.Z - anotherElement.Center.Z < k * ZLength)))
                 return;
 
-            Neighbours[(int)Center.GetPosition(anotherElement.Center) - 1] = anotherElement.Index;
+            Neighbours[(int)Center.GetPosition(anotherElement.Center)] = anotherElement.Index;
         }
 
         #region ICloneable Members

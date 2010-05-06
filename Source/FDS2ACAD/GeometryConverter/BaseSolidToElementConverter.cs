@@ -109,51 +109,57 @@ namespace GeometryConverter
         /// <returns>Element base</returns>
         private ElementBase InitializeElementBase()
         {
-            var xEdges = new List<Edge>();
-            var yEdges = new List<Edge>();
-            var zEdges = new List<Edge>();
+            // Todo :  !!!  DO NOT FORGET TO UNCOMMENT IT !!!
 
-            foreach (Solid3d solid in _solids)
-            {
-                Brep brep = new Brep(solid);
-                using (brep)
-                {
-                    foreach (Complex cmp in brep.Complexes)
-                    {
-                        foreach (Shell shl in cmp.Shells)
-                        {
-                            foreach (Face fce in shl.Faces)
-                            {
-                                foreach (BoundaryLoop lp in fce.Loops)
-                                {
-                                    foreach (Edge edg in lp.Edges)
-                                    {
-                                        // filling 3 collection of edges, each collection responses for X, Y or Z direction
-                                        if (edg.IsAlongX())
-                                            xEdges.Add(edg);
-                                        else if (edg.IsAlongY())
-                                            yEdges.Add(edg);
-                                        else if (edg.IsAlongZ())
-                                            zEdges.Add(edg);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            //var xEdges = new List<Edge>();
+            //var yEdges = new List<Edge>();
+            //var zEdges = new List<Edge>();
 
-            xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //foreach (Solid3d solid in _solids)
+            //{
+            //    Brep brep = new Brep(solid);
+            //    using (brep)
+            //    {
+            //        foreach (Complex cmp in brep.Complexes)
+            //        {
+            //            foreach (Shell shl in cmp.Shells)
+            //            {
+            //                foreach (Face fce in shl.Faces)
+            //                {
+            //                    foreach (BoundaryLoop lp in fce.Loops)
+            //                    {
+            //                        foreach (Edge edg in lp.Edges)
+            //                        {
+            //                            // filling 3 collection of edges, each collection responses for X, Y or Z direction
+            //                            if (edg.IsAlongX())
+            //                                xEdges.Add(edg);
+            //                            else if (edg.IsAlongY())
+            //                                yEdges.Add(edg);
+            //                            else if (edg.IsAlongZ())
+            //                                zEdges.Add(edg);
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
-            var xLength = xEdges[0].Length();
-            var yLength = yEdges[0].Length();
-            var zLength = zEdges[0].Length();
+            //xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+
+            //var xLength = xEdges[0].Length();
+            //var yLength = yEdges[0].Length();
+            //var zLength = zEdges[0].Length();
 
             //double xLength = _factor * MathOperations.FindGcd(xEdges);
             //double yLength = _factor * MathOperations.FindGcd(yEdges);
             //double zLength = _factor * MathOperations.FindGcd(zEdges);
+
+            var xLength = 100;
+            var yLength = 100;
+            var zLength = 100;
 
             return new ElementBase(xLength, yLength, zLength);
         }
