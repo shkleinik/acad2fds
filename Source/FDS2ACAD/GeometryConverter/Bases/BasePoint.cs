@@ -106,7 +106,7 @@
             var result = new Direction();
 
             if (Z < another.Z)
-                result =  Direction.Top;
+                return Direction.Top;
 
             if (Z > another.Z)
                 result = Direction.Bottom;
@@ -123,9 +123,7 @@
             if (X > another.X)
                 result = Direction.Left;
 
-            if (result == 0)
-                throw new ArgumentException("Ooops!");
-
+            // Todo : cross fingers and hope that of of the conditions will be true.
             return result;
         }
 

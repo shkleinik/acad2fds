@@ -2,7 +2,7 @@
 {
     public enum Direction
     {
-        Top = 1,
+        Top,
         Bottom,
         Front,
         Back,

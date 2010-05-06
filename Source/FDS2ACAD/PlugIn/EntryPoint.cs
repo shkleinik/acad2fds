@@ -114,12 +114,20 @@ namespace Fds2AcadPlugin
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
+
+                //   GLUER TESTS 
                 //var valuableElements = new SolidToElementConverter(solid).ValueableElements;
                 //var gluer = new Gluer(valuableElements);
                 //var gluedElements = gluer.GetGluedElements();
 
                 // allOptimizedElements.AddRange(gluedElements);
-                allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+
+
+                // LEVEL OPTIMIZER TEST
+                var valuableElements = new SolidToElementConverter(solid).ValueableElements;
+                var optimizer = new LevelOptimizer(valuableElements);
+                allOptimizedElements = optimizer.Optimize();
             }
 
             // var valueableElements = elementConverter.ValueableElements;
