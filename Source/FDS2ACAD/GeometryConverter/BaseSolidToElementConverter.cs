@@ -18,7 +18,7 @@ namespace GeometryConverter
         #endregion
 
         #region Fields
-
+        // Todo : Rid off factor everywhere
         protected double _factor = 1;
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
@@ -54,7 +54,7 @@ namespace GeometryConverter
         /// Returns minimal and maximal Bases point
         /// </summary>
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
-        private BasePoint[] GetMaxMinPoint(IEnumerable<Solid3d> solids)
+        private static BasePoint[] GetMaxMinPoint(IEnumerable<Solid3d> solids)
         {
             var result = new BasePoint[2];
             double xMax = double.MinValue;
@@ -92,12 +92,12 @@ namespace GeometryConverter
                     }
                 }
             }
-            xMin = Math.Round(xMin, 0) * _factor;
-            yMin = Math.Round(yMin, 0) * _factor;
-            zMin = Math.Round(zMin, 0) * _factor;
-            xMax = Math.Round(xMax, 0) * _factor;
-            yMax = Math.Round(yMax, 0) * _factor;
-            zMax = Math.Round(zMax, 0) * _factor;
+            // xMin = Math.Round(xMin, 0) * _factor;
+            // yMin = Math.Round(yMin, 0) * _factor;
+            // zMin = Math.Round(zMin, 0) * _factor;
+            // xMax = Math.Round(xMax, 0) * _factor;
+            // yMax = Math.Round(yMax, 0) * _factor;
+            // zMax = Math.Round(zMax, 0) * _factor;
             result[0] = new BasePoint(xMin, yMin, zMin);
             result[1] = new BasePoint(xMax, yMax, zMax);
             return result;
@@ -109,57 +109,58 @@ namespace GeometryConverter
         /// <returns>Element base</returns>
         private ElementBase InitializeElementBase()
         {
-            // Todo :  !!!  DO NOT FORGET TO UNCOMMENT IT !!!
+            var xEdges = new List<Edge>();
+            var yEdges = new List<Edge>();
+            var zEdges = new List<Edge>();
 
-            //var xEdges = new List<Edge>();
-            //var yEdges = new List<Edge>();
-            //var zEdges = new List<Edge>();
+            foreach (Solid3d solid in _solids)
+            {
+                Brep brep = new Brep(solid);
+                using (brep)
+                {
+                    foreach (Complex cmp in brep.Complexes)
+                    {
+                        foreach (Shell shl in cmp.Shells)
+                        {
+                            foreach (Face fce in shl.Faces)
+                            {
+                                foreach (BoundaryLoop lp in fce.Loops)
+                                {
+                                    foreach (Edge edg in lp.Edges)
+                                    {
+                                        // filling 3 collection of edges, each collection responses for X, Y or Z direction
+                                        if (edg.IsAlongX())
+                                            xEdges.Add(edg);
+                                        else if (edg.IsAlongY())
+                                            yEdges.Add(edg);
+                                        else if (edg.IsAlongZ())
+                                            zEdges.Add(edg);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-            //foreach (Solid3d solid in _solids)
-            //{
-            //    Brep brep = new Brep(solid);
-            //    using (brep)
-            //    {
-            //        foreach (Complex cmp in brep.Complexes)
-            //        {
-            //            foreach (Shell shl in cmp.Shells)
-            //            {
-            //                foreach (Face fce in shl.Faces)
-            //                {
-            //                    foreach (BoundaryLoop lp in fce.Loops)
-            //                    {
-            //                        foreach (Edge edg in lp.Edges)
-            //                        {
-            //                            // filling 3 collection of edges, each collection responses for X, Y or Z direction
-            //                            if (edg.IsAlongX())
-            //                                xEdges.Add(edg);
-            //                            else if (edg.IsAlongY())
-            //                                yEdges.Add(edg);
-            //                            else if (edg.IsAlongZ())
-            //                                zEdges.Add(edg);
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
-            //xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            //yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            //zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            var xLength = xEdges[0].Length();
+            var yLength = yEdges[0].Length();
+            var zLength = zEdges[0].Length();
 
-            //var xLength = xEdges[0].Length();
-            //var yLength = yEdges[0].Length();
-            //var zLength = zEdges[0].Length();
 
-            //double xLength = _factor * MathOperations.FindGcd(xEdges);
-            //double yLength = _factor * MathOperations.FindGcd(yEdges);
-            //double zLength = _factor * MathOperations.FindGcd(zEdges);
+            // Todo :  Remove this stuff
 
-            var xLength = 100;
-            var yLength = 100;
-            var zLength = 100;
+            ////double xLength = _factor * MathOperations.FindGcd(xEdges);
+            ////double yLength = _factor * MathOperations.FindGcd(yEdges);
+            ////double zLength = _factor * MathOperations.FindGcd(zEdges);
+
+            ////var xLength = 100;
+            ////var yLength = 100;
+            ////var zLength = 100;
 
             return new ElementBase(xLength, yLength, zLength);
         }
@@ -175,9 +176,9 @@ namespace GeometryConverter
             else
                 return _fullCollection;
 
-            var limitX = Math.Abs((int)((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / _elementBase.XLength));
-            var limitY = Math.Abs((int)((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / _elementBase.YLength));
-            var limitZ = Math.Abs((int)((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / _elementBase.ZLength));
+            var limitX = Math.Abs((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / _elementBase.XLength);
+            var limitY = Math.Abs((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / _elementBase.YLength);
+            var limitZ = Math.Abs((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / _elementBase.ZLength);
 
             var startX = MaxMinPoint[0].X;
             var startY = MaxMinPoint[0].Y;

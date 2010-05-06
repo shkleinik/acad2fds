@@ -30,6 +30,7 @@
         public int? NeighbourRight { get { return Neighbours[5]; } set { Neighbours[5] = value; } }
         #endregion
 
+        // Todo : Try to replace links to neighbour with reference : public Element[] Neighbours
         public int?[] Neighbours;
 
         public int? Index;
@@ -47,12 +48,12 @@
 
         #region Properties for FDS
 
-        public double FdsX1 { get { return X1 / Factor; } }
-        public double FdsX2 { get { return X2 / Factor; } }
-        public double FdsY1 { get { return Y1 / Factor; } }
-        public double FdsY2 { get { return Y2 / Factor; } }
-        public double FdsZ1 { get { return Z1 / Factor; } }
-        public double FdsZ2 { get { return Z2 / Factor; } }
+        public double FdsX1 { get { return Math.Round(X1 / Factor, 0); } }
+        public double FdsX2 { get { return Math.Round(X2 / Factor, 0); } }
+        public double FdsY1 { get { return Math.Round(Y1 / Factor, 0); } }
+        public double FdsY2 { get { return Math.Round(Y2 / Factor, 0); } }
+        public double FdsZ1 { get { return Math.Round(Z1 / Factor, 0); } }
+        public double FdsZ2 { get { return Math.Round(Z2 / Factor, 0); } }
 
         #endregion
 

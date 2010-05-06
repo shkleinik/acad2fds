@@ -43,7 +43,7 @@
 #if DEBUG
 
             tbPath.Text = @"D:\!Study\Diplom\FDS tests\PluginTest";
-            tbTime.Text = "2";
+            tbTime.Text = "0";
 #endif
 
             btnStart.Enabled = ValidateChildren();

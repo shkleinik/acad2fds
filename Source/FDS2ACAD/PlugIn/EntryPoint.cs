@@ -121,13 +121,14 @@ namespace Fds2AcadPlugin
                 //var gluedElements = gluer.GetGluedElements();
 
                 // allOptimizedElements.AddRange(gluedElements);
-                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
-
 
                 // LEVEL OPTIMIZER TEST
                 var valuableElements = new SolidToElementConverter(solid).ValueableElements;
                 var optimizer = new LevelOptimizer(valuableElements);
-                allOptimizedElements = optimizer.Optimize();
+                allOptimizedElements.AddRange(optimizer.Optimize());
+
+                // GET ALL VALUABLE ELEMENTS TEST
+                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
 
             // var valueableElements = elementConverter.ValueableElements;
