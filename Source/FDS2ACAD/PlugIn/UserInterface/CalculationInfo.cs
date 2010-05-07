@@ -45,8 +45,24 @@
             tbPath.Text = @"D:\!Study\Diplom\FDS tests\PluginTest";
             tbTime.Text = "0";
 #endif
-
+            tbTime.Focus();
+            tbTime.SelectAll();
             btnStart.Enabled = ValidateChildren();
+        }
+
+        private void On_tbTime_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    DialogResult = DialogResult.OK;
+                    break;
+                case Keys.Escape:
+                    DialogResult = DialogResult.Cancel;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void On_btnCancel_Click(object sender, EventArgs e)

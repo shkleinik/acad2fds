@@ -53,9 +53,8 @@
 #set($Z1 = $element.FdsZ1 / $scale)
 #set($Z2 = $element.FdsZ2 / $scale)
 #if($element.Material == "Red")
-&VENT XB= $X1, $X2, $Y1, $Y2, $Z1, $Z1, SURF_ID='BURNER'/
-#else
+&VENT XB= $X1, $X2, $Y1, $Y2, $Z2, $Z2, SURF_ID='BURNER'/
+#end
 &OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='WALL' /
-#end   ## IF
 #end   ## FOREACH
 
