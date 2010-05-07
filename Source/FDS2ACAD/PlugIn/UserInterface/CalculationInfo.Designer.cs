@@ -97,6 +97,7 @@
             this.tbTime.Size = new System.Drawing.Size(52, 20);
             this.tbTime.TabIndex = 5;
             this.tbTime.TextChanged += new System.EventHandler(this.On_tbTime_TextChanged);
+            this.tbTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.On_tbTime_KeyUp);
             this.tbTime.Validating += new System.ComponentModel.CancelEventHandler(this.On_tbTime_Validating);
             // 
             // btnBrowse

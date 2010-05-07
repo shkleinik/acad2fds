@@ -122,10 +122,6 @@ namespace Fds2AcadPlugin
                 // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
 
-            // var valueableElements = elementConverter.ValueableElements;
-            // var gluer = new Gluer(valueableElements);
-            // var optimizedElements = gluer.GetGluedElements();
-
             // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
             // Todo : or pass some parameter wich will talk that we need instance of solid operator only for MinMaxPoint
             var elementConverter = new SolidToElementConverter(selectedSolids);
@@ -142,8 +138,6 @@ namespace Fds2AcadPlugin
             var templateManager = new TemplateManager(AcadInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
             var parameters = new Dictionary<string, object>
                                          {
-                                             // {"elements", valueableElements},
-                                             // {"elements", optimizedElements},
                                              {"elements", allOptimizedElements},
                                              {"materials", uniqueMaterials},
                                              {"calculationTime", calculationInfo.CalculationTime},
