@@ -8,7 +8,7 @@
         #region Constructors
 
         public SolidToElementConverter(Solid3d solid)
-            : base(new List<Solid3d> { solid }, DefaultFactor)
+            : base(new List<Solid3d> { solid })
         {
         }
 
@@ -17,17 +17,7 @@
         /// </summary>
         /// <param name="solids">Array of selected solids</param>
         public SolidToElementConverter(List<Solid3d> solids)
-            :base(solids, DefaultFactor)
-        {
-        }
-
-        /// <summary>
-        /// Class constructor
-        /// </summary>
-        /// <param name="solids">Array of selected solids</param>
-        /// <param name="factor">Unit factor</param>
-        public SolidToElementConverter(List<Solid3d> solids, double factor)
-            :base(solids, factor)
+            :base(solids)
         {
         }
 
