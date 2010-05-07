@@ -73,7 +73,6 @@
     <Compile Include="Bases\Direction.cs" />
     <Compile Include="Bases\Element.cs" />
     <Compile Include="Bases\ElementBase.cs" />
-    <Compile Include="BurnerOperator.cs" />
     <Compile Include="Helpers\ElementHelper.cs" />
     <Compile Include="Helpers\MathOperations.cs" />
     <Compile Include="Helpers\CastHelper.cs" />
