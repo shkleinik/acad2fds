@@ -1,9 +1,9 @@
-﻿namespace GeometryConverter.Collections
+﻿namespace GeometryConverter.Helpers
 {
     using System.Collections.Generic;
     using Bases;
 
-    public static class ElementManager
+    public static class ElementHelper
     {
         /// <summary>
         /// Absolute MUST to perform before any computation and element analysis

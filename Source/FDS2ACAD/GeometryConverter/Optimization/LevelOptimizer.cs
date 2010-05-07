@@ -2,7 +2,6 @@ namespace GeometryConverter.Optimization
 {
     using System.Collections.Generic;
     using Bases;
-    using Collections;
     using Helpers;
     using System;
 
@@ -23,7 +22,7 @@ namespace GeometryConverter.Optimization
         {
             directionsNumber = EnumHelper.GetEnumElementsNumber(EnumHelper.Direction);
             initialElements = valueableElements;
-            ElementManager.SetNeighbourhoodRelations(initialElements);
+            ElementHelper.SetNeighbourhoodRelations(initialElements);
         }
 
         #endregion
