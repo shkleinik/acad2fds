@@ -102,15 +102,6 @@ namespace Fds2AcadPlugin
             if (selectedSolids.Count < 1)
                 return;
 
-            // convert geometry
-            var burnerSolid = selectedSolids.Find(s => s.Material == "Red");
-
-            Element burner = null;
-
-            if (burnerSolid != null)
-                burner = new BurnerOperator(burnerSolid).Element;
-
-
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
@@ -136,6 +127,7 @@ namespace Fds2AcadPlugin
             // var optimizedElements = gluer.GetGluedElements();
 
             // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
+            // Todo : or pass some parameter wich will talk that we need instance of solid operator only for MinMaxPoint
             var elementConverter = new SolidToElementConverter(selectedSolids);
             var maxPoint = elementConverter.MaxMinPoint[1];
 
@@ -156,8 +148,7 @@ namespace Fds2AcadPlugin
                                              {"materials", uniqueMaterials},
                                              {"calculationTime", calculationInfo.CalculationTime},
                                              {"name", documentName},
-                                             {"maxPoint", maxPoint},
-                                             {"burner", burner}
+                                             {"maxPoint", maxPoint}
                                          };
 
             templateManager.MergeTemplateWithObjects(parameters, pathToFile);
@@ -168,10 +159,6 @@ namespace Fds2AcadPlugin
                                     Arguments = string.Concat("\"", pathToFile, "\""),
                                     WorkingDirectory = calculationInfo.OutputPath
                                 };
-#if DEBUG
-            // startInfo.Arguments = "\"D:\\!Study\\Diplom\\FDS tests\\PluginTest\\room_fire.fds";
-#endif
-
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             /*!!!!!!!!!!!!!*/  Process.Start(startInfo); //!!!!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

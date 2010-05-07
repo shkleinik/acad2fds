@@ -52,14 +52,10 @@
 #set($Y2 = $element.FdsY2 / $scale)
 #set($Z1 = $element.FdsZ1 / $scale)
 #set($Z2 = $element.FdsZ2 / $scale)
-&OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='WALL' /
-#end
-
-
-#set($X1 = $burner.FdsX1 / $scale)
-#set($X2 = $burner.FdsX2 / $scale)
-#set($Y1 = $burner.FdsY1 / $scale)
-#set($Y2 = $burner.FdsY2 / $scale)
-#set($Z1 = $burner.FdsZ1 / $scale)
-#set($Z2 = $burner.FdsZ2 / $scale)
+#if($element.Material == "Red")
 &VENT XB= $X1, $X2, $Y1, $Y2, $Z1, $Z1, SURF_ID='BURNER'/
+#else
+&OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='WALL' /
+#end   ## IF
+#end   ## FOREACH
+
