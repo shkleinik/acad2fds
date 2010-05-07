@@ -23,7 +23,6 @@ namespace GeometryConverter.Optimization
         {
             directionsNumber = EnumHelper.GetEnumElementsNumber(EnumHelper.Direction);
             initialElements = valueableElements;
-            // Todo : Need factorize?
             ElementManager.SetNeighbourhoodRelations(initialElements);
         }
 

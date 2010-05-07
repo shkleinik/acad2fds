@@ -11,15 +11,7 @@ namespace GeometryConverter
 
     public class BaseSolidToElementConverter
     {
-        #region Constatnts
-
-        protected const int DefaultFactor = 1;
-
-        #endregion
-
         #region Fields
-        // Todo : Rid off factor everywhere
-        protected double _factor = 1;
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
         private List<Element> _fullCollection;
@@ -38,9 +30,8 @@ namespace GeometryConverter
 
         #region Constructors
 
-        protected BaseSolidToElementConverter(List<Solid3d> solids, double factor)
+        protected BaseSolidToElementConverter(List<Solid3d> solids)
         {
-            _factor = factor;
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
@@ -92,12 +83,12 @@ namespace GeometryConverter
                     }
                 }
             }
-            // xMin = Math.Round(xMin, 0) * _factor;
-            // yMin = Math.Round(yMin, 0) * _factor;
-            // zMin = Math.Round(zMin, 0) * _factor;
-            // xMax = Math.Round(xMax, 0) * _factor;
-            // yMax = Math.Round(yMax, 0) * _factor;
-            // zMax = Math.Round(zMax, 0) * _factor;
+            // xMin = Math.Round(xMin, 0);
+            // yMin = Math.Round(yMin, 0);
+            // zMin = Math.Round(zMin, 0);
+            // xMax = Math.Round(xMax, 0);
+            // yMax = Math.Round(yMax, 0);
+            // zMax = Math.Round(zMax, 0);
             result[0] = new BasePoint(xMin, yMin, zMin);
             result[1] = new BasePoint(xMax, yMax, zMax);
             return result;
@@ -154,9 +145,9 @@ namespace GeometryConverter
 
             // Todo :  Remove this stuff
 
-            ////double xLength = _factor * MathOperations.FindGcd(xEdges);
-            ////double yLength = _factor * MathOperations.FindGcd(yEdges);
-            ////double zLength = _factor * MathOperations.FindGcd(zEdges);
+            ////double xLength = MathOperations.FindGcd(xEdges);
+            ////double yLength = MathOperations.FindGcd(yEdges);
+            ////double zLength = MathOperations.FindGcd(zEdges);
 
             ////var xLength = 100;
             ////var yLength = 100;
@@ -217,7 +208,7 @@ namespace GeometryConverter
                 {
                     var brep = new Brep(solid);
                     PointContainment containment;
-                    brep.GetPointContainment(AllElements[i].Center.Unfactorize(_factor).ConverToAcadPoint(), out containment);
+                    brep.GetPointContainment(AllElements[i].Center.ConverToAcadPoint(), out containment);
 
                     if (containment != PointContainment.Inside)
                         continue;

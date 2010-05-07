@@ -83,22 +83,6 @@
             return this;
         }
 
-        public BasePoint Factorize(double factor)
-        {
-            X *= factor;
-            Y *= factor;
-            Z *= factor;
-            return this;
-        }
-
-        public BasePoint Unfactorize(double factor)
-        {
-            X /= factor;
-            Y /= factor;
-            Z /= factor;
-            return this;
-        }
-
         #endregion
 
         public Direction GetPosition(BasePoint another)

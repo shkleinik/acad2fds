@@ -8,10 +8,6 @@
 
         public string Material { get; set; }
 
-        // Todo : calculate this value or ask user to set
-        public double Factor = 1;
-
-        private const double DefaultFactor = 1;
         private const int NeighboursNumber = 6;
 
         #region Neighbour properties
@@ -48,28 +44,28 @@
 
         #region Properties for FDS
 
-        public double FdsX1 { get { return Math.Round(X1 / Factor, 0); } }
-        public double FdsX2 { get { return Math.Round(X2 / Factor, 0); } }
-        public double FdsY1 { get { return Math.Round(Y1 / Factor, 0); } }
-        public double FdsY2 { get { return Math.Round(Y2 / Factor, 0); } }
-        public double FdsZ1 { get { return Math.Round(Z1 / Factor, 0); } }
-        public double FdsZ2 { get { return Math.Round(Z2 / Factor, 0); } }
+        public double FdsX1 { get { return Math.Round(X1, 0); } }
+        public double FdsX2 { get { return Math.Round(X2, 0); } }
+        public double FdsY1 { get { return Math.Round(Y1, 0); } }
+        public double FdsY2 { get { return Math.Round(Y2, 0); } }
+        public double FdsZ1 { get { return Math.Round(Z1, 0); } }
+        public double FdsZ2 { get { return Math.Round(Z2, 0); } }
 
         #endregion
 
         #region Constructors
 
         public Element(BasePoint center, double xLength, double yLength, double zLength)
-            : this(center, xLength, yLength, zLength, new int?[NeighboursNumber], string.Empty, DefaultFactor, null)
+            : this(center, xLength, yLength, zLength, new int?[NeighboursNumber], string.Empty, null)
         {
         }
 
         public Element(BasePoint center, ElementBase elementBase, int index)
-            : this(center, elementBase.XLength, elementBase.YLength, elementBase.ZLength, new int?[NeighboursNumber], string.Empty, DefaultFactor, index)
+            : this(center, elementBase.XLength, elementBase.YLength, elementBase.ZLength, new int?[NeighboursNumber], string.Empty, index)
         {
         }
 
-        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, double factor, int? index)
+        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, int? index)
             : base(xLength, yLength, zLength)
         {
             Center = center;
@@ -78,7 +74,6 @@
             ZLength = zLength;
             Material = material;
             Neighbours = neighbours;
-            Factor = factor;
             Index = index;
         }
 
@@ -114,7 +109,7 @@
 
         public object Clone()
         {
-            return new Element((BasePoint)Center.Clone(), XLength, YLength, ZLength, Neighbours, Material, Factor, Index);
+            return new Element((BasePoint)Center.Clone(), XLength, YLength, ZLength, Neighbours, Material, Index);
         }
 
         #endregion
