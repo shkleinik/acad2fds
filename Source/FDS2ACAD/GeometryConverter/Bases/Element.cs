@@ -8,7 +8,7 @@
 
         public string Material { get; set; }
 
-        private const int NeighboursNumber = 6;
+        private const int neighboursNumber = 6;
 
         #region Neighbour properties
 
@@ -18,16 +18,87 @@
         /// Imagine OZ runing from ground to skies...
         /// Here are your neighbours:
         /// </summary>
-        public int? NeighbourTop { get { return Neighbours[0]; } set { Neighbours[0] = value; } }
-        public int? NeighbourBottom { get { return Neighbours[1]; } set { Neighbours[1] = value; } }
-        public int? NeighbourFront { get { return Neighbours[2]; } set { Neighbours[2] = value; } }
-        public int? NeighbourBack { get { return Neighbours[3]; } set { Neighbours[3] = value; } }
-        public int? NeighbourLeft { get { return Neighbours[4]; } set { Neighbours[4] = value; } }
-        public int? NeighbourRight { get { return Neighbours[5]; } set { Neighbours[5] = value; } }
+        public Element NeighbourTop
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Top];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Top] = value;
+            }
+        }
+
+        public Element NeighbourBottom
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Bottom];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Bottom] = value;
+            }
+        }
+
+        public Element NeighbourFront
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Front];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Front] = value;
+            }
+        }
+
+        public Element NeighbourBack
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Back];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Back] = value;
+            }
+        }
+
+        public Element NeighbourLeft
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Left];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Left] = value;
+            }
+        }
+
+        public Element NeighbourRight
+        {
+            get
+            {
+                return Neighbours[(int)Direction.Right];
+            }
+
+            set
+            {
+                Neighbours[(int)Direction.Right] = value;
+            }
+        }
+
         #endregion
 
-        // Todo : Try to replace links to neighbour with reference : public Element[] Neighbours
-        public int?[] Neighbours;
+        public Element[] Neighbours;
 
         public int? Index;
 
@@ -56,16 +127,16 @@
         #region Constructors
 
         public Element(BasePoint center, double xLength, double yLength, double zLength)
-            : this(center, xLength, yLength, zLength, new int?[NeighboursNumber], string.Empty, null)
+            : this(center, xLength, yLength, zLength, new Element[neighboursNumber], string.Empty, null)
         {
         }
 
         public Element(BasePoint center, ElementBase elementBase, int index)
-            : this(center, elementBase.XLength, elementBase.YLength, elementBase.ZLength, new int?[NeighboursNumber], string.Empty, index)
+            : this(center, elementBase.XLength, elementBase.YLength, elementBase.ZLength, new Element[neighboursNumber], string.Empty, index)
         {
         }
 
-        protected Element(BasePoint center, double xLength, double yLength, double zLength, int?[] neighbours, string material, int? index)
+        protected Element(BasePoint center, double xLength, double yLength, double zLength, Element[] neighbours, string material, int? index)
             : base(xLength, yLength, zLength)
         {
             Center = center;
@@ -82,7 +153,7 @@
         /// </summary>
         public void ResetNeighbours()
         {
-            Neighbours = new int?[NeighboursNumber];
+            Neighbours = new Element[neighboursNumber];
 
             for (var i = 0; i < Neighbours.Length; i++)
             {
@@ -92,7 +163,7 @@
 
         #endregion
 
-        public void DefinePositionIfNeighbour(Element anotherElement)
+        public void SetReferenceIfNeighbour(Element anotherElement)
         {
             // this coef guaratees that center will fall in the interval
             var k = 1.5;
@@ -102,7 +173,8 @@
                   (Center.Z - anotherElement.Center.Z < k * ZLength)))
                 return;
 
-            Neighbours[(int)Center.GetPosition(anotherElement.Center)] = anotherElement.Index;
+            var positionOfAnotherElement = (int)Center.GetPosition(anotherElement.Center);
+            Neighbours[positionOfAnotherElement] = anotherElement;
         }
 
         #region ICloneable Members

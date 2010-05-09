@@ -59,7 +59,7 @@
         /// <returns>True if probe LOWER than basis by all coordinates</returns>
         public bool IsLower(BasePoint probe)
         {
-            return (probe.X < X && probe.Y < Y && probe.Z < Z);
+            return (X < probe.X && Y < probe.Y && Z < probe.Z);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
         /// <returns>True if probe GREATER than basis by all coordinates</returns>
         public bool IsGreater(BasePoint probe)
         {
-            return (probe.X > X && probe.Y > Y && probe.Z > Z);
+            return (X > probe.X && Y > probe.Y && Z > probe.Z);
         }
 
         /// <summary>

@@ -15,7 +15,7 @@
                 for (var j = 0; j < Elements.Count; j++)
                 {
                     if (i != j)
-                        Elements[i].DefinePositionIfNeighbour(Elements[j]);
+                        Elements[i].SetReferenceIfNeighbour(Elements[j]);
                 }
             }
         }
@@ -23,14 +23,52 @@
         /// <summary>
         /// Removes elements from the collection
         /// </summary>
-        /// <param name="elementCollection">Elements to remove</param>
-        /// <param name="elementsToRemove"></param>
-        public static void RemoveElements(this List<Element> elementCollection, List<Element> elementsToRemove)
+        /// <param name="set">Elements to remove</param>
+        /// <param name="subSet"></param>
+        public static void SetNullAndRemoveElements(this List<Element> set, List<Element> subSet)
         {
-            foreach (var element in elementsToRemove)
+
+            #region Set subset in set null and remove
+            for (var i = 0; i < set.Count; i++)
             {
-                elementCollection.RemoveAll(e => e.Index == element.Index);
+                if (set[i] == null)
+                    continue;
+
+                for (var j = 0; j < subSet.Count; j++)
+                {
+                    if (set[i].Index != subSet[j].Index) 
+                        continue;
+
+                    set[i] = null;
+                    break;
+                }
             }
+
+            // set.RemoveAll(e => e == null); 
+
+            #endregion
+
+
+            #region Clear relationships
+
+            for (var i = 0; i < set.Count; i++)
+            {
+                if(set[i] == null)
+                    continue;
+
+                for (var j = 0; j < set[i].Neighbours.Length; j++)
+                {
+                    foreach (var element in subSet)
+                    {
+                        if (set[i].Neighbours[j] != null)
+                            if (element.Index == set[i].Neighbours[j].Index)
+                                set[i].Neighbours[j] = null;
+                    }
+                }
+            } 
+
+            #endregion
+
         }
 
         /// <summary>

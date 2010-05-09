@@ -6,12 +6,12 @@
     using Autodesk.AutoCAD.DatabaseServices;
     using Bases;
     using Helpers;
-    using Face = Autodesk.AutoCAD.BoundaryRepresentation.Face;
     using Element = Bases.Element;
 
     public class SolidToElementConverter
     {
         #region Fields
+
         protected List<Solid3d> _solids;
         protected ElementBase _elementBase;
         private List<Element> _fullCollection;
@@ -26,6 +26,7 @@
         public List<Element> AllElements { get { return GetAllElements(); } }
 
         public List<Element> ValueableElements { get { return GetValuableElements(); } }
+
         #endregion
 
         #region Constructors
@@ -54,47 +55,32 @@
         private static BasePoint[] GetMaxMinPoint(IEnumerable<Solid3d> solids)
         {
             var result = new BasePoint[2];
-            double xMax = double.MinValue;
-            double yMax = double.MinValue;
-            double zMax = double.MinValue;
-            double xMin = double.MaxValue;
-            double yMin = double.MaxValue;
-            double zMin = double.MaxValue;
-            foreach (Solid3d solid in solids)
+            var xMax = double.MinValue;
+            var yMax = double.MinValue;
+            var zMax = double.MinValue;
+            var xMin = double.MaxValue;
+            var yMin = double.MaxValue;
+            var zMin = double.MaxValue;
+
+            foreach (var solid in solids)
             {
-                Brep brep = new Brep(solid);
+                var brep = new Brep(solid);
                 using (brep)
                 {
-                    foreach (Complex cmp in brep.Complexes)
+                    foreach (var edg in brep.Edges)
                     {
-                        foreach (Shell shl in cmp.Shells)
-                        {
-                            foreach (Face fce in shl.Faces)
-                            {
-                                foreach (BoundaryLoop lp in fce.Loops)
-                                {
-                                    foreach (Edge edg in lp.Edges)
-                                    {
-                                        BasePoint tmp = CastHelper.ConvertToBasePoint(edg.Vertex1.Point);
-                                        if (tmp.X > xMax) xMax = tmp.X;
-                                        if (tmp.X < xMin) xMin = tmp.X;
-                                        if (tmp.Y > yMax) yMax = tmp.Y;
-                                        if (tmp.Y < yMin) yMin = tmp.Y;
-                                        if (tmp.Z > zMax) zMax = tmp.Z;
-                                        if (tmp.Z < zMin) zMin = tmp.Z;
-                                    }
-                                }
-                            }
-                        }
+                        var tmp = CastHelper.ConvertToBasePoint(edg.Vertex1.Point);
+
+                        if (tmp.X > xMax) xMax = tmp.X;
+                        if (tmp.X < xMin) xMin = tmp.X;
+                        if (tmp.Y > yMax) yMax = tmp.Y;
+                        if (tmp.Y < yMin) yMin = tmp.Y;
+                        if (tmp.Z > zMax) zMax = tmp.Z;
+                        if (tmp.Z < zMin) zMin = tmp.Z;
                     }
                 }
             }
-            // xMin = Math.Round(xMin, 0);
-            // yMin = Math.Round(yMin, 0);
-            // zMin = Math.Round(zMin, 0);
-            // xMax = Math.Round(xMax, 0);
-            // yMax = Math.Round(yMax, 0);
-            // zMax = Math.Round(zMax, 0);
+
             result[0] = new BasePoint(xMin, yMin, zMin);
             result[1] = new BasePoint(xMax, yMax, zMax);
             return result;
@@ -110,32 +96,19 @@
             var yEdges = new List<Edge>();
             var zEdges = new List<Edge>();
 
-            foreach (Solid3d solid in _solids)
+            foreach (var solid in _solids)
             {
-                Brep brep = new Brep(solid);
+                var brep = new Brep(solid);
                 using (brep)
                 {
-                    foreach (Complex cmp in brep.Complexes)
+                    foreach (var edg in brep.Edges)
                     {
-                        foreach (Shell shl in cmp.Shells)
-                        {
-                            foreach (Face fce in shl.Faces)
-                            {
-                                foreach (BoundaryLoop lp in fce.Loops)
-                                {
-                                    foreach (Edge edg in lp.Edges)
-                                    {
-                                        // filling 3 collection of edges, each collection responses for X, Y or Z direction
-                                        if (edg.IsAlongX())
-                                            xEdges.Add(edg);
-                                        else if (edg.IsAlongY())
-                                            yEdges.Add(edg);
-                                        else if (edg.IsAlongZ())
-                                            zEdges.Add(edg);
-                                    }
-                                }
-                            }
-                        }
+                        if (edg.IsAlongX())
+                            xEdges.Add(edg);
+                        else if (edg.IsAlongY())
+                            yEdges.Add(edg);
+                        else if (edg.IsAlongZ())
+                            zEdges.Add(edg);
                     }
                 }
             }
@@ -151,13 +124,13 @@
 
             // Todo :  Remove this stuff
 
-            ////double xLength = MathOperations.FindGcd(xEdges);
-            ////double yLength = MathOperations.FindGcd(yEdges);
-            ////double zLength = MathOperations.FindGcd(zEdges);
+            //double xLength = MathOperations.FindGcd(xEdges);
+            //double yLength = MathOperations.FindGcd(yEdges);
+            //double zLength = MathOperations.FindGcd(zEdges);
 
-            ////var xLength = 100;
-            ////var yLength = 100;
-            ////var zLength = 100;
+            //var xLength = 400;
+            //var yLength = 400;
+            //var zLength = 1800;
 
             return new ElementBase(xLength, yLength, zLength);
         }

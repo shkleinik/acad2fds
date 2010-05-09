@@ -105,8 +105,7 @@ namespace Fds2AcadPlugin
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
-
-                //   GLUER TESTS 
+                //   GLUER TESTS // Todo : think about removing Gluer class.
                 //var valuableElements = new SolidToElementConverter(solid).ValueableElements;
                 //var gluer = new Gluer(valuableElements);
                 //var gluedElements = gluer.GetGluedElements();
@@ -154,7 +153,7 @@ namespace Fds2AcadPlugin
                                     WorkingDirectory = calculationInfo.OutputPath
                                 };
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            /*!!!!!!!!!!!!!*/  Process.Start(startInfo); //!!!!!!!!!!!!!
+            /* !!!!!!!!!!!! */  Process.Start(startInfo); // !!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 

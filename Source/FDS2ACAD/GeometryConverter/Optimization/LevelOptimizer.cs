@@ -1,9 +1,33 @@
+/*
+ * TODO : !!!  Problems !!!:
+ * 1) The algorithm can be enhanced if we can find the way how to make NULL ALL referenced to 
+ * specific memory set. Sample:
+ * 
+ *           var myObj = new Object();
+ *           var obj1 = myObj;
+ *           var obj2 = myObj;
+ *           var obj3 = myObj;
+ *           var obj4 = myObj;
+ *           // . . .
+ *           var objN = myObj;
+ *           myObj = null; // objects 1..N still refers to the specified memory set.
+ *   
+ * 2) We should solve out how to find size of "initial element" or find another way how to get valueable elements
+ * 3) AutoCad Architecture object model is not the same as simple AutoCad. We should find some solutions for this issue.
+ * 4*) Make burnable all planes of burner solid (not required but desirable).
+ * 5)Resolve all issues with rounding.
+ * 6) Materials, materials . . . 
+ * 7) Try to optimize again, while number of initial elements is greater, than optimezed (just if have time).
+ * 8 :)  Go to play basketball (optional, desireable).
+ * 9) Try to save AutoCad Architecture drawings in other Acad format(or something similar) and run calculation.
+ */
 namespace GeometryConverter.Optimization
 {
     using System.Collections.Generic;
     using Bases;
     using Helpers;
     using System;
+
 
     public class LevelOptimizer
     {
@@ -21,7 +45,7 @@ namespace GeometryConverter.Optimization
         public LevelOptimizer(List<Element> valueableElements)
         {
             directionsNumber = EnumHelper.GetEnumElementsNumber(EnumHelper.Direction);
-            initialElements = valueableElements;
+            initialElements = valueableElements.Clone();
             ElementHelper.SetNeighbourhoodRelations(initialElements);
         }
 
@@ -35,35 +59,27 @@ namespace GeometryConverter.Optimization
         /// <returns>Optimezed collection</returns>
         public List<Element> Optimize()
         {
-            if(initialElements.Count < 1)
+            if (initialElements.Count < 1)
                 return new List<Element>();
-
-            var probe = initialElements.Clone();
 
             if (optimizedElements != null)
                 return optimizedElements;
 
             optimizedElements = new List<Element>();
 
-            List<Element> stage1d;
-            List<Element> stage2d;
-            List<Element> stage3d;
-
             do
             {
                 var freeElement = GetMostFreeElement();
 
-                stage1d = CalculateStage(freeElement);
-                stage2d = CalculateStage(stage1d);
-                stage3d = CalculateStage(stage2d);
+                var stage1d = CalculateStage(freeElement);
+                var stage2d = CalculateStage(stage1d);
+                var stage3d = CalculateStage(stage2d);
+                optimizedElements.Add(stage3d.ToElement());
 
-                return stage3d;
-
-                probe.RemoveElements(stage3d);
+                initialElements.SetNullAndRemoveElements(stage3d);
                 usedDirections.Clear();
 
-                optimizedElements.Add(stage3d.ToElement());
-            } while (probe.Count > 0);
+            } while (initialElements.FindAll(e => e != null).Count > 0);
 
             return optimizedElements;
         }
@@ -83,88 +99,6 @@ namespace GeometryConverter.Optimization
             return GetMaxDepthCollection(probe);
         }
 
-        /// <summary>
-        /// Defines whether is an available level for the collection in the direction
-        /// </summary>
-        /// <param name="elementCollection">Collection</param>
-        /// <param name="direction">Direction</param>
-        /// <param name="levelRate">Current rate of level</param>
-        /// <returns></returns>
-        private bool LevelExistsInDirection(List<Element> elementCollection, int direction, int levelRate)
-        {
-            bool result = false;
-            var sampleCollection = GetTmpCollection(elementCollection, direction, levelRate);
-
-            for (int j = 0; j < levelRate + 1; j++)
-                for (int i = 0; i < elementCollection.Count; i++)
-                {
-                    if (sampleCollection[i + levelRate].Neighbours[direction] != null)
-                    {
-                        //index = (int)elementCollection.Elements[i].Neighbours[direction];
-                        result = true;
-                        continue;
-                    }
-                    result = false;
-                    break;
-                }
-            return result;
-        }
-
-        private static bool LevelExistsInDirection(IList<Element> elementCollection, int direction)
-        {
-            bool result = false;
-            for (int i = 0; i < elementCollection.Count; i++)
-            {
-                if (elementCollection[i].Neighbours[direction] != null)
-                {
-                    //index = (int)elementCollection.Elements[i].Neighbours[direction];
-                    result = true;
-                    continue;
-                }
-                result = false;
-                break;
-            }
-            return result;
-        }
-
-        private List<Element> GetTmpCollection(List<Element> elementCollection, int direction, int levelRate)
-        {
-            var result = new List<Element>();
-            result.AddRange(elementCollection);
-
-            var tmpCollection = elementCollection.Clone();
-
-            for (int i = 0; i < levelRate + 1; i++)
-            {
-                if (!LevelExistsInDirection(tmpCollection, direction))
-                    break;
-                for (int j = 0; j < tmpCollection.Count; j++)
-                {
-                    tmpCollection[j] = initialElements[(int)tmpCollection[j].Neighbours[direction]];
-                }
-
-                result.AddRange(tmpCollection);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Adds level to the collection in appropriate direction
-        /// </summary>
-        /// <param name="elementCollection">Collection to be grown</param>
-        /// <param name="direction">Direction</param>
-        /// <param name="addition">Addition for output</param>
-        private static void AddLevel(IList<Element> elementCollection, int direction, out List<Element> addition)
-        {
-            addition = new List<Element>();
-
-            for (var i = 0; i < elementCollection.Count; i++)
-            {
-                var elementIndex = elementCollection[i].Neighbours[direction];
-                addition.Add(elementCollection[(int)elementIndex]);
-            }
-        }
-
         private Element GetMostFreeElement()
         {
             var maxEmpty = int.MinValue;
@@ -172,6 +106,9 @@ namespace GeometryConverter.Optimization
 
             for (var i = 0; i < initialElements.Count; i++)
             {
+                if (initialElements[i] == null)
+                    continue;
+
                 var nullElements = Array.FindAll(initialElements[i].Neighbours, (el => el == null)).Length;
 
                 if (maxEmpty < nullElements)
@@ -204,8 +141,8 @@ namespace GeometryConverter.Optimization
                         if (initialElements[index].Neighbours[i] == null)
                             break;
 
-                        var neighbourIdx = (int)initialElements[index].Neighbours[i];
-                        neighboursInDirection.Add(initialElements[neighbourIdx]);
+                        var neighbour = initialElements[index].Neighbours[i];
+                        neighboursInDirection.Add(neighbour);
                     }
 
                     if (neighboursInDirection.Count == currentIndices.Length)
@@ -258,12 +195,12 @@ namespace GeometryConverter.Optimization
             return (Direction)idxMax;
         }
 
-        private List<Element> GetMaxDepthCollectionInDirection(List<Element> elements, Direction direction, int depth)
+        private static List<Element> GetMaxDepthCollectionInDirection(List<Element> elements, Direction direction, int depth)
         {
-            var oneDcollection = new List<Element>();
+            var maxDepthCollection = new List<Element>();
 
             var current = elements;
-            oneDcollection.AddRange(current);
+            maxDepthCollection.AddRange(current);
 
             for (var i = 0; i < depth; i++)
             {
@@ -271,15 +208,15 @@ namespace GeometryConverter.Optimization
 
                 foreach (var element in current)
                 {
-                    var neighbourIdx = (int)element.Neighbours[(int)direction];
-                    nextLevel.Add(initialElements[neighbourIdx]);
+                    var neighbour = element.Neighbours[(int)direction];
+                    nextLevel.Add(neighbour);
                 }
 
-                oneDcollection.AddRange(nextLevel);
+                maxDepthCollection.AddRange(nextLevel);
                 current = nextLevel;
             }
 
-            return oneDcollection;
+            return maxDepthCollection;
         }
 
         private List<Element> GetMaxDepthCollection(List<Element> elements)

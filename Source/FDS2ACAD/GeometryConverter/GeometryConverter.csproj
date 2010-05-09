@@ -62,7 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseSolidToElementConverter.cs" />
     <Compile Include="Optimization\LevelOptimizer.cs" />
     <Compile Include="Optimization\Gluer.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
