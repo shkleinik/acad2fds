@@ -1,47 +1,44 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Fds2AcadPlugin;
-
-[assembly: CommandClass(typeof(EntryPoint))]
-namespace Fds2AcadPlugin
+﻿namespace Fds2AcadPlugin
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-    using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
     using BLL;
-    using GeometryConverter;
-    using GeometryConverter.Bases;
-    using GeometryConverter.Templates;
     using BLL.Helpers;
     using BLL.NativeMethods;
+    using GeometryConverter;
+    using GeometryConverter.Bases;
+    using GeometryConverter.Optimization;
+    using GeometryConverter.Templates;
     using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
-    using System.Diagnostics;
-    using GeometryConverter.Optimization;
 
     public class EntryPoint : IExtensionApplication
     {
+        #region Commands
+
         [CommandMethod(Constants.BuildMenuCommandName)]
         public static void BuildFdsMenu()
         {
             try
             {
-                AcadApplication app = new DefaultFactory().CreateAcadApplication();
-                AcadMenuBar menuBar = app.MenuBar;
-                AcadMenuGroup menuGroup = app.MenuGroups.Item(1);
-                AcadPopupMenus menus = menuGroup.Menus;
+                var app = new DefaultFactory().CreateAcadApplication();
+                var menuBar = app.MenuBar;
+                var menuGroup = app.MenuGroups.Item(1);
+                var menus = menuGroup.Menus;
 
                 for (var i = 0; i < menuBar.Count; i++)
                 {
-                    AcadPopupMenu existingMenu = menuBar.Item(i);
+                    var existingMenu = menuBar.Item(i);
                     if (existingMenu.Name == Constants.FdsMenuName)
                         return;
                 }
 
-                AcadPopupMenu fdsMenu = menus.Add(Constants.FdsMenuName);
+                var fdsMenu = menus.Add(Constants.FdsMenuName);
 
                 fdsMenu.AddMenuItem(0, Constants.RunFdsMenuItem, Constants.RunFdsCommandName);
                 fdsMenu.AddMenuItem(1, Constants.RunSmokeViewMenuItem, Constants.RunSmokeViewCommandName);
@@ -146,7 +143,8 @@ namespace Fds2AcadPlugin
                                     WorkingDirectory = calculationInfo.OutputPath
                                 };
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            /* !!!!!!!!!!!! */  Process.Start(startInfo); // !!!!!!!!!!!
+            /* !!!!!!!!!!!! */
+            Process.Start(startInfo); // !!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 
@@ -155,7 +153,9 @@ namespace Fds2AcadPlugin
         {
             var materialProvider = new MaterialProvider();
             materialProvider.ShowDialog();
-        }
+        } 
+
+        #endregion
 
         #region IExtensionApplication Members
 
