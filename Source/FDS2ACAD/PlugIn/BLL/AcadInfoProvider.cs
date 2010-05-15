@@ -7,7 +7,7 @@ namespace Fds2AcadPlugin.BLL
 
     public static class AcadInfoProvider
     {
-        public static List<Solid3d> AskUserToSelectSolids()
+        public static List<Entity> AskUserToSelectSolids()
         {
             // Note: automate doc opening during debug
 //#if DEBUG
@@ -26,17 +26,21 @@ namespace Fds2AcadPlugin.BLL
             {
                 transaction.Commit();
                 transaction.Dispose();
-                return new List<Solid3d>();
+                return new List<Entity>();
             }
             
-            var solids = new List<Solid3d>();
+            var solids = new List<Entity>();
             var objectIds = promptSelectionResult.Value.GetObjectIds();
 
             foreach (var objectId in objectIds)
             {
                 var dbObject = transaction.GetObject(objectId, OpenMode.ForRead);
-                if (dbObject.GetType() == typeof(Solid3d))
-                    solids.Add((Solid3d)dbObject);
+                /// if (dbObject.GetType() == typeof(Solid3d) ) // || dbObject.GetType() == typeof(ImpCurve)
+                    solids.Add((Entity)dbObject);
+
+                // else if(dbObject.GetType().ToString() == "Autodesk.AutoCAD.DatabaseServices.ImpCurve")
+                   // solids.Add((Entity)dbObject);
+                
             }
 
             transaction.Commit();

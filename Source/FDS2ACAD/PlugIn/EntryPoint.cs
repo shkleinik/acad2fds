@@ -22,7 +22,7 @@ namespace Fds2AcadPlugin
     using System.Diagnostics;
     using GeometryConverter.Optimization;
 
-    public class EntryPoint
+    public class EntryPoint : IExtensionApplication
     {
         [CommandMethod(Constants.BuildMenuCommandName)]
         public static void BuildFdsMenu()
@@ -105,13 +105,6 @@ namespace Fds2AcadPlugin
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
-                //   GLUER TESTS // Todo : think about removing Gluer class.
-                //var valuableElements = new SolidToElementConverter(solid).ValueableElements;
-                //var gluer = new Gluer(valuableElements);
-                //var gluedElements = gluer.GetGluedElements();
-
-                // allOptimizedElements.AddRange(gluedElements);
-
                 // LEVEL OPTIMIZER TEST
                 var valuableElements = new SolidToElementConverter(solid).ValueableElements;
                 var optimizer = new LevelOptimizer(valuableElements);
@@ -163,5 +156,18 @@ namespace Fds2AcadPlugin
             var materialProvider = new MaterialProvider();
             materialProvider.ShowDialog();
         }
+
+        #region IExtensionApplication Members
+
+        public void Initialize()
+        {
+            BuildFdsMenu();
+        }
+
+        public void Terminate()
+        {
+        }
+
+        #endregion
     }
 }

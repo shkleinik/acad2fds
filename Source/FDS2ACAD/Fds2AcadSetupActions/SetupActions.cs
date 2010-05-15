@@ -34,16 +34,12 @@
             // Note: Add logging here
             RegistryHelper.CreateFdsBranch(Constants.AutoCadApplicationsRegistryKey);
             RegistryHelper.CreateFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
-            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
-            AcadAutoLoadModifier.AddCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
         }
 
         public override void Rollback(IDictionary savedState)
         {
             RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
             RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
 
             base.Rollback(savedState);
         }
@@ -53,8 +49,6 @@
             CheckIfAutoCadIsRunning();
             RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
             RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009AutoLoadFilePath);
-            AcadAutoLoadModifier.RemoveCommandToAutocad2009StartUp(Constants.FdsMenuBuildCommand, Constants.AutoCad2009ArchitectureAutoLoadFilePath);
 
             base.Uninstall(savedState);
         }
