@@ -43,7 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InstallerTests\AcadAutoLoadModifierTests.cs" />
     <Compile Include="InstallerTests\CommonHelperTests.cs" />
     <Compile Include="InstallerTests\RegistryHelperTests.cs" />
     <Compile Include="PluginTests\CommandsTests.cs" />

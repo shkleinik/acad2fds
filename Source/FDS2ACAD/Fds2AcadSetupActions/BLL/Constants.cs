@@ -30,15 +30,5 @@ namespace Fds2AcadSetupActions.BLL
 
         #endregion
 
-        #region AutoLoad
-        
-        public const string AutoCad2009AutoLoadFilePathPattern = @"{0}\{1}\{2}";
-        public const string AutoCad2009AutoLoadFilePath = @"AutoCAD 2009\Support";
-        public const string AutoCad2009ArchitectureAutoLoadFilePath = @"AutoCAD Architecture 2009\Support";
-        public const string AutoCad2009AutoLoadFileName = "acad2009.lsp";
-        public const string LispCommandCallPattern = "(command \"{0}\")";
-        public const string FdsMenuBuildCommand = "BuildFdsMenu";
-
-        #endregion
     }
 }
