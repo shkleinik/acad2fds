@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        protected List<Solid3d> _solids;
+        protected List<Entity> _solids;
         protected ElementBase _elementBase;
         private List<Element> _fullCollection;
         private List<Element> _valueableElements;
@@ -31,13 +31,13 @@
 
         #region Constructors
 
-        public SolidToElementConverter(Solid3d solid)
-            : this(new List<Solid3d> { solid })
+        public SolidToElementConverter(Entity solid)
+            : this(new List<Entity> { solid })
         {
 
         }
 
-        public SolidToElementConverter(List<Solid3d> solids)
+        public SolidToElementConverter(List<Entity> solids)
         {
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
@@ -52,7 +52,7 @@
         /// Returns minimal and maximal Bases point
         /// </summary>
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
-        private static BasePoint[] GetMaxMinPoint(IEnumerable<Solid3d> solids)
+        private static BasePoint[] GetMaxMinPoint(IEnumerable<Entity> solids)
         {
             var result = new BasePoint[2];
             var xMax = double.MinValue;
