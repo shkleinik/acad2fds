@@ -13,13 +13,13 @@
  *           myObj = null; // objects 1..N still refers to the specified memory set.
  *   
  * 2) We should solve out how to find size of "initial element" or find another way how to get valueable elements
- * 3) AutoCad Architecture object model is not the same as simple AutoCad. We should find some solutions for this issue.
- * 4*) Make burnable all planes of burner solid (not required but desirable).
- * 5)Resolve all issues with rounding.
+ * 3) AutoCAD Architecture object model is not the same as simple AutoCad. We should find some solutions for this issue.
+ * 4) Make burnable all planes of burner solid (not required but desirable).
+ * 5) Resolve all issues with rounding.
  * 6) Materials, materials . . . 
  * 7) Try to optimize again, while number of initial elements is greater, than optimezed (just if have time).
  * 8 :)  Go to play basketball (optional, desireable).
- * 9) Try to save AutoCad Architecture drawings in other Acad format(or something similar) and run calculation.
+ * 9) Try to save AutoCAD Architecture drawings in other acad format(or something similar) and run calculation.
  */
 namespace GeometryConverter.Optimization
 {
@@ -84,21 +84,7 @@ namespace GeometryConverter.Optimization
             return optimizedElements;
         }
 
-        private List<Element> CalculateStage(Element probe)
-        {
-            return CalculateStage(new List<Element> { probe });
-        }
-
-        /// <summary>
-        /// Caclculate stage of optimization for temporary collection
-        /// </summary>
-        /// <param name="probe">Probe</param>
-        /// <returns>Level</returns>
-        private List<Element> CalculateStage(List<Element> probe)
-        {
-            return GetMaxDepthCollection(probe);
-        }
-
+        //note: what does it do? how it works? where is the summary?
         private Element GetMostFreeElement()
         {
             var maxEmpty = int.MinValue;
@@ -112,23 +98,71 @@ namespace GeometryConverter.Optimization
                 var nullElements = Array.FindAll(initialElements[i].Neighbours, (el => el == null)).Length;
 
                 if (maxEmpty < nullElements)
+                {
                     idxFreeElement = i;
+                    maxEmpty = nullElements;
+                }
             }
 
             return initialElements[idxFreeElement];
         }
 
-        // Todo : break this big ugly method to smaller
-        private int[] GetLevelsInAllDirections(IList<Element> elements)
+
+        /// <summary>
+        /// Calculate stage of optimization for element
+        /// </summary>
+        /// <param name="probe">Probe element</param>
+        /// <returns>Stage</returns>
+        private List<Element> CalculateStage(Element probe)
         {
-            var levels = new int[directionsNumber];
+            return CalculateStage(new List<Element> { probe });
+        }
+
+
+        /// <summary>
+        /// Calculate stage of optimization for temporary collection
+        /// </summary>
+        /// <param name="probe">Probe collection</param>
+        /// <returns>Stage</returns>
+        private List<Element> CalculateStage(List<Element> probe)
+        {
+            return GetMaxDepthCollection(probe);
+        }
+
+
+        /// <summary>
+        /// Provides any-D collection of elements
+        /// </summary>
+        /// <param name="elements">Initial Stage</param>
+        /// <returns>Stage</returns>
+        private List<Element> GetMaxDepthCollection(List<Element> elements)
+        {
+            var levelsDepthes = GetDepthesInAllDirections(elements);
+            var maxDepthDirection = GetDirectionOfMaxDepth(levelsDepthes);
+
+            usedDirections.Add(maxDepthDirection);
+            usedDirections.Add(GetInverseDirection(maxDepthDirection));
+
+            return GetMaxDepthCollectionInDirection(elements, maxDepthDirection, levelsDepthes[(int)maxDepthDirection]);
+        }
+
+
+        // Todo : break this big ugly method to smaller
+        /// <summary>
+        /// Provide depthes in all directions for element list
+        /// </summary>
+        /// <param name="elements">Element list</param>
+        /// <returns>Array of depthes</returns>
+        private int[] GetDepthesInAllDirections(IList<Element> elements)
+        {
+            var directions = new int[directionsNumber];
             var levelNeighbours = 0;
             var currentIndices = GetCurrentIndices(elements);
             var allElementsHasNeighbourInDirection = true;
             var neighboursInDirection = new List<Element>();
 
             // go in all directions
-            for (var i = 0; i < levels.Length; i++)
+            for (var i = 0; i < directions.Length; i++)
             {
                 if (usedDirections.Contains((Direction)i))
                     continue;
@@ -157,15 +191,21 @@ namespace GeometryConverter.Optimization
                     }
                 }
 
-                levels[i] = levelNeighbours;
+                directions[i] = levelNeighbours;
                 currentIndices = GetCurrentIndices(elements);
                 levelNeighbours = 0;
                 allElementsHasNeighbourInDirection = true;
             }
 
-            return levels;
+            return directions;
         }
 
+
+        /// <summary>
+        /// Provides an array of indices from element list
+        /// </summary>
+        /// <param name="elements">Element list</param>
+        /// <returns>Indices list</returns>
         private static int[] GetCurrentIndices(IList<Element> elements)
         {
             var currentIndices = new int[elements.Count];
@@ -178,23 +218,37 @@ namespace GeometryConverter.Optimization
             return currentIndices;
         }
 
-        private static Direction GetDirectionOfMaxDepth(int[] levels)
+
+        /// <summary>
+        /// Provides direction index of max depth from depthes array
+        /// </summary>
+        /// <param name="depthes">Initial depthes array</param>
+        /// <returns>Direction of max depth</returns>
+        private static Direction GetDirectionOfMaxDepth(int[] depthes)
         {
             var max = int.MinValue;
             var idxMax = int.MinValue;
 
-            for (var i = 0; i < levels.Length; i++)
+            for (var i = 0; i < depthes.Length; i++)
             {
-                if (max > levels[i])
+                if (max > depthes[i])
                     continue;
 
-                max = levels[i];
+                max = depthes[i];
                 idxMax = i;
             }
 
             return (Direction)idxMax;
         }
 
+
+        /// <summary>
+        /// Provides any-D collection of elements in Depth in Direction
+        /// </summary>
+        /// <param name="elements">Initial lower-D collection</param>
+        /// <param name="direction">Direction to be max</param>
+        /// <param name="depth">Depth to be max</param>
+        /// <returns>xD collection of elements</returns>
         private static List<Element> GetMaxDepthCollectionInDirection(List<Element> elements, Direction direction, int depth)
         {
             var maxDepthCollection = new List<Element>();
@@ -219,16 +273,12 @@ namespace GeometryConverter.Optimization
             return maxDepthCollection;
         }
 
-        private List<Element> GetMaxDepthCollection(List<Element> elements)
-        {
-            var levelsDepthes = GetLevelsInAllDirections(elements);
-            var maxDepthDirection = GetDirectionOfMaxDepth(levelsDepthes);
-            usedDirections.Add(maxDepthDirection);
-            usedDirections.Add(GetInverseDirection(maxDepthDirection));
 
-            return GetMaxDepthCollectionInDirection(elements, maxDepthDirection, levelsDepthes[(int)maxDepthDirection]);
-        }
-
+        /// <summary>
+        /// Provides inversed Direction
+        /// </summary>
+        /// <param name="direction">Initial Direction</param>
+        /// <returns>Inversed Direction</returns>
         private static Direction GetInverseDirection(Direction direction)
         {
             Direction inverseDirection;

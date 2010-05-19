@@ -1,4 +1,9 @@
-﻿namespace Fds2AcadPlugin
+///wouldn't it be great...
+/// 
+/// ...to make default calculation directory c:\Users\%username%\Documents\FDS2ACAD
+/// ...to save current calculation directory if user wants to make some changes and calculate again
+
+namespace Fds2AcadPlugin
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -6,6 +11,7 @@
     using System.Windows.Forms;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
+    using Autodesk.AutoCAD.DatabaseServices;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
@@ -99,16 +105,21 @@
             if (selectedSolids.Count < 1)
                 return;
 
+            //CommandLine.Command("ConvertTo3dSolids");
+            
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
-                // LEVEL OPTIMIZER TEST
-                var valuableElements = new SolidToElementConverter(solid).ValueableElements;
-                var optimizer = new LevelOptimizer(valuableElements);
-                allOptimizedElements.AddRange(optimizer.Optimize());
+                if (solid.GetType() == typeof(Solid3d))
+                {
+                    // LEVEL OPTIMIZER TEST
+                    var valuableElements = new SolidToElementConverter(solid).ValueableElements;
+                    var optimizer = new LevelOptimizer(valuableElements);
+                    allOptimizedElements.AddRange(optimizer.Optimize());
 
-                // GET ALL VALUABLE ELEMENTS TEST
-                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+                    // GET ALL VALUABLE ELEMENTS TEST
+                    // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+                }
             }
 
             // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
