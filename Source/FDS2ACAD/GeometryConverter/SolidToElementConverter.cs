@@ -113,6 +113,7 @@
                 }
             }
 
+            //todo: find minimal differences
             xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
             yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
             zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));

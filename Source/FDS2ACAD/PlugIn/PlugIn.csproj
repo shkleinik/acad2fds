@@ -44,6 +44,10 @@
       <HintPath>C:\Program Files\AutoCAD 2009\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="AecBaseMgd, Version=5.7.68.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\AutoCAD Architecture 2009\AecBaseMgd.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -77,6 +81,7 @@
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />
     <Compile Include="BLL\DefaultFactory.cs" />
+    <Compile Include="BLL\Helpers\CommandLine.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
     <Compile Include="EntryPoint.cs" />
