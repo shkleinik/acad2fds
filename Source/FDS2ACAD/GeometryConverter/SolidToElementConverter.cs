@@ -96,6 +96,13 @@
             var yEdges = new List<Edge>();
             var zEdges = new List<Edge>();
 
+            var xPoints = new List<double>();
+            var yPoints = new List<double>();
+            var zPoints = new List<double>();
+
+            var totalEdges = 0;
+            const int deltaTotalEdges = 1;
+
             foreach (var solid in _solids)
             {
                 var brep = new Brep(solid);
@@ -103,38 +110,53 @@
                 {
                     foreach (var edg in brep.Edges)
                     {
+                        xPoints.Add(edg.Vertex1.Point.X);
+                        xPoints.Add(edg.Vertex2.Point.X);
+                        yPoints.Add(edg.Vertex1.Point.Y);
+                        yPoints.Add(edg.Vertex2.Point.Y);
+                        zPoints.Add(edg.Vertex1.Point.Z);
+                        zPoints.Add(edg.Vertex2.Point.Z);
+
                         if (edg.IsAlongX())
                             xEdges.Add(edg);
                         else if (edg.IsAlongY())
                             yEdges.Add(edg);
                         else if (edg.IsAlongZ())
                             zEdges.Add(edg);
+
+                        totalEdges++;
                     }
                 }
             }
 
-            //todo: find minimal differences
-            xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            double xLength;
+            double yLength;
+            double zLength;
 
-            var xLength = xEdges[0].Length();
-            var yLength = yEdges[0].Length();
-            var zLength = zEdges[0].Length();
+            if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) > deltaTotalEdges)
+            {
+                xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
+                //xLength = xEdges[0].Length();
+                //yLength = yEdges[0].Length();
+                //zLength = zEdges[0].Length();
 
-            // Todo :  Remove this stuff
-
-            //double xLength = MathOperations.FindGcd(xEdges);
-            //double yLength = MathOperations.FindGcd(yEdges);
-            //double zLength = MathOperations.FindGcd(zEdges);
-
-            //var xLength = 400;
-            //var yLength = 400;
-            //var zLength = 1800;
+                xLength = MathOperations.FindGcd(xEdges);
+                yLength = MathOperations.FindGcd(yEdges);
+                zLength = MathOperations.FindGcd(zEdges);
+            }
+            else
+            {
+                xLength = MathOperations.GetElementLengthByPoints(xPoints);
+                yLength = MathOperations.GetElementLengthByPoints(yPoints);
+                zLength = MathOperations.GetElementLengthByPoints(zPoints);
+            }
 
             return new ElementBase(xLength, yLength, zLength);
         }
+
 
         /// <summary>
         /// Provides collection of all elements bounded by rectangle of MaxMinPoint

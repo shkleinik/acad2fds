@@ -43,6 +43,22 @@
             return gcd;
         }
 
+
+        public static double GetElementLengthByPoints(List<double> points)
+        {
+            var maxDigitsAfterPoint = 0;
+            foreach (var point in points)
+            {
+                var digitsAfterPoint = (point % 1).ToString().Length - 1;
+                if (digitsAfterPoint > maxDigitsAfterPoint)
+                    maxDigitsAfterPoint = digitsAfterPoint;
+            }
+
+            var result = Math.Pow(10, -maxDigitsAfterPoint);
+            return result;
+        }
+
+
         private static int FindMinEdgeIndex(IList<Edge> edges)
         {
             int result = 0;
