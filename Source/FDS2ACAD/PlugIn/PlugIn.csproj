@@ -81,7 +81,6 @@
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />
     <Compile Include="BLL\DefaultFactory.cs" />
-    <Compile Include="BLL\Helpers\CommandLine.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
     <Compile Include="EntryPoint.cs" />

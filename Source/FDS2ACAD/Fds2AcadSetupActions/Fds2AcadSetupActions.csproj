@@ -67,12 +67,6 @@
   <ItemGroup>
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PlugIn\PlugIn.csproj">
-      <Project>{166C3D96-3C0E-4F82-B885-09B6F3744928}</Project>
-      <Name>PlugIn</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
