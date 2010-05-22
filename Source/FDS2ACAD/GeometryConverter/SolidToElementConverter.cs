@@ -39,7 +39,13 @@
 
         public SolidToElementConverter(List<Entity> solids)
         {
-            _solids = solids;
+            var trueSolids = new List<Entity>();
+            foreach (var solid in solids)
+            {
+                if (solid.GetType() == typeof(Solid3d))
+                    trueSolids.Add(solid);
+            }
+            _solids = trueSolids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
         }
@@ -133,26 +139,29 @@
             double yLength;
             double zLength;
 
-            if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) > deltaTotalEdges)
-            {
-                xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) < deltaTotalEdges)
+            //{
+            //    xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //    yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            //    zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
-                //xLength = xEdges[0].Length();
-                //yLength = yEdges[0].Length();
-                //zLength = zEdges[0].Length();
+            //    //xLength = xEdges[0].Length();
+            //    //yLength = yEdges[0].Length();
+            //    //zLength = zEdges[0].Length();
 
-                xLength = MathOperations.FindGcd(xEdges);
-                yLength = MathOperations.FindGcd(yEdges);
-                zLength = MathOperations.FindGcd(zEdges);
-            }
-            else
-            {
-                xLength = MathOperations.GetElementLengthByPoints(xPoints);
-                yLength = MathOperations.GetElementLengthByPoints(yPoints);
-                zLength = MathOperations.GetElementLengthByPoints(zPoints);
-            }
+            //    xLength = MathOperations.FindGcd(xEdges);
+            //    yLength = MathOperations.FindGcd(yEdges);
+            //    zLength = MathOperations.FindGcd(zEdges);
+            //}
+            //else
+            //{
+                //xLength = MathOperations.GetElementLengthByPoints(xPoints);
+                //yLength = MathOperations.GetElementLengthByPoints(yPoints);
+                //zLength = MathOperations.GetElementLengthByPoints(zPoints);
+                xLength = 100;
+                yLength = 100;
+                zLength = 100;
+            //}
 
             return new ElementBase(xLength, yLength, zLength);
         }

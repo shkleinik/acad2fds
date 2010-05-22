@@ -114,8 +114,9 @@ namespace Fds2AcadPlugin
                 {
                     // LEVEL OPTIMIZER TEST
                     var valuableElements = new SolidToElementConverter(solid).ValueableElements;
-                    var optimizer = new LevelOptimizer(valuableElements);
-                    allOptimizedElements.AddRange(optimizer.Optimize());
+                    //var optimizer = new LevelOptimizer(valuableElements);
+                    //allOptimizedElements.AddRange(optimizer.Optimize());
+                    allOptimizedElements.AddRange(valuableElements);
 
                     // GET ALL VALUABLE ELEMENTS TEST
                     // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);

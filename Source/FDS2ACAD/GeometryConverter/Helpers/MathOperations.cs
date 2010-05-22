@@ -47,9 +47,10 @@
         public static double GetElementLengthByPoints(List<double> points)
         {
             var maxDigitsAfterPoint = 0;
+            const int factor = 0; //todo: introduce factor
             foreach (var point in points)
             {
-                var digitsAfterPoint = (point % 1).ToString().Length - 1;
+                var digitsAfterPoint = (Math.Round(point, factor) % 1).ToString().Length - 1;
                 if (digitsAfterPoint > maxDigitsAfterPoint)
                     maxDigitsAfterPoint = digitsAfterPoint;
             }
