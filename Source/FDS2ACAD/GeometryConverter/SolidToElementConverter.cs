@@ -107,7 +107,6 @@
             var zPoints = new List<double>();
 
             var totalEdges = 0;
-            const int deltaTotalEdges = 1;
 
             foreach (var solid in _solids)
             {
