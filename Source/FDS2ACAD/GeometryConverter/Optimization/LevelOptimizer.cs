@@ -84,7 +84,10 @@ namespace GeometryConverter.Optimization
             return optimizedElements;
         }
 
-        //note: what does it do? how it works? where is the summary?
+        /// <summary>
+        /// Returns element with minimal neighbours number.
+        /// </summary>
+        /// <returns>Returns element with minimal neighbours number.</returns>
         private Element GetMostFreeElement()
         {
             var maxEmpty = int.MinValue;

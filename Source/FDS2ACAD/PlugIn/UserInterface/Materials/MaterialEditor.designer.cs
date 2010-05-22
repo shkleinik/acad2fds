@@ -33,7 +33,7 @@
             this.tbID = new System.Windows.Forms.TextBox();
             this.cbMaterialType = new System.Windows.Forms.ComboBox();
             this.lbID = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblConductivity = new System.Windows.Forms.Label();
             this.tbConductivity = new System.Windows.Forms.TextBox();
             this.lbSpecificHeat = new System.Windows.Forms.Label();
             this.tbSpecificHeat = new System.Windows.Forms.TextBox();
@@ -45,26 +45,27 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(237, 252);
+            this.btnSave.Location = new System.Drawing.Point(170, 205);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 0;
-            this.btnSave.Text = "Сохранить";
+            this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.On_btnSave_);
             // 
             // lbMaterialType
             // 
             this.lbMaterialType.AutoSize = true;
-            this.lbMaterialType.Location = new System.Drawing.Point(12, 40);
+            this.lbMaterialType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbMaterialType.Location = new System.Drawing.Point(12, 9);
             this.lbMaterialType.Name = "lbMaterialType";
-            this.lbMaterialType.Size = new System.Drawing.Size(84, 13);
+            this.lbMaterialType.Size = new System.Drawing.Size(106, 15);
             this.lbMaterialType.TabIndex = 1;
-            this.lbMaterialType.Text = "Тип материала";
+            this.lbMaterialType.Text = "Material Category:";
             // 
             // tbID
             // 
-            this.tbID.Location = new System.Drawing.Point(172, 73);
+            this.tbID.Location = new System.Drawing.Point(124, 41);
             this.tbID.Name = "tbID";
             this.tbID.Size = new System.Drawing.Size(121, 20);
             this.tbID.TabIndex = 2;
@@ -75,7 +76,7 @@
             this.cbMaterialType.Items.AddRange(new object[] {
             "Лесной",
             "Нефтехимический"});
-            this.cbMaterialType.Location = new System.Drawing.Point(172, 40);
+            this.cbMaterialType.Location = new System.Drawing.Point(124, 8);
             this.cbMaterialType.Name = "cbMaterialType";
             this.cbMaterialType.Size = new System.Drawing.Size(121, 21);
             this.cbMaterialType.TabIndex = 3;
@@ -83,24 +84,26 @@
             // lbID
             // 
             this.lbID.AutoSize = true;
-            this.lbID.Location = new System.Drawing.Point(12, 80);
+            this.lbID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbID.Location = new System.Drawing.Point(61, 41);
             this.lbID.Name = "lbID";
-            this.lbID.Size = new System.Drawing.Size(87, 13);
+            this.lbID.Size = new System.Drawing.Size(57, 15);
             this.lbID.TabIndex = 4;
-            this.lbID.Text = "Идентификатор";
+            this.lbID.Text = "Identifier:";
             // 
-            // label3
+            // lblConductivity
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 110);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(154, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Удельная теплопроводность";
+            this.lblConductivity.AutoSize = true;
+            this.lblConductivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblConductivity.Location = new System.Drawing.Point(44, 73);
+            this.lblConductivity.Name = "lblConductivity";
+            this.lblConductivity.Size = new System.Drawing.Size(74, 15);
+            this.lblConductivity.TabIndex = 5;
+            this.lblConductivity.Text = "Conductivity:";
             // 
             // tbConductivity
             // 
-            this.tbConductivity.Location = new System.Drawing.Point(172, 110);
+            this.tbConductivity.Location = new System.Drawing.Point(124, 73);
             this.tbConductivity.Name = "tbConductivity";
             this.tbConductivity.Size = new System.Drawing.Size(121, 20);
             this.tbConductivity.TabIndex = 6;
@@ -108,15 +111,16 @@
             // lbSpecificHeat
             // 
             this.lbSpecificHeat.AutoSize = true;
-            this.lbSpecificHeat.Location = new System.Drawing.Point(12, 138);
+            this.lbSpecificHeat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbSpecificHeat.Location = new System.Drawing.Point(36, 105);
             this.lbSpecificHeat.Name = "lbSpecificHeat";
-            this.lbSpecificHeat.Size = new System.Drawing.Size(81, 13);
+            this.lbSpecificHeat.Size = new System.Drawing.Size(82, 15);
             this.lbSpecificHeat.TabIndex = 7;
-            this.lbSpecificHeat.Text = "Теплоемкость";
+            this.lbSpecificHeat.Text = "Specific Heat:";
             // 
             // tbSpecificHeat
             // 
-            this.tbSpecificHeat.Location = new System.Drawing.Point(172, 138);
+            this.tbSpecificHeat.Location = new System.Drawing.Point(124, 105);
             this.tbSpecificHeat.Name = "tbSpecificHeat";
             this.tbSpecificHeat.Size = new System.Drawing.Size(121, 20);
             this.tbSpecificHeat.TabIndex = 8;
@@ -124,15 +128,16 @@
             // lbEmissivity
             // 
             this.lbEmissivity.AutoSize = true;
-            this.lbEmissivity.Location = new System.Drawing.Point(12, 166);
+            this.lbEmissivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbEmissivity.Location = new System.Drawing.Point(55, 137);
             this.lbEmissivity.Name = "lbEmissivity";
-            this.lbEmissivity.Size = new System.Drawing.Size(122, 13);
+            this.lbEmissivity.Size = new System.Drawing.Size(63, 15);
             this.lbEmissivity.TabIndex = 9;
-            this.lbEmissivity.Text = "Коэффициент черноты";
+            this.lbEmissivity.Text = "Emissivity:";
             // 
             // tbEmissivity
             // 
-            this.tbEmissivity.Location = new System.Drawing.Point(172, 166);
+            this.tbEmissivity.Location = new System.Drawing.Point(124, 137);
             this.tbEmissivity.Name = "tbEmissivity";
             this.tbEmissivity.Size = new System.Drawing.Size(121, 20);
             this.tbEmissivity.TabIndex = 10;
@@ -140,15 +145,16 @@
             // lbDensity
             // 
             this.lbDensity.AutoSize = true;
-            this.lbDensity.Location = new System.Drawing.Point(15, 202);
+            this.lbDensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbDensity.Location = new System.Drawing.Point(68, 169);
             this.lbDensity.Name = "lbDensity";
-            this.lbDensity.Size = new System.Drawing.Size(61, 13);
+            this.lbDensity.Size = new System.Drawing.Size(50, 15);
             this.lbDensity.TabIndex = 11;
-            this.lbDensity.Text = "Плотность";
+            this.lbDensity.Text = "Density:";
             // 
             // tbDensity
             // 
-            this.tbDensity.Location = new System.Drawing.Point(172, 202);
+            this.tbDensity.Location = new System.Drawing.Point(124, 169);
             this.tbDensity.Name = "tbDensity";
             this.tbDensity.Size = new System.Drawing.Size(121, 20);
             this.tbDensity.TabIndex = 12;
@@ -157,7 +163,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 297);
+            this.ClientSize = new System.Drawing.Size(274, 242);
             this.Controls.Add(this.tbDensity);
             this.Controls.Add(this.lbDensity);
             this.Controls.Add(this.tbEmissivity);
@@ -165,7 +171,7 @@
             this.Controls.Add(this.tbSpecificHeat);
             this.Controls.Add(this.lbSpecificHeat);
             this.Controls.Add(this.tbConductivity);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblConductivity);
             this.Controls.Add(this.lbID);
             this.Controls.Add(this.cbMaterialType);
             this.Controls.Add(this.tbID);
@@ -173,11 +179,11 @@
             this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(340, 325);
+            this.MaximumSize = new System.Drawing.Size(280, 270);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(340, 325);
+            this.MinimumSize = new System.Drawing.Size(280, 270);
             this.Name = "MaterialEditor";
-            this.Text = "Редактирование материала";
+            this.Text = "Edit material";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,7 +196,7 @@
         private System.Windows.Forms.TextBox tbID;
         private System.Windows.Forms.ComboBox cbMaterialType;
         private System.Windows.Forms.Label lbID;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblConductivity;
         private System.Windows.Forms.TextBox tbConductivity;
         private System.Windows.Forms.Label lbSpecificHeat;
         private System.Windows.Forms.TextBox tbSpecificHeat;

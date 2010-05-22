@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Optimization\LevelOptimizer.cs" />
-    <Compile Include="Optimization\Gluer.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />
     <Compile Include="Templates\ITemplateManager.cs" />

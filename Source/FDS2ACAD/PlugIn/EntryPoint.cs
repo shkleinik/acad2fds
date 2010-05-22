@@ -105,26 +105,21 @@ namespace Fds2AcadPlugin
             if (selectedSolids.Count < 1)
                 return;
 
-            //CommandLine.Command("ConvertTo3dSolids");
-            
             var allOptimizedElements = new List<Element>();
             foreach (var solid in selectedSolids)
             {
-                if (solid.GetType() == typeof(Solid3d))
-                {
-                    // LEVEL OPTIMIZER TEST
-                    var valuableElements = new SolidToElementConverter(solid).ValueableElements;
-                    //var optimizer = new LevelOptimizer(valuableElements);
-                    //allOptimizedElements.AddRange(optimizer.Optimize());
-                    allOptimizedElements.AddRange(valuableElements);
+                // LEVEL OPTIMIZER TEST
+                var valuableElements = new SolidToElementConverter(solid).ValueableElements;
+                var optimizer = new LevelOptimizer(valuableElements);
+                allOptimizedElements.AddRange(optimizer.Optimize());
+                // allOptimizedElements.AddRange(valuableElements);
 
-                    // GET ALL VALUABLE ELEMENTS TEST
-                    // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
-                }
+                // GET ALL VALUABLE ELEMENTS TEST
+                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
 
             // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
-            // Todo : or pass some parameter wich will talk that we need instance of solid operator only for MinMaxPoint
+            // Todo : or pass some parameter which will talk that we need instance of solid operator only for MinMaxPoint
             var elementConverter = new SolidToElementConverter(selectedSolids);
             var maxPoint = elementConverter.MaxMinPoint[1];
 
@@ -165,7 +160,7 @@ namespace Fds2AcadPlugin
         {
             var materialProvider = new MaterialProvider();
             materialProvider.ShowDialog();
-        } 
+        }
 
         #endregion
 

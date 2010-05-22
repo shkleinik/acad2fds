@@ -7,6 +7,7 @@
     using Bases;
     using Helpers;
     using Element = Bases.Element;
+    using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
 
     public class SolidToElementConverter
     {
@@ -39,13 +40,7 @@
 
         public SolidToElementConverter(List<Entity> solids)
         {
-            var trueSolids = new List<Entity>();
-            foreach (var solid in solids)
-            {
-                if (solid.GetType() == typeof(Solid3d))
-                    trueSolids.Add(solid);
-            }
-            _solids = trueSolids;
+            _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
         }
@@ -132,39 +127,65 @@
                         totalEdges++;
                     }
                 }
+
+                //brep = new Brep(solid);
+                //using (brep)
+                //{
+                //    foreach (Complex cmp in brep.Complexes)
+                //    {
+                //        foreach (Shell shl in cmp.Shells)
+                //        {
+                //            foreach (BrFace fce in shl.Faces)
+                //            {
+                //                foreach (BoundaryLoop lp in fce.Loops)
+                //                {
+                //                    foreach (Edge edg in lp.Edges)
+                //                    {
+                //                        if (edg.IsAlongX())
+                //                            xEdges.Add(edg);
+                //                        else if (edg.IsAlongY())
+                //                            yEdges.Add(edg);
+                //                        else if (edg.IsAlongZ())
+                //                            zEdges.Add(edg);
+                //                    }
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
             }
 
             double xLength;
             double yLength;
             double zLength;
+            const int deltaTotalEdges = 1;
 
-            //if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) < deltaTotalEdges)
-            //{
-            //    xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            //    yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-            //    zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+            if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) < deltaTotalEdges)
+            {
+                xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
-            //    //xLength = xEdges[0].Length();
-            //    //yLength = yEdges[0].Length();
-            //    //zLength = zEdges[0].Length();
+                xLength = xEdges[0].Length();
+                yLength = yEdges[0].Length();
+                zLength = zEdges[0].Length();
 
-            //    xLength = MathOperations.FindGcd(xEdges);
-            //    yLength = MathOperations.FindGcd(yEdges);
-            //    zLength = MathOperations.FindGcd(zEdges);
-            //}
-            //else
-            //{
+                //xLength = MathOperations.FindGcd(xEdges);
+                //yLength = MathOperations.FindGcd(yEdges);
+                //zLength = MathOperations.FindGcd(zEdges);
+            }
+            else
+            {
                 //xLength = MathOperations.GetElementLengthByPoints(xPoints);
                 //yLength = MathOperations.GetElementLengthByPoints(yPoints);
                 //zLength = MathOperations.GetElementLengthByPoints(zPoints);
                 xLength = 100;
                 yLength = 100;
                 zLength = 100;
-            //}
+            } 
 
             return new ElementBase(xLength, yLength, zLength);
         }
-
 
         /// <summary>
         /// Provides collection of all elements bounded by rectangle of MaxMinPoint
