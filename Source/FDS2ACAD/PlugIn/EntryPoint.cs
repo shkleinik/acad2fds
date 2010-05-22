@@ -22,6 +22,7 @@ namespace Fds2AcadPlugin
     using MaterialManager.BLL;
     using UserInterface;
     using UserInterface.Materials;
+    using System.IO;
 
     public class EntryPoint : IExtensionApplication
     {
@@ -124,7 +125,7 @@ namespace Fds2AcadPlugin
             var maxPoint = elementConverter.MaxMinPoint[1];
 
             // var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
-            var uniqueMaterials = MaterialSerializer.DeserializeMaterials(string.Concat(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath));
+            var uniqueMaterials = MaterialSerializer.DeserializeMaterials(Path.Combine(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath));
 
             // save to file
             var documentName = AcadInfoProvider.GetDocumentName();

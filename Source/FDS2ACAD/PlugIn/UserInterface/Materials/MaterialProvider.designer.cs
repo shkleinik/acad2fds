@@ -32,15 +32,16 @@
             this.lbMaterials = new System.Windows.Forms.ListBox();
             this.cbMaterialTypes = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.lblCategory = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(12, 61);
+            this.btnEdit.Location = new System.Drawing.Point(12, 98);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 0;
-            this.btnEdit.Text = "Изменить";
+            this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.On_btnEdit_Click);
             // 
@@ -49,7 +50,7 @@
             this.lbMaterials.FormattingEnabled = true;
             this.lbMaterials.Location = new System.Drawing.Point(166, 12);
             this.lbMaterials.Name = "lbMaterials";
-            this.lbMaterials.Size = new System.Drawing.Size(209, 225);
+            this.lbMaterials.Size = new System.Drawing.Size(210, 264);
             this.lbMaterials.TabIndex = 1;
             // 
             // cbMaterialTypes
@@ -58,7 +59,7 @@
             this.cbMaterialTypes.Items.AddRange(new object[] {
             "Лесной",
             "Нефтехимический"});
-            this.cbMaterialTypes.Location = new System.Drawing.Point(12, 12);
+            this.cbMaterialTypes.Location = new System.Drawing.Point(12, 37);
             this.cbMaterialTypes.Name = "cbMaterialTypes";
             this.cbMaterialTypes.Size = new System.Drawing.Size(121, 21);
             this.cbMaterialTypes.TabIndex = 2;
@@ -67,19 +68,29 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(13, 91);
+            this.btnAdd.Location = new System.Drawing.Point(13, 128);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 3;
-            this.btnAdd.Text = "Добавить";
+            this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.On_btnAdd_Click);
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(13, 12);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(52, 13);
+            this.lblCategory.TabIndex = 4;
+            this.lblCategory.Text = "Category:";
             // 
             // MaterialProvider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 292);
+            this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cbMaterialTypes);
             this.Controls.Add(this.lbMaterials);
@@ -93,6 +104,7 @@
             this.Text = "Materials Provider";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.On_MaterialProvider_FormClosing);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -102,5 +114,6 @@
         private System.Windows.Forms.ListBox lbMaterials;
         private System.Windows.Forms.ComboBox cbMaterialTypes;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Label lblCategory;
     }
 }

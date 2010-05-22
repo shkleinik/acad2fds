@@ -4,19 +4,20 @@
     using System.Windows.Forms;
     using BLL;
     using MaterialManager.BLL;
+    using System.IO;
 
     public partial class MaterialProvider : Form
     {
         private readonly List<Material> materialsBase;
 
-        // Note : Add this file with some basic materials to installer
-
         public MaterialProvider()
         {
             InitializeComponent();
-            
-            materialsBase = MaterialSerializer.DeserializeMaterials(Constants.MaterialsBasePath);
-            if(materialsBase == null)
+
+            var materials = Path.Combine(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath);
+            materialsBase = MaterialSerializer.DeserializeMaterials(materials);
+
+            if (materialsBase == null)
                 materialsBase = new List<Material>();
 
             cbMaterialTypes.SelectedIndex = 0;
@@ -55,7 +56,7 @@
 
         private void On_cbMaterialType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            switch(cbMaterialTypes.SelectedIndex)
+            switch (cbMaterialTypes.SelectedIndex)
             {
                 case (int)MaterialType.Лесные:
 
@@ -77,7 +78,7 @@
 
                     foreach (var material in materialsBase)
                     {
-                        if(material.MaterialType == MaterialType.Нефтехимические)
+                        if (material.MaterialType == MaterialType.Нефтехимические)
                             oilMaterials.Add(material);
                     }
 
