@@ -42,7 +42,7 @@
         {
 #if DEBUG
 
-            tbPath.Text = @"D:\!Study\Diplom\FDS tests\PluginTest";
+            tbPath.Text = @"C:\!FdsTest";
             tbTime.Text = "0";
 #endif
             tbTime.Focus();
