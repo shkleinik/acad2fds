@@ -9,12 +9,6 @@ namespace Fds2AcadPlugin.BLL
     {
         public static List<Entity> AskUserToSelectSolids()
         {
-            // Note: automate doc opening during debug
-//#if DEBUG
-//            var doc = new DefaultFactory().CreateDocumentManager().Open(@"C:\Users\walash\Desktop\Test.dwg");
-//            new DefaultFactory().CreateDocumentManager().MdiActiveDocument = doc;
-//#endif
-
             var document = new DefaultFactory().CreateDocumentManager().MdiActiveDocument;
             var database = document.Database;
             var editor = document.Editor;
@@ -28,19 +22,16 @@ namespace Fds2AcadPlugin.BLL
                 transaction.Dispose();
                 return new List<Entity>();
             }
-            
+
             var solids = new List<Entity>();
             var objectIds = promptSelectionResult.Value.GetObjectIds();
 
             foreach (var objectId in objectIds)
             {
                 var dbObject = transaction.GetObject(objectId, OpenMode.ForRead);
-                /// if (dbObject.GetType() == typeof(Solid3d) ) // || dbObject.GetType() == typeof(ImpCurve)
-                    solids.Add((Entity)dbObject);
 
-                // else if(dbObject.GetType().ToString() == "Autodesk.AutoCAD.DatabaseServices.ImpCurve")
-                   // solids.Add((Entity)dbObject);
-                
+                if (dbObject.GetType() == typeof(Solid3d))
+                    solids.Add((Entity)dbObject);
             }
 
             transaction.Commit();
