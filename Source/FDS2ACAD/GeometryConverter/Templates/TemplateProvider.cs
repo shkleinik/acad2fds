@@ -19,8 +19,8 @@
             engine.Init(props);
             // engine.Init();
 
-            // return engine.GetTemplate(string.Concat("\"",templatePath, templateName, "\""));
-            return engine.GetTemplate(templateName);
+             return engine.GetTemplate(string.Concat("\"",templatePath, templateName, "\""));
+            //return engine.GetTemplate(templateName);
         }
 
         #endregion
