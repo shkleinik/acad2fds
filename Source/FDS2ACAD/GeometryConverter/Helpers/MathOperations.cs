@@ -1,8 +1,11 @@
-﻿namespace GeometryConverter.Helpers
+﻿using System.Diagnostics;
+
+namespace GeometryConverter.Helpers
 {
     using System;
     using System.Collections.Generic;
     using Autodesk.AutoCAD.BoundaryRepresentation;
+    using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
 
     static class MathOperations
     {
@@ -43,7 +46,6 @@
             return gcd;
         }
 
-
         public static double GetElementLengthByPoints(List<double> points)
         {
             var maxDigitsAfterPoint = 0;
@@ -58,7 +60,6 @@
             var result = Math.Pow(10, -maxDigitsAfterPoint);
             return result;
         }
-
 
         private static int FindMinEdgeIndex(IList<Edge> edges)
         {
@@ -104,6 +105,93 @@
             return (isOrthY && isOrthX);
         }
 
+        #region isCorvex
+
+        public static bool IsCorvex(this BrFace face)
+        {
+            if (HasHoles(face))
+                return false;
+            var flagPos = 0;
+            var flagNeg = 0;
+            var edges = new List<Edge>();
+            foreach (BoundaryLoop lp in face.Loops)
+            {
+                if (!IsAtLeastTriangle(lp))
+                    return false;
+
+                foreach (Edge edge in lp.Edges)
+                    edges.Add(edge);
+
+                for (int i = 1; i < edges.Count; i++)
+                {
+                    if (VectorMultiplicationResultIsPositive(edges[i - 1], edges[i]))
+                        flagPos++;
+                    else
+                        flagNeg++;
+                    //if ((flag < i && flag != 0)) //TODO: make it MOOOARRR readable!
+                    //    return false;
+                }
+                if (VectorMultiplicationResultIsPositive(edges[edges.Count - 1], edges[0]))
+                    flagPos++;
+                else
+                    flagNeg++;
+            }
+            Debug.WriteLine(flagPos);
+            Debug.WriteLine(flagNeg);
+            //return (edges.Count == flagPos) || (flagPos == 0);
+            return (flagPos == flagNeg) || (flagNeg == 0) || (flagPos == 0); //WRONG!
+        }
+
+        private static bool HasHoles(BrFace face)
+        {
+            var lpSum = 0;
+            foreach (BoundaryLoop lp in face.Loops)
+            {
+                lpSum++;
+            }
+            return lpSum != 1;
+        }
+
+        private static bool IsAtLeastTriangle(BoundaryLoop loop)
+        {
+            var edgeSum = 0;
+            foreach (Edge edg in loop.Edges)
+            {
+                edgeSum++;
+            }
+            return edgeSum > 2;
+        }
+
+        private static bool VectorMultiplicationResultIsPositive(Edge edge1, Edge edge2)
+        {
+            var a1 = edge1.Vertex1.Point.X - edge1.Vertex2.Point.X;
+            var a2 = edge1.Vertex1.Point.Y - edge1.Vertex2.Point.Y;
+            var a3 = edge1.Vertex1.Point.Z - edge1.Vertex2.Point.Z;
+            Debug.WriteLine(string.Format("{0}, {1}, {2}", a1, a2, a3));
+
+            var b1 = edge2.Vertex2.Point.X - edge2.Vertex1.Point.X;
+            var b2 = edge2.Vertex2.Point.Y - edge2.Vertex1.Point.Y;
+            var b3 = edge2.Vertex2.Point.Z - edge2.Vertex1.Point.Z;
+            Debug.WriteLine(string.Format("{0}, {1}, {2}", b1, b2, b3));
+
+            //var result = edge1.Length()*edge2.Length()*Math.Sin(GetAngleBetweenEdges(edge1, edge2));
+            var result = (a2 * b3 - a3 * b2) + (a3 * b1 - a1 * b3) + (a1 * b2 - a2 * b1);
+
+            Debug.WriteLine(string.Format("Vector Multiplication: {0}", result));
+            return result > 0;
+        }
+
+        public static double GetAngleBetweenEdges(Edge edge1, Edge edge2)
+        {
+            var result = (edge1.Vertex2.Point.X * edge2.Vertex2.Point.X +
+                edge1.Vertex2.Point.Y * edge2.Vertex2.Point.Y +
+                edge1.Vertex2.Point.Z * edge2.Vertex2.Point.Z) /
+                (edge1.Length() * edge2.Length());
+            Debug.WriteLine(string.Format("Angle: {0}", result));
+            return result;
+        }
+
+        #endregion
 
     }
 }

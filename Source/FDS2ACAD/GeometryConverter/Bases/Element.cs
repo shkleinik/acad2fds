@@ -1,4 +1,6 @@
-﻿namespace GeometryConverter.Bases
+﻿using GeometryConverter.Helpers;
+
+namespace GeometryConverter.Bases
 {
     using System;
 
@@ -166,15 +168,20 @@
         public void SetReferenceIfNeighbour(Element anotherElement)
         {
             // this coef guaratees that center will fall in the interval
-            var k = 1.5;
+            const double k = 1.2;
 
-            if (!((Center.X - anotherElement.Center.X < k * XLength) &&
-                  (Center.Y - anotherElement.Center.Y < k * YLength) &&
-                  (Center.Z - anotherElement.Center.Z < k * ZLength)))
+            if (!((Math.Abs(Center.X - anotherElement.Center.X) < k * XLength) &&
+                    (Math.Abs(Center.Y - anotherElement.Center.Y) < k * YLength) &&
+                    (Math.Abs(Center.Z - anotherElement.Center.Z) < k * ZLength)))
                 return;
 
-            var positionOfAnotherElement = (int)Center.GetPosition(anotherElement.Center);
-            Neighbours[positionOfAnotherElement] = anotherElement;
+
+            var positionOfAnotherElement = Center.GetPosition(anotherElement.Center);
+            if (positionOfAnotherElement != null)
+                //if (Neighbours[(int)positionOfAnotherElement] == null)
+                    Neighbours[(int)positionOfAnotherElement] = anotherElement;
+            
+            //anotherElement.Neighbours[(int) ElementHelper.GetInverseDirection((Direction) positionOfAnotherElement)] = this;
         }
 
         #region ICloneable Members
