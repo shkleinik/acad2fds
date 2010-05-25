@@ -8,7 +8,7 @@
 
     public partial class MaterialProvider : Form
     {
-        private readonly List<Material> materialsBase;
+        private readonly List<Surface> materialsBase;
 
         public MaterialProvider()
         {
@@ -18,7 +18,7 @@
             materialsBase = MaterialSerializer.DeserializeMaterials(materials);
 
             if (materialsBase == null)
-                materialsBase = new List<Material>();
+                materialsBase = new List<Surface>();
 
             cbMaterialTypes.SelectedIndex = 0;
             lbMaterials.DisplayMember = "ID";
@@ -33,7 +33,7 @@
             if (dialogResult != DialogResult.OK)
                 return;
 
-            materialsBase.Add(materialEditor.Material);
+            materialsBase.Add(materialEditor.Surface);
             On_cbMaterialType_SelectedIndexChanged(null, null);
         }
 
@@ -58,13 +58,13 @@
         {
             switch (cbMaterialTypes.SelectedIndex)
             {
-                case (int)MaterialType.Лесные:
+                case (int)MaterialCategory.Gas:
 
-                    var woodType = new List<Material>();
+                    var woodType = new List<Surface>();
 
                     foreach (var material in materialsBase)
                     {
-                        if (material.MaterialType == MaterialType.Лесные)
+                        if (material.MaterialCategory == MaterialCategory.Gas)
                             woodType.Add(material);
                     }
 
@@ -72,13 +72,13 @@
 
                     break;
 
-                case (int)MaterialType.Нефтехимические:
+                case (int)MaterialCategory.LiquidFuel:
 
-                    var oilMaterials = new List<Material>();
+                    var oilMaterials = new List<Surface>();
 
                     foreach (var material in materialsBase)
                     {
-                        if (material.MaterialType == MaterialType.Нефтехимические)
+                        if (material.MaterialCategory == MaterialCategory.LiquidFuel)
                             oilMaterials.Add(material);
                     }
 

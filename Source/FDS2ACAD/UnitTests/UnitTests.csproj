@@ -58,6 +58,10 @@
       <Project>{2A691B60-4E5C-4E74-B063-104BA1470B6E}</Project>
       <Name>Fds2AcadSetupActions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MaterialManager\MaterialManager.csproj">
+      <Project>{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}</Project>
+      <Name>MaterialManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlugIn\PlugIn.csproj">
       <Project>{166C3D96-3C0E-4F82-B885-09B6F3744928}</Project>
       <Name>PlugIn</Name>

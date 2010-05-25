@@ -4,6 +4,8 @@ namespace Fds2AcadPlugin.BLL.Helpers
     using System;
     using System.Threading;
     using NativeMethods;
+    using System.Drawing;
+    using MaterialManager.BLL;
 
     public static class CommonHelper
     {
@@ -49,6 +51,22 @@ namespace Fds2AcadPlugin.BLL.Helpers
             }
 
             return smokeViewHandle;
+        }
+
+        public static Color ToSystemColor(this FdsColor fdsColor)
+        {
+            return Color.FromArgb((int)Math.Round(fdsColor.R * 1000, 0),
+                                  (int)Math.Round(fdsColor.G * 1000, 0),
+                                  (int)Math.Round(fdsColor.B * 1000, 0)
+                                  );
+        }
+
+        public static FdsColor ToFdsColor(this Color color)
+        {
+            return new FdsColor(Math.Round((double)color.R / 1000, 3),
+                                Math.Round((double)color.G / 1000, 3),
+                                Math.Round((double)color.B / 1000, 3)
+                );
         }
     }
 }
