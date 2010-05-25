@@ -1,4 +1,6 @@
-﻿namespace GeometryConverter
+﻿using System.Diagnostics;
+
+namespace GeometryConverter
 {
     using System;
     using System.Collections.Generic;
@@ -43,6 +45,7 @@
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
+            //_elementBase = InitializeElementBasePro();
         }
 
         #endregion
@@ -53,7 +56,7 @@
         /// Returns minimal and maximal Bases point
         /// </summary>
         /// <returns>Array of 2 elements where [0] is Max and [1] is Min</returns>
-        private static BasePoint[] GetMaxMinPoint(IEnumerable<Entity> solids)
+        public static BasePoint[] GetMaxMinPoint(IEnumerable<Entity> solids)
         {
             var result = new BasePoint[2];
             var xMax = double.MinValue;
@@ -102,12 +105,21 @@
             var zPoints = new List<double>();
 
             var totalEdges = 0;
+            var isCorvexSolid = true;
 
             foreach (var solid in _solids)
             {
                 var brep = new Brep(solid);
                 using (brep)
                 {
+                    foreach (BrFace fce in brep.Faces)
+                    {
+                        if (!fce.IsCorvex())
+                        {
+                            isCorvexSolid = false;
+                            break;
+                        }
+                    }
                     foreach (var edg in brep.Edges)
                     {
                         xPoints.Add(edg.Vertex1.Point.X);
@@ -127,32 +139,6 @@
                         totalEdges++;
                     }
                 }
-
-                //brep = new Brep(solid);
-                //using (brep)
-                //{
-                //    foreach (Complex cmp in brep.Complexes)
-                //    {
-                //        foreach (Shell shl in cmp.Shells)
-                //        {
-                //            foreach (BrFace fce in shl.Faces)
-                //            {
-                //                foreach (BoundaryLoop lp in fce.Loops)
-                //                {
-                //                    foreach (Edge edg in lp.Edges)
-                //                    {
-                //                        if (edg.IsAlongX())
-                //                            xEdges.Add(edg);
-                //                        else if (edg.IsAlongY())
-                //                            yEdges.Add(edg);
-                //                        else if (edg.IsAlongZ())
-                //                            zEdges.Add(edg);
-                //                    }
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
             }
 
             double xLength;
@@ -160,32 +146,172 @@
             double zLength;
             const int deltaTotalEdges = 1;
 
+            //return InitializeElementBasePro(0.1, 0);
+
             if (totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) < deltaTotalEdges)
             {
-                xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                if (isCorvexSolid)
+                {
+                    Debug.WriteLine("is corvex solid along coords"); //todo: deprecate
 
-                xLength = xEdges[0].Length();
-                yLength = yEdges[0].Length();
-                zLength = zEdges[0].Length();
+                    xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                    yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                    zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
-                //xLength = MathOperations.FindGcd(xEdges);
-                //yLength = MathOperations.FindGcd(yEdges);
-                //zLength = MathOperations.FindGcd(zEdges);
+                    xLength = xEdges[0].Length();
+                    yLength = yEdges[0].Length();
+                    zLength = zEdges[0].Length();
+                }
+                else
+                {
+                    Debug.WriteLine("is NOT corvex solid along coords"); //todo: deprecate
+                    return InitializeElementBasePro(0.2, 3);
+                }
             }
             else
             {
-                //xLength = MathOperations.GetElementLengthByPoints(xPoints);
-                //yLength = MathOperations.GetElementLengthByPoints(yPoints);
-                //zLength = MathOperations.GetElementLengthByPoints(zPoints);
-                xLength = 100;
-                yLength = 100;
-                zLength = 100;
-            } 
+                Debug.WriteLine("is FUUUUUUUUUUUUUUUUUUUUU"); //todo: deprecate
+                return InitializeElementBasePro(0.1, 0);
+            }
 
             return new ElementBase(xLength, yLength, zLength);
         }
+
+
+        #region ElementBasePro
+
+        private ElementBase InitializeElementBasePro(double delta, int stage)
+        {
+            var containmentPrev = double.MinValue;
+            var difference = 1d;
+            while (difference > delta)
+            {
+                var containment = GetContainmentPercentage(MaxMinPoint, stage);
+                if (stage > 0)
+                    difference = containment - containmentPrev;
+                containmentPrev = containment;
+                stage++;
+            }
+
+            var dimension = GetDimensions(MaxMinPoint);
+            //var coefficient = GetCoefficient(dimension);
+            //var result = new ElementBase
+            //    (
+            //    Math.Round(dimension.X / (Math.Pow(2, stage) * coefficient.X), 0),
+            //    Math.Round(dimension.Y / (Math.Pow(2, stage) * coefficient.Y), 0),
+            //    Math.Round(dimension.Z / (Math.Pow(2, stage) * coefficient.Z), 0)
+            //    );
+            var result = new ElementBase //wrong
+                (
+                Math.Round(dimension.X / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Y / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Z / (Math.Pow(2, stage)), 0)
+                );
+
+            return result;
+        }
+
+        private double GetContainmentPercentage(BasePoint[] maxMinPoint, int stage)
+        {
+            var collection = GetCollection(maxMinPoint, stage);
+            var containees = 0;
+            for (var i = 0; i < collection.Count; i++)
+            {
+                foreach (var solid in _solids)
+                {
+                    var brep = new Brep(solid);
+                    PointContainment containment;
+                    brep.GetPointContainment(collection[i].Center.ConverToAcadPoint(), out containment);
+
+                    if (containment != PointContainment.Inside)
+                        continue;
+                    containees++;
+                }
+            }
+            return (double) containees / collection.Count;
+        }
+
+        private List<Element> GetCollection(BasePoint[] maxMinPoint, int stage)
+        {
+            var resultCollection = new List<Element>();
+            var dimension = GetDimensions(maxMinPoint);
+            var tmpElementBase = new ElementBase(
+                Math.Round(dimension.X / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Y / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Z / (Math.Pow(2, stage)), 0)
+                );
+
+
+            var limitX = Math.Abs((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / tmpElementBase.XLength);
+            var limitY = Math.Abs((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / tmpElementBase.YLength);
+            var limitZ = Math.Abs((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / tmpElementBase.ZLength);
+
+            var startX = MaxMinPoint[0].X;
+            var startY = MaxMinPoint[0].Y;
+            var startZ = MaxMinPoint[0].Z;
+
+            for (var z = 0; z < limitZ; z++)
+                for (var y = 0; y < limitY; y++)
+                    for (var x = 0; x < limitX; x++)
+                    {
+                        var center = new BasePoint(startX + (x + 0.5) * tmpElementBase.XLength,
+                                                   startY + (y + 0.5) * tmpElementBase.YLength,
+                                                   startZ + (z + 0.5) * tmpElementBase.ZLength);
+
+                        var element = new Element(center, tmpElementBase, resultCollection.Count);
+                        resultCollection.Add(element);
+                    }
+
+            return resultCollection;
+
+        }
+
+        private static BasePoint GetDimensions(BasePoint[] maxMinPoint)
+        {
+            var result = new BasePoint
+                             (
+                                 maxMinPoint[1].X - maxMinPoint[0].X,
+                                 maxMinPoint[1].Y - maxMinPoint[0].Y,
+                                 maxMinPoint[1].Z - maxMinPoint[0].Z
+                             );
+            return result;
+        }
+
+        private static BasePoint GetCoefficient(BasePoint dimensions)
+        {
+            const int decimals = 1;
+
+            double minValue = 1;
+            if (dimensions.X < dimensions.Y)
+                if (dimensions.X < dimensions.Z)
+                    minValue = dimensions.X;
+                else if (dimensions.Y < dimensions.Z)
+                    minValue = dimensions.Y;
+                else
+                    minValue = dimensions.Z;
+
+            var result = new BasePoint
+                             (
+                                 Math.Round(dimensions.X / minValue, decimals),
+                                 Math.Round(dimensions.Y / minValue, decimals),
+                                 Math.Round(dimensions.Z / minValue, decimals)
+                             );
+            return result;
+
+        }
+
+        #endregion
+
+        //private static double Length(Edge edge)
+        //{
+        //    return Math.Sqrt(
+        //        edge.Length()
+        //        Math.Pow(edge.Vertex2.Point.X - edge.Vertex1.Point.X, 2) +
+        //        Math.Pow(edge.Vertex2.Point.Y - edge.Vertex1.Point.X, 2) +
+        //        Math.Pow(edge.Vertex2.Point.Z - edge.Vertex1.Point.X, 2) +
+        //        )
+        //}
+
 
         /// <summary>
         /// Provides collection of all elements bounded by rectangle of MaxMinPoint

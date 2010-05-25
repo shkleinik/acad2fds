@@ -144,7 +144,7 @@ namespace GeometryConverter.Optimization
             var maxDepthDirection = GetDirectionOfMaxDepth(levelsDepthes);
 
             usedDirections.Add(maxDepthDirection);
-            usedDirections.Add(GetInverseDirection(maxDepthDirection));
+            usedDirections.Add(ElementHelper.GetInverseDirection(maxDepthDirection));
 
             return GetMaxDepthCollectionInDirection(elements, maxDepthDirection, levelsDepthes[(int)maxDepthDirection]);
         }
@@ -276,41 +276,112 @@ namespace GeometryConverter.Optimization
             return maxDepthCollection;
         }
 
+        #endregion
+
+        #region Optimization 2
+
+        public List<Element> Optimize2()
+        {
+            if (initialElements.Count < 1)
+                return new List<Element>();
+
+            if (optimizedElements != null)
+                return optimizedElements;
+
+            optimizedElements = new List<Element>();
+
+            var pillarDirection = ElementHelper.GetInverseDirection(GetPopularAbsenceDirection());
+            Element pillarBaseElement;
+            do
+            {
+                pillarBaseElement = GetElementWithNeighbourInDirection(pillarDirection);
+                var pillarCollection = GetPillarCollection(pillarBaseElement, pillarDirection);
+                optimizedElements.Add(pillarCollection.ToElement());
+                initialElements.SetNullAndRemoveElements(pillarCollection);
+            } while ((initialElements.FindAll(e => e != null).Count > 0) ||
+                pillarBaseElement != null);
+
+            return optimizedElements;
+        }
 
         /// <summary>
-        /// Provides inversed Direction
+        /// Provides the most popular direction of neighbour absence
         /// </summary>
-        /// <param name="direction">Initial Direction</param>
-        /// <returns>Inversed Direction</returns>
-        private static Direction GetInverseDirection(Direction direction)
+        /// <returns></returns>
+        private Direction GetPopularAbsenceDirection()
         {
-            Direction inverseDirection;
-
-            switch (direction)
+            var dirX = 0;
+            var dirY = 0;
+            var dirZ = 0;
+            var result = Direction.Top;
+            foreach (Element element in initialElements)
             {
-                case Direction.Top:
-                    inverseDirection = Direction.Bottom;
-                    break;
-                case Direction.Bottom:
-                    inverseDirection = Direction.Top;
-                    break;
-                case Direction.Left:
-                    inverseDirection = Direction.Right;
-                    break;
-                case Direction.Right:
-                    inverseDirection = Direction.Left;
-                    break;
-                case Direction.Front:
-                    inverseDirection = Direction.Back;
-                    break;
-                case Direction.Back:
-                    inverseDirection = Direction.Front;
-                    break;
-                default:
-                    throw new NotSupportedException("This direction is not supported!");
+                for (int i = 0; i < element.Neighbours.Length; i++)
+                {
+                    if (element.Neighbours[i] == null)
+                    {
+                        switch (i)
+                        {
+                            case (int) Direction.Top:
+                                dirZ++;
+                                break;
+                            case (int) Direction.Bottom:
+                                dirZ++;
+                                break;
+                            case (int) Direction.Front:
+                                dirY++;
+                                break;
+                            case (int) Direction.Back:
+                                dirY++;
+                                break;
+                            case (int) Direction.Left:
+                                dirX++;
+                                break;
+                            case (int) Direction.Right:
+                                dirX++;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
+            if (dirX >= dirY)
+                if (dirZ >= dirY)
+                    if (dirZ >= dirX)
+                        result = Direction.Bottom;
+                    else if (dirX >= dirY)
+                        result = Direction.Left;
+                    else
+                        result = Direction.Back;
+            return result;
+        }
 
-            return inverseDirection;
+
+        private Element GetElementWithNeighbourInDirection(Direction direction)
+        {
+            for (var i = 0; i < initialElements.Count; i++)
+            {
+                if (initialElements[i] == null)
+                    continue;
+                if (initialElements[i].Neighbours[(int)direction] != null)
+                    return initialElements[i];
+            }
+            return null;
+        }
+
+        private List<Element> GetPillarCollection(Element element, Direction direction)
+        {
+            var pillarCollection = new List<Element>();
+            var tmpElement = element;
+            do
+            {
+                pillarCollection.Add(tmpElement);
+                tmpElement = tmpElement.Neighbours[(int)direction];
+            }
+            while (tmpElement.Neighbours[(int)direction] != null);
+            pillarCollection.Add(tmpElement);
+            return pillarCollection;
         }
 
         #endregion

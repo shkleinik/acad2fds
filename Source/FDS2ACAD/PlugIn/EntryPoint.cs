@@ -1,6 +1,5 @@
 ///wouldn't it be great...
 /// 
-/// ...to make default calculation directory c:\Users\%username%\Documents\FDS2ACAD
 /// ...to save current calculation directory if user wants to make some changes and calculate again
 
 namespace Fds2AcadPlugin
@@ -113,16 +112,14 @@ namespace Fds2AcadPlugin
                 var valuableElements = new SolidToElementConverter(solid).ValueableElements;
                 var optimizer = new LevelOptimizer(valuableElements);
                 allOptimizedElements.AddRange(optimizer.Optimize());
-                // allOptimizedElements.AddRange(valuableElements);
+
+                //allOptimizedElements.AddRange(valuableElements);
 
                 // GET ALL VALUABLE ELEMENTS TEST
                 // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
 
-            // Todo : work out decision how to eliminate multiple SolidToElementConverter initializition
-            // Todo : or pass some parameter which will talk that we need instance of solid operator only for MinMaxPoint
-            var elementConverter = new SolidToElementConverter(selectedSolids);
-            var maxPoint = elementConverter.MaxMinPoint[1];
+            var maxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids)[1];
 
             // var uniqueMaterials = MaterialFinder.ReturnMaterials(elements);
             var uniqueMaterials = MaterialSerializer.DeserializeMaterials(Path.Combine(AcadInfoProvider.GetPathToPluginDirectory(), Constants.MaterialsBasePath));
@@ -151,8 +148,7 @@ namespace Fds2AcadPlugin
                                     WorkingDirectory = calculationInfo.OutputPath
                                 };
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            /* !!!!!!!!!!!! */
-            Process.Start(startInfo); // !!!!!!!!!!!
+            Process.Start(startInfo); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 

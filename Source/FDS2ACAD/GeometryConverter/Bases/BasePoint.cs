@@ -85,29 +85,32 @@
 
         #endregion
 
-        public Direction GetPosition(BasePoint another)
+        public Direction? GetPosition(BasePoint another)
         {
-            var result = new Direction();
+            Direction? result;
+            const double deltaX = 0.1;
+            const double deltaY = 0.1;
+            const double deltaZ = 0.1;
+            if ((Z < another.Z) && (Math.Abs(Y - another.Y) < deltaY) && (Math.Abs(X - another.X) < deltaX))
+                result = Direction.Top;
 
-            if (Z < another.Z)
-                return Direction.Top;
-
-            if (Z > another.Z)
+            else if ((Z > another.Z) && (Math.Abs(Y - another.Y) < deltaY) && (Math.Abs(X - another.X) < deltaX))
                 result = Direction.Bottom;
 
-            if (Y > another.Y)
+            else if ((Y > another.Y) && (Math.Abs(Z - another.Z) < deltaZ) && (Math.Abs(X - another.X) < deltaX))
                 result = Direction.Front;
 
-            if (Y < another.Y)
+            else if ((Y < another.Y) && (Math.Abs(Z - another.Z) < deltaZ) && (Math.Abs(X - another.X) < deltaX))
                 result = Direction.Back;
 
-            if (X < another.X)
+            else if ((X < another.X) && (Math.Abs(Y - another.Y) < deltaY) && (Math.Abs(Z - another.Z) < deltaZ))
                 result = Direction.Right;
 
-            if (X > another.X)
+            else if ((X > another.X) && (Math.Abs(Y - another.Y) < deltaY) && (Math.Abs(Z - another.Z) < deltaZ))
                 result = Direction.Left;
 
-            // Todo : cross fingers and hope that of of the conditions will be true.
+            else result = null;
+            // Todo : cross fingers and hope that all of the conditions will be true.
             return result;
         }
 

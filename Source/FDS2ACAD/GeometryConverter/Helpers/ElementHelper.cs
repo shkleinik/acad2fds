@@ -1,4 +1,6 @@
-﻿namespace GeometryConverter.Helpers
+﻿using System;
+
+namespace GeometryConverter.Helpers
 {
     using System.Collections.Generic;
     using Bases;
@@ -14,7 +16,7 @@
             {
                 for (var j = 0; j < Elements.Count; j++)
                 {
-                    if (i != j)
+                    if ((i != j))//&& !HasSetAllNeighbours(Elements[i])
                         Elements[i].SetReferenceIfNeighbour(Elements[j]);
                 }
             }
@@ -85,6 +87,57 @@
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// Provides inversed Direction
+        /// </summary>
+        /// <param name="direction">Initial Direction</param>
+        /// <returns>Inversed Direction</returns>
+        public static Direction GetInverseDirection(Direction direction)
+        {
+            Direction inverseDirection;
+
+            switch (direction)
+            {
+                case Direction.Top:
+                    inverseDirection = Direction.Bottom;
+                    break;
+                case Direction.Bottom:
+                    inverseDirection = Direction.Top;
+                    break;
+                case Direction.Left:
+                    inverseDirection = Direction.Right;
+                    break;
+                case Direction.Right:
+                    inverseDirection = Direction.Left;
+                    break;
+                case Direction.Front:
+                    inverseDirection = Direction.Back;
+                    break;
+                case Direction.Back:
+                    inverseDirection = Direction.Front;
+                    break;
+                default:
+                    throw new NotSupportedException("This direction is not supported!");
+            }
+
+            return inverseDirection;
+        }
+
+
+        /// <summary>
+        /// Checkes if element has all neighbourhoods set
+        /// </summary>
+        /// <param name="element">Element</param>
+        /// <returns>True if has 6 non-null neighbourhoods</returns>
+        public static bool HasSetAllNeighbours(Element element)
+        {
+            for (int i = 0; i < element.Neighbours.Length; i++)
+                if (element.Neighbours[i] == null)
+                    return false;
+            return true;
         }
     }
 }
