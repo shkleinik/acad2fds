@@ -7,13 +7,13 @@ namespace MaterialManager.BLL
 {
     public static class MaterialSerializer
     {
-        public static void SerializeMaterials(string path, List<Material> materials)
+        public static void SerializeMaterials(string path, List<Surface> materials)
         {
             Stream writer = new FileStream(path, FileMode.Create);
 
             try
             {
-                var serializer = new XmlSerializer(typeof(List<Material>));
+                var serializer = new XmlSerializer(typeof(List<Surface>));
                 serializer.Serialize(writer, materials);
             }
             catch
@@ -25,14 +25,14 @@ namespace MaterialManager.BLL
             }
         }
 
-        public static List<Material> DeserializeMaterials(string path)
+        public static List<Surface> DeserializeMaterials(string path)
         {
             Stream reader = null;
             try
             {
                 reader = new FileStream(path, FileMode.Open, FileAccess.Read);
-                var serializer = new XmlSerializer(typeof(List<Material>));
-                return (List<Material>)serializer.Deserialize(reader);
+                var serializer = new XmlSerializer(typeof(List<Surface>));
+                return (List<Surface>)serializer.Deserialize(reader);
             }
             catch (Exception)
             {
