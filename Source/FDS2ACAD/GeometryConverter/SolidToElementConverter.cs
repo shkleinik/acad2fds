@@ -30,6 +30,8 @@ namespace GeometryConverter
 
         public List<Element> ValueableElements { get { return GetValuableElements(); } }
 
+        public bool IsSuccessfullConversion { get; set; }
+
         #endregion
 
         #region Constructors
@@ -42,6 +44,7 @@ namespace GeometryConverter
 
         public SolidToElementConverter(List<Entity> solids)
         {
+            IsSuccessfullConversion = true;
             _solids = solids;
             MaxMinPoint = GetMaxMinPoint(_solids);
             _elementBase = InitializeElementBase();
@@ -165,7 +168,7 @@ namespace GeometryConverter
                 else
                 {
                     Debug.WriteLine("is NOT corvex solid along coords"); //todo: deprecate
-                    return InitializeElementBasePro(0.2, 3);
+                    return InitializeElementBasePro(0.2, 2);
                 }
             }
             else
@@ -339,11 +342,17 @@ namespace GeometryConverter
                         var center = new BasePoint(startX + (x + 0.5) * _elementBase.XLength,
                                                    startY + (y + 0.5) * _elementBase.YLength,
                                                    startZ + (z + 0.5) * _elementBase.ZLength);
-
-                        var element = new Element(center, _elementBase, _fullCollection.Count);
-                        _fullCollection.Add(element);
+                        try
+                        {
+                            var element = new Element(center, _elementBase, _fullCollection.Count);
+                            _fullCollection.Add(element);
+                        }
+                        catch (System.Exception)
+                        {
+                            IsSuccessfullConversion = false;
+                            return _fullCollection;
+                        }
                     }
-
             return _fullCollection;
         }
 

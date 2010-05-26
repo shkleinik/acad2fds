@@ -10,7 +10,6 @@ namespace Fds2AcadPlugin
     using System.Windows.Forms;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
-    using Autodesk.AutoCAD.DatabaseServices;
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
@@ -109,9 +108,25 @@ namespace Fds2AcadPlugin
             foreach (var solid in selectedSolids)
             {
                 // LEVEL OPTIMIZER TEST
-                var valuableElements = new SolidToElementConverter(solid).ValueableElements;
+                var converter = new SolidToElementConverter(solid);
+                var valuableElements = converter.ValueableElements;
+                if (!converter.IsSuccessfullConversion)
+                {
+                    var result = MessageBox.Show("Lack of system resources. Proceed?", "Warning",
+                                    MessageBoxButtons.OKCancel,
+                                    MessageBoxIcon.Exclamation,
+                                    MessageBoxDefaultButton.Button1);
+                    
+                    if (result == DialogResult.Cancel)
+                        return;
+                    break;
+                }
+
                 var optimizer = new LevelOptimizer(valuableElements);
+                
+                
                 allOptimizedElements.AddRange(optimizer.Optimize());
+
 
                 //allOptimizedElements.AddRange(valuableElements);
 
