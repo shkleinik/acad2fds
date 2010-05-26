@@ -9,14 +9,12 @@ namespace Fds2AcadPlugin.BLL
         public const string FdsTemplateName = "fds.template";
 
         public const string MaterialsBasePath = "materials.xml";
-
-
+        
         #endregion
-
-
+        
         #region Menu
 
-        public const string FdsMenuName = "FDS to Acad plugin";
+        public const string FdsMenuName = "Acad to FDS plugin";
         public const string RunFdsMenuItem = "Start calculation";
         public const string RunFdsCommandName = "RunCalculationInFds";
         public const string RunSmokeViewMenuItem = "View result in SmokeView";
