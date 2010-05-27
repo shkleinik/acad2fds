@@ -104,7 +104,11 @@ namespace Fds2AcadPlugin
             if (selectedSolids.Count < 1)
                 return;
 
+            var progressWindow = new ConvertionProgress(selectedSolids.Count);
+            progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
+
             var allOptimizedElements = new List<Element>();
+            var progress = 0;
             foreach (var solid in selectedSolids)
             {
                 // LEVEL OPTIMIZER TEST
@@ -116,9 +120,12 @@ namespace Fds2AcadPlugin
                                     MessageBoxButtons.OKCancel,
                                     MessageBoxIcon.Exclamation,
                                     MessageBoxDefaultButton.Button1);
-                    
+
                     if (result == DialogResult.Cancel)
+                    {
+                        progressWindow.Close();
                         return;
+                    }
                     break;
                 }
 
@@ -127,12 +134,13 @@ namespace Fds2AcadPlugin
                 
                 allOptimizedElements.AddRange(optimizer.Optimize());
 
-
-                //allOptimizedElements.AddRange(valuableElements);
+                progressWindow.pbStatus.Value = ++progress;
 
                 // GET ALL VALUABLE ELEMENTS TEST
                 // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
+
+            progressWindow.Close();
 
             var maxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids)[1];
 
