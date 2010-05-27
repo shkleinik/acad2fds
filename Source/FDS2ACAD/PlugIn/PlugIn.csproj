@@ -52,7 +52,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -91,6 +90,12 @@
     <Compile Include="UserInterface\CalculationInfo.Designer.cs">
       <DependentUpon>CalculationInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserInterface\ConvertionProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInterface\ConvertionProgress.Designer.cs">
+      <DependentUpon>ConvertionProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface\Materials\EditRamp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +124,10 @@
   <ItemGroup>
     <EmbeddedResource Include="UserInterface\CalculationInfo.resx">
       <DependentUpon>CalculationInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\ConvertionProgress.resx">
+      <DependentUpon>ConvertionProgress.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\EditRamp.resx">
