@@ -8,6 +8,13 @@
 
         #region Constructors
 
+        public ElementBase(double length)
+        {
+            XLength = length;
+            YLength = length;
+            ZLength = length;
+        }
+
         public ElementBase(double xLength, double yLength, double zLength)
         {
             XLength = xLength;

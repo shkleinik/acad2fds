@@ -117,7 +117,10 @@ namespace Fds2AcadPlugin
             foreach (var solid in selectedSolids)
             {
                 // LEVEL OPTIMIZER TEST
-                var converter = new SolidToElementConverter(solid);
+                var converter = new SolidToElementConverter(solid)
+                                    {
+                                        SolidVolume = ((Acad3DSolid) solid.AcadObject).Volume
+                                    };
                 var valuableElements = converter.ValueableElements;
 
                 #region Handle out of memory exception
