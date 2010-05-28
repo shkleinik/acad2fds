@@ -16,13 +16,14 @@ namespace GeometryConverter.Helpers
         /// </summary>
         /// <param name="edges">Edge collection</param>
         /// <returns>GCD</returns>
+        /// 
         public static double FindGcd(List<Edge> edges)
         {
             //double mcd = 100;
             int count = 1;
             int gcd = count;
             bool ok = true;
-            double minLength = edges[FindMinEdgeIndex(edges)].Length();
+            double minLength = edges[FindMinIndex(edges)].Length();
 
             var halfEdgeLength = minLength / 2;
 
@@ -46,6 +47,38 @@ namespace GeometryConverter.Helpers
             return gcd;
         }
 
+
+        public static double FindGcd(List<double> points)
+        {
+            //todo: change or deprecate due to strict method dependence on measure units
+            int count = 1;
+            int gcd = count;
+            bool ok = true;
+            double minPoint = points[FindMinIndex(points)];
+
+            var halfEdgeLength = minPoint / 2;
+
+            while (count <= halfEdgeLength)
+            {
+                foreach (double point in points)
+                {
+                    if (Convert.ToInt32(Math.Round(point, 0)) % count == 0)
+                        continue;
+
+                    ok = false;
+                    break;
+                }
+                if (ok)
+                    gcd = count;
+
+                count++;
+                ok = true;
+            }
+
+            return gcd;
+        }
+
+
         public static double GetElementLengthByPoints(List<double> points)
         {
             var maxDigitsAfterPoint = 0;
@@ -61,7 +94,7 @@ namespace GeometryConverter.Helpers
             return result;
         }
 
-        private static int FindMinEdgeIndex(IList<Edge> edges)
+        private static int FindMinIndex(IList<Edge> edges)
         {
             int result = 0;
             Edge minEdge = edges[1];
@@ -70,6 +103,21 @@ namespace GeometryConverter.Helpers
                 if (edges[i].Length() < minEdge.Length())
                 {
                     minEdge = edges[i];
+                    result = i;
+                }
+            }
+            return result;
+        }
+
+        private static int FindMinIndex(IList<double> points)
+        {
+            int result = 0;
+            var minPoint = points[1];
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (points[i] < minPoint)
+                {
+                    minPoint = points[i];
                     result = i;
                 }
             }

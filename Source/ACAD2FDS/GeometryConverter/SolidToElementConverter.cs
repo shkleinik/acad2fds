@@ -32,6 +32,8 @@ namespace GeometryConverter
 
         public bool IsSuccessfullConversion { get; set; }
 
+        public double SolidVolume { get; set; }
+
         #endregion
 
         #region Constructors
@@ -109,7 +111,6 @@ namespace GeometryConverter
 
             var totalEdges = 0;
             var isCorvexSolid = true;
-
             foreach (var solid in _solids)
             {
                 var brep = new Brep(solid);
@@ -168,18 +169,51 @@ namespace GeometryConverter
                 else
                 {
                     Debug.WriteLine("is NOT corvex solid along coords"); //todo: deprecate
-                    return InitializeElementBasePro(0.2, 2);
+                    //return InitializeElementBaseByMinMaxPoint();
+                    xLength = 100;
+                    yLength = 100;
+                    zLength = 100;
+
                 }
             }
             else
             {
                 Debug.WriteLine("is FUUUUUUUUUUUUUUUUUUUUU"); //todo: deprecate
-                return InitializeElementBasePro(0.1, 0);
-            }
+                //return InitializeElementBaseByMinMaxPoint();
+                xLength = 100;
+                yLength = 100;
+                zLength = 100;
 
+            }
             return new ElementBase(xLength, yLength, zLength);
         }
 
+        private ElementBase InitializeElementBaseByMinMaxPoint()
+        {
+            const int nils = 3;
+            int multiplier = (int)Math.Pow(10, nils);
+            var X = (int)Math.Round((MaxMinPoint[1].X - MaxMinPoint[0].X) * multiplier, 0);
+            var Y = (int)Math.Round((MaxMinPoint[1].Y - MaxMinPoint[0].Y) * multiplier, 0);
+            var Z = (int)Math.Round((MaxMinPoint[1].Z - MaxMinPoint[0].Z) * multiplier, 0);
+
+            var xLength = X.ToString().Length;
+            var yLength = Y.ToString().Length;
+            var zLength = Z.ToString().Length;
+
+            int minLength = 1;
+            if (xLength <= yLength)
+                if (xLength <= zLength)
+                    minLength = xLength;
+                else if (zLength <= yLength)
+                    minLength = zLength;
+                else
+                    minLength = yLength;
+
+
+
+            int size = (int)Math.Pow(10, minLength - nils - 2); // 2 is a kind of magic...
+            return new ElementBase(size);
+        }
 
         #region ElementBasePro
 
@@ -231,7 +265,7 @@ namespace GeometryConverter
                     containees++;
                 }
             }
-            return (double) containees / collection.Count;
+            return (double)containees / collection.Count;
         }
 
         private List<Element> GetCollection(BasePoint[] maxMinPoint, int stage)
@@ -389,6 +423,16 @@ namespace GeometryConverter
             }
 
             return _valueableElements;
+        }
+
+        public static double Volume(List<Element> elements)
+        {
+            var result = 0d;
+            foreach (var element in elements)
+            {
+                result += element.XLength * element.YLength * element.ZLength;
+            }
+            return result;
         }
 
         #endregion
