@@ -2,6 +2,7 @@ namespace Fds2AcadPlugin.BLL
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using Autodesk.AutoCAD.DatabaseServices;
     using Autodesk.AutoCAD.EditorInput;
 
@@ -44,11 +45,7 @@ namespace Fds2AcadPlugin.BLL
         {
             var pathToOpenDocument = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Name;
 
-            char[] separator = { '\\' };
-            string[] directories = pathToOpenDocument.Split(separator);
-            string filename = directories[directories.Length - 1];
-            filename = filename.Remove(filename.IndexOf("."));
-            return filename;
+            return Path.GetFileNameWithoutExtension(pathToOpenDocument);
         }
 
         public static string GetPathToPluginDirectory()

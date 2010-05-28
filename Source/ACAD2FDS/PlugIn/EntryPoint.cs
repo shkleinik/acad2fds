@@ -104,8 +104,13 @@ namespace Fds2AcadPlugin
             if (selectedSolids.Count < 1)
                 return;
 
+
+            #region Initialize progress window
+
             var progressWindow = new ConvertionProgress(selectedSolids.Count);
             progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
+
+            #endregion
 
             var allOptimizedElements = new List<Element>();
             var progress = 0;
@@ -114,6 +119,9 @@ namespace Fds2AcadPlugin
                 // LEVEL OPTIMIZER TEST
                 var converter = new SolidToElementConverter(solid);
                 var valuableElements = converter.ValueableElements;
+
+                #region Handle out of memory exception
+
                 if (!converter.IsSuccessfullConversion)
                 {
                     var result = MessageBox.Show("Lack of system resources. Proceed?", "Warning",
@@ -127,14 +135,15 @@ namespace Fds2AcadPlugin
                         return;
                     }
                     break;
-                }
+                } 
+
+                #endregion
 
                 var optimizer = new LevelOptimizer(valuableElements);
-                
-                
+
                 allOptimizedElements.AddRange(optimizer.Optimize());
 
-                progressWindow.pbStatus.Value = ++progress;
+                progressWindow.Update(progress, string.Format("{0} of {1} solids converted", ++progress, selectedSolids.Count));
 
                 // GET ALL VALUABLE ELEMENTS TEST
                 // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
@@ -149,8 +158,8 @@ namespace Fds2AcadPlugin
 
             // save to file
             var documentName = AcadInfoProvider.GetDocumentName();
-
-            var pathToFile = string.Concat(calculationInfo.OutputPath, "\\", documentName, ".fds");
+            
+            var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Format(documentName, Constants.FdsFileExtension));
 
             var templateManager = new TemplateManager(AcadInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
             var parameters = new Dictionary<string, object>

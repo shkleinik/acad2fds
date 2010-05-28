@@ -9,6 +9,8 @@ namespace Fds2AcadPlugin.BLL
         public const string FdsTemplateName = "fds.template";
 
         public const string MaterialsBasePath = "materials.xml";
+
+        public const string FdsFileExtension = ".fds";
         
         #endregion
         

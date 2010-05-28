@@ -4,15 +4,15 @@ namespace MaterialManager.BLL
     {
         private FdsColor() { }
 
-        public FdsColor(double Red, double Green, double Blue)
+        public FdsColor(int Red, int Green, int Blue)
         {
             R = Red;
             G = Green;
             B = Blue;
         }
 
-        public double R { get; set; }
-        public double G { get; set; }
-        public double B { get; set; }
+        public int R { get; set; }
+        public int G { get; set; }
+        public int B { get; set; }
     }
 }
