@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pbStatus = new System.Windows.Forms.ProgressBar();
+            this.lblProgressStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // pbStatus
@@ -39,11 +40,21 @@
             this.pbStatus.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pbStatus.TabIndex = 0;
             // 
+            // lblProgressStatus
+            // 
+            this.lblProgressStatus.AutoSize = true;
+            this.lblProgressStatus.Location = new System.Drawing.Point(42, 36);
+            this.lblProgressStatus.Name = "lblProgressStatus";
+            this.lblProgressStatus.Size = new System.Drawing.Size(66, 13);
+            this.lblProgressStatus.TabIndex = 1;
+            this.lblProgressStatus.Text = "Progress . . .";
+            // 
             // ConvertionProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 172);
+            this.Controls.Add(this.lblProgressStatus);
             this.Controls.Add(this.pbStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -51,12 +62,14 @@
             this.Name = "ConvertionProgress";
             this.Text = "Convertion Progress";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         public System.Windows.Forms.ProgressBar pbStatus;
+        public System.Windows.Forms.Label lblProgressStatus;
 
     }
 }
