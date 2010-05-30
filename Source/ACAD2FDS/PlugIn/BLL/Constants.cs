@@ -10,6 +10,10 @@ namespace Fds2AcadPlugin.BLL
 
         public const string MaterialsBasePath = "materials.xml";
 
+        public const string MappingsMaterialsPath = "mapping_materials.xml";
+
+        public const string ConfigName = "fdsPlugin.config";
+
         public const string FdsFileExtension = ".fds";
         
         #endregion
@@ -23,6 +27,8 @@ namespace Fds2AcadPlugin.BLL
         public const string RunSmokeViewCommandName = "ViewResultInSmokeView";
         public const string OptionsMenuItem = "Options";
         public const string OptionsCommandName = "PluginOptions";
+        public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";
+        public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
         public const string OpenMaterialManagerMenuItem = "Material manager";
         public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
 

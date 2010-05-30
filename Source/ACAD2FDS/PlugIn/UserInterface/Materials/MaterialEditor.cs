@@ -15,6 +15,7 @@
 
         private const string LabelControlPrefix = "lbl";
         private const string Colon = ":";
+        private const string DefaulText = "null";
         private const string DoubleValidationError = "Please, enter correct double value.";
         private const int displacementY = 30;
         private const int displacementX = 150;
@@ -93,13 +94,15 @@
 
             if (propertyInfo.PropertyType == typeof(string) || propertyInfo.PropertyType == typeof(double))
             {
+                var text = propertyInfo.GetValue(surface, null) != null ? propertyInfo.GetValue(surface, null).ToString() : DefaulText;
+
                 control = new TextBox
-                                  {
-                                      Location = new Point(startLocation.X + displacementX, startLocation.Y + displacementY * order),
-                                      Size = new Size(120, 15),
-                                      TabIndex = order,
-                                      Text = propertyInfo.GetValue(surface, null).ToString()
-                                  };
+                              {
+                                  Location = new Point(startLocation.X + displacementX, startLocation.Y + displacementY * order),
+                                  Size = new Size(120, 15),
+                                  TabIndex = order,
+                                  Text = text
+                              };
 
                 control.TextChanged += On_textBox_TextChanged;
 
@@ -113,10 +116,11 @@
 
             if (propertyInfo.PropertyType == typeof(FdsColor))
             {
-                var color = (FdsColor)propertyInfo.GetValue(surface, null);
+                var color = propertyInfo.GetValue(surface, null) != null ? (FdsColor)propertyInfo.GetValue(surface, null) : new FdsColor(123, 123, 123);
+
                 control = new Button
                               {
-                                  BackColor = Color.FromArgb((int)(color.R * 1000), (int)(color.G * 1000), (int)(color.B * 1000)),
+                                  BackColor = Color.FromArgb(color.R, color.G, color.B),
                                   ForeColor = InvertColor(BackColor),
                                   Size = new Size(120, 20),
                                   Location = new Point(startLocation.X + displacementX, startLocation.Y + displacementY * order - 3),
@@ -290,7 +294,7 @@
         {
             var comboBox = (sender as ComboBox);
 
-            if (comboBox == null) 
+            if (comboBox == null)
                 return;
 
             var propertyValue = comboBox.SelectedItem;

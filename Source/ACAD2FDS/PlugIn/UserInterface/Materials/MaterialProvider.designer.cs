@@ -33,11 +33,12 @@
             this.cbMaterialTypes = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.lblCategory = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(12, 98);
+            this.btnEdit.Location = new System.Drawing.Point(12, 157);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 0;
@@ -55,16 +56,13 @@
             // 
             // cbMaterialTypes
             // 
+            this.cbMaterialTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbMaterialTypes.FormattingEnabled = true;
-            this.cbMaterialTypes.Items.AddRange(new object[] {
-            "Лесной",
-            "Нефтехимический"});
             this.cbMaterialTypes.Location = new System.Drawing.Point(12, 37);
             this.cbMaterialTypes.Name = "cbMaterialTypes";
             this.cbMaterialTypes.Size = new System.Drawing.Size(121, 21);
             this.cbMaterialTypes.TabIndex = 2;
             this.cbMaterialTypes.SelectedIndexChanged += new System.EventHandler(this.On_cbMaterialType_SelectedIndexChanged);
-            this.cbMaterialTypes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.On_cbMaterialTypes_KeyPressed);
             // 
             // btnAdd
             // 
@@ -85,11 +83,22 @@
             this.lblCategory.TabIndex = 4;
             this.lblCategory.Text = "Category:";
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(16, 252);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 5;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.On_btnSave_Click);
+            // 
             // MaterialProvider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 292);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cbMaterialTypes);
@@ -102,6 +111,7 @@
             this.MinimumSize = new System.Drawing.Size(395, 320);
             this.Name = "MaterialProvider";
             this.Text = "Materials Provider";
+            this.Load += new System.EventHandler(this.On_MaterialProvider_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.On_MaterialProvider_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -115,5 +125,6 @@
         private System.Windows.Forms.ComboBox cbMaterialTypes;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.Button btnSave;
     }
 }

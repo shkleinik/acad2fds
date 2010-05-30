@@ -76,12 +76,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\AcadInfoProvider.cs" />
-    <Compile Include="BLL\Configuration\ConfigProvider.cs" />
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />
     <Compile Include="BLL\DefaultFactory.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
+    <Compile Include="BLL\Helpers\Entry.cs" />
+    <Compile Include="BLL\Helpers\XmlSerializer.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
+    <Compile Include="BLL\PluginInfoProvider.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInterface\CalculationInfo.cs">
@@ -107,6 +109,12 @@
     </Compile>
     <Compile Include="UserInterface\Materials\MaterialEditor.designer.cs">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Materials\MaterialMapper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInterface\Materials\MaterialMapper.Designer.cs">
+      <DependentUpon>MaterialMapper.cs</DependentUpon>
     </Compile>
     <Compile Include="UserInterface\Materials\MaterialProvider.cs">
       <SubType>Form</SubType>
@@ -136,6 +144,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\MaterialEditor.resx">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Materials\MaterialMapper.resx">
+      <DependentUpon>MaterialMapper.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\MaterialProvider.resx">

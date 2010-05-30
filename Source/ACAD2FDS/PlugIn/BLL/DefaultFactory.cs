@@ -1,15 +1,16 @@
 namespace Fds2AcadPlugin.BLL
 {
-    using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.ApplicationServices;
-    using Configuration;
+    using Autodesk.AutoCAD.Interop;
     using Autodesk.AutoCAD.Windows;
+    using Configuration;
+    using Helpers;
 
     public class DefaultFactory
     {
-        public ConfigProvider CreateConfigProvider()
+        public FdsPluginConfig CreateFdsConfig()
         {
-            return new ConfigProvider();
+            return XmlSerializer<FdsPluginConfig>.Deserialize(PluginInfoProvider.PathToPluginConfig);
         }
 
         public AcadApplication CreateAcadApplication()

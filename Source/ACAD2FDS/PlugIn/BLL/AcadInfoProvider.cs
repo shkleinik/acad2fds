@@ -1,6 +1,5 @@
 namespace Fds2AcadPlugin.BLL
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using Autodesk.AutoCAD.DatabaseServices;
@@ -41,18 +40,26 @@ namespace Fds2AcadPlugin.BLL
             return solids;
         }
 
+        public static IEnumerable<Entity> AllSolidsFromCurrentDrawing()
+        {
+            var objectIds = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Editor.SelectAll().Value.GetObjectIds();
+            var transaction = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Database.TransactionManager.StartTransaction();
+
+            foreach (var objectId in objectIds)
+            {
+                var dbObject = transaction.GetObject(objectId, OpenMode.ForRead);
+
+                if (dbObject.GetType() == typeof(Solid3d))
+                    yield return (Entity)dbObject;
+            }
+            
+        }
+
         public static string GetDocumentName()
         {
             var pathToOpenDocument = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Name;
 
             return Path.GetFileNameWithoutExtension(pathToOpenDocument);
-        }
-
-        public static string GetPathToPluginDirectory()
-        {
-            return string.Format(Constants.PluginFileSystemLocationPattern,
-                                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
-                                );
         }
     }
 }

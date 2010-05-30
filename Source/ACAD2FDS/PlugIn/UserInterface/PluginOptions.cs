@@ -1,20 +1,30 @@
 ﻿namespace Fds2AcadPlugin.UserInterface
 {
-    using System.Windows.Forms;
     using System;
+    using System.Windows.Forms;
+    using BLL;
+    using BLL.Helpers;
     using BLL.Configuration;
 
     public partial class PluginOptions : Form
     {
+        #region Constructor
+
         public PluginOptions()
         {
             InitializeComponent();
+        }
 
-            var fdsPluginConfig = new FdsPluginConfig();
-            fdsPluginConfig.InitializeFromFile();
+        #endregion
 
-            tbFdsPath.Text = fdsPluginConfig.PathToFds;
-            tbSmokeViewPath.Text = fdsPluginConfig.PathToFds;
+        #region Event handling
+
+        private void On_PluginOptions_Load(object sender, EventArgs e)
+        {
+            var config = new DefaultFactory().CreateFdsConfig();
+
+            tbFdsPath.Text = config.PathToFds;
+            tbSmokeViewPath.Text = config.PathToSmokeView;
         }
 
         private void On_btnBrowseFds_Click(object sender, EventArgs e)
@@ -79,9 +89,11 @@
                                       };
 
 
-            fdsPluginConfig.Save();
+            XmlSerializer<FdsPluginConfig>.Serialize(fdsPluginConfig, PluginInfoProvider.PathToPluginConfig);
 
             DialogResult = DialogResult.OK;
         }
+
+        #endregion
     }
 }
