@@ -6,6 +6,8 @@ namespace Fds2AcadPlugin.BLL.Helpers
     using NativeMethods;
     using System.Drawing;
     using MaterialManager.BLL;
+    using System.Collections.Generic;
+    using Autodesk.AutoCAD.DatabaseServices;
 
     public static class CommonHelper
     {
@@ -61,6 +63,59 @@ namespace Fds2AcadPlugin.BLL.Helpers
         public static FdsColor ToFdsColor(this Color color)
         {
             return new FdsColor(color.R, color.G, color.B);
+        }
+
+        public static List<string> GetMaterials(this IEnumerable<Entity> solids)
+        {
+            var materials = new List<string>();
+
+            foreach (var solid in solids)
+            {
+                if(!materials.Contains(solid.Material))
+                    materials.Add(solid.Material);
+            }
+
+            return materials;
+        }
+
+        public static List<MaterialManager.BLL.Surface> GetUniqueSurfaces(this Dictionary<string, MaterialManager.BLL.Surface> mapping)
+        {
+            var uniqueSurfaces = new List<MaterialManager.BLL.Surface>();
+
+            foreach (var pair in mapping)
+            {
+                if(!uniqueSurfaces.Contains(pair.Value))
+                    uniqueSurfaces.Add(pair.Value);
+            }
+
+            return uniqueSurfaces;
+        }
+
+        public static List<Entry> ToEntryList(this Dictionary<string, MaterialManager.BLL.Surface> mappings)
+        {
+            var entries = new List<Entry>();
+
+            foreach (var pair in mappings)
+            {
+                entries.Add(new Entry(pair.Key, pair.Value));
+            }
+
+            return entries;
+        }
+
+        public static Dictionary<string , MaterialManager.BLL.Surface> ToDictionary(this List<Entry> entries)
+        {
+            var dictionary = new Dictionary<string, MaterialManager.BLL.Surface>();
+
+            if (entries == null)
+                return dictionary;
+
+            foreach (var entry in entries)
+            {
+                dictionary[(string)entry.Key] = (MaterialManager.BLL.Surface)entry.Value;
+            }
+
+            return dictionary;
         }
     }
 }

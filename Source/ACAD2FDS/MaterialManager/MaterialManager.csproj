@@ -46,8 +46,6 @@
     <Compile Include="BLL\FdsColor.cs" />
     <Compile Include="BLL\Material.cs" />
     <Compile Include="BLL\Surface.cs" />
-    <Compile Include="BLL\MaterialFinder.cs" />
-    <Compile Include="BLL\MaterialSerializer.cs" />
     <Compile Include="BLL\MaterialCategory.cs" />
     <Compile Include="BLL\Ramp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

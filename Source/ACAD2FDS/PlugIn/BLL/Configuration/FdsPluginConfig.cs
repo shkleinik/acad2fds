@@ -1,19 +1,7 @@
-using System.IO;
-using System.Xml.Serialization;
-using System;
-
 namespace Fds2AcadPlugin.BLL.Configuration
 {
     public class FdsPluginConfig
     {
-        #region Constants
-
-        public const string FdsFileSystemLocationPattern = @"{0}\Walash Ltd\Fds to AutoCad plugin\{1}";
-
-        private const string ConfigFileName = "fdsPlugin.config";
-
-        #endregion
-
         #region Properties
 
         public string PathToFds { get; set; }
@@ -24,40 +12,35 @@ namespace Fds2AcadPlugin.BLL.Configuration
 
         #region Methods
 
-        public void InitializeFromFile()
-        {
-            var serializer = new XmlSerializer(typeof(FdsPluginConfig));
-            try
-            {
-                var configFilePath = String.Format(FdsFileSystemLocationPattern,
-                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                    ConfigFileName
-                    );
+        //public void InitializeFromFile()
+        //{
+        //    var serializer = new XmlSerializer(typeof(FdsPluginConfig));
 
-                Stream reader = new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
-                var fdsPluginConfig = serializer.Deserialize(reader) as FdsPluginConfig;
-                reader.Close();
-                PathToFds = fdsPluginConfig.PathToFds;
-                PathToSmokeView = fdsPluginConfig.PathToSmokeView;
+        //    try
+        //    {
+        //        var configFilePath = Path.Combine(AcadInfoProvider.GetPathToPluginDirectory(),Constants.ConfigName);
 
-            }
-            catch (Exception)
-            {
-            }
-        }
+        //        Stream reader = new FileStream(configFilePath, FileMode.Open, FileAccess.Read);
+        //        var fdsPluginConfig = serializer.Deserialize(reader) as FdsPluginConfig;
+        //        reader.Close();
+        //        PathToFds = fdsPluginConfig.PathToFds;
+        //        PathToSmokeView = fdsPluginConfig.PathToSmokeView;
 
-        public void Save()
-        {
-            var configFilePath = String.Format(FdsFileSystemLocationPattern,
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                ConfigFileName
-                );
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
 
-            var serializer = new XmlSerializer(typeof(FdsPluginConfig));
-            Stream writer = new FileStream(configFilePath, FileMode.Create);
-            serializer.Serialize(writer, this);
-            writer.Close();
-        }
+        //public void Save()
+        //{
+        //    var configFilePath = Path.Combine(AcadInfoProvider.GetPathToPluginDirectory(), Constants.ConfigName);
+
+        //    var serializer = new XmlSerializer(typeof(FdsPluginConfig));
+        //    Stream writer = new FileStream(configFilePath, FileMode.Create);
+        //    serializer.Serialize(writer, this);
+        //    writer.Close();
+        //}
 
         #endregion
     }
