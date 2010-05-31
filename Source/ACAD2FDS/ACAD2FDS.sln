@@ -19,7 +19,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Acad2FdsSetup", "Acad2FdsSe
 		{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7} = {C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fds2AcadSetupActions", "Fds2AcadSetupActions\Fds2AcadSetupActions.csproj", "{2A691B60-4E5C-4E74-B063-104BA1470B6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acad2FdsSetupActions", "Fds2AcadSetupActions\Acad2FdsSetupActions.csproj", "{2A691B60-4E5C-4E74-B063-104BA1470B6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}"
 EndProject
@@ -49,12 +49,12 @@ Global
 		SccProjectUniqueName4 = Acad2FdsSetup\\Acad2FdsSetup.vdproj
 		SccProjectName4 = Acad2FdsSetup
 		SccLocalPath4 = Acad2FdsSetup
-		SccProjectUniqueName5 = Fds2AcadSetupActions\\Fds2AcadSetupActions.csproj
-		SccProjectName5 = Fds2AcadSetupActions
-		SccLocalPath5 = Fds2AcadSetupActions
-		SccProjectUniqueName6 = UnitTests\\UnitTests.csproj
-		SccProjectName6 = UnitTests
-		SccLocalPath6 = UnitTests
+		SccProjectUniqueName5 = UnitTests\\UnitTests.csproj
+		SccProjectName5 = UnitTests
+		SccLocalPath5 = UnitTests
+		SccProjectUniqueName6 = Fds2AcadSetupActions\\Acad2FdsSetupActions.csproj
+		SccProjectName6 = Fds2AcadSetupActions
+		SccLocalPath6 = Fds2AcadSetupActions
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

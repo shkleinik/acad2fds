@@ -1,4 +1,4 @@
-namespace Fds2AcadSetupActions.BLL
+namespace Acad2FdsSetupActions.BLL
 {
     using System;
     using Microsoft.Win32;
@@ -24,7 +24,7 @@ namespace Fds2AcadSetupActions.BLL
             var pathToPluginAssembly = string.Format(Constants.PluginFileSystemLocationPattern,
                                                      Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                                                      Constants.FdsPluginAssemblyName
-                                                     );
+                );
             fdsKey.SetValue(Constants.LoaderRegValue, pathToPluginAssembly);
             fdsKey.SetValue(Constants.LoadctrlsRegValue, 2, RegistryValueKind.DWord);
             fdsKey.SetValue(Constants.ManagedRegValue, 1, RegistryValueKind.DWord);

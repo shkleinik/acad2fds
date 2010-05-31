@@ -1,8 +1,8 @@
-﻿using Fds2AcadSetupActions.BLL;
-using MbUnit.Framework;
-
-namespace UnitTests.InstallerTests
+﻿namespace UnitTests.InstallerTests
 {
+    using Acad2FdsSetupActions.BLL;
+    using MbUnit.Framework;
+
     [TestFixture]
     public class RegistryHelperTests
     {

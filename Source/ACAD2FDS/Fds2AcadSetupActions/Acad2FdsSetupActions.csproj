@@ -8,8 +8,8 @@
     <ProjectGuid>{2A691B60-4E5C-4E74-B063-104BA1470B6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fds2AcadSetupActions</RootNamespace>
-    <AssemblyName>Fds2AcadSetupActions</AssemblyName>
+    <RootNamespace>Acad2FdsSetupActions</RootNamespace>
+    <AssemblyName>Acad2FdsSetupActions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>%24/fds2acad/Source/ACAD2FDS/Fds2AcadSetupActions</SccProjectName>

@@ -1,7 +1,7 @@
 namespace UnitTests.InstallerTests
 {
+    using Acad2FdsSetupActions.BLL;
     using MbUnit.Framework;
-    using Fds2AcadSetupActions.BLL;
 
     [TestFixture]
     public class CommonHelperTests
