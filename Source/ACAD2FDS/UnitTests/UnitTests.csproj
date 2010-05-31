@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fds2AcadSetupActions\Acad2FdsSetupActions.csproj">
+    <ProjectReference Include="..\Acad2FdsSetupActions\Acad2FdsSetupActions.csproj">
       <Project>{2A691B60-4E5C-4E74-B063-104BA1470B6E}</Project>
       <Name>Acad2FdsSetupActions</Name>
     </ProjectReference>
