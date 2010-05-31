@@ -1,4 +1,4 @@
-﻿namespace Fds2AcadSetupActions
+﻿namespace Acad2FdsSetupActions
 {
     using System;
     using System.Collections;
@@ -64,7 +64,7 @@
         public void CheckIfAutoCadIsRunning()
         {
 
-        CheckIfAutoCadIsRunning:
+            CheckIfAutoCadIsRunning:
             if (!CommonHelper.IsAutoCadRunning())
                 return;
 

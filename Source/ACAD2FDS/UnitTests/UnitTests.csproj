@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fds2AcadSetupActions\Fds2AcadSetupActions.csproj">
+    <ProjectReference Include="..\Fds2AcadSetupActions\Acad2FdsSetupActions.csproj">
       <Project>{2A691B60-4E5C-4E74-B063-104BA1470B6E}</Project>
-      <Name>Fds2AcadSetupActions</Name>
+      <Name>Acad2FdsSetupActions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaterialManager\MaterialManager.csproj">
       <Project>{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}</Project>

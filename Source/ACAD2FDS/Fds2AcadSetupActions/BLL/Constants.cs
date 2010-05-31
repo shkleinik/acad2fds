@@ -1,4 +1,4 @@
-namespace Fds2AcadSetupActions.BLL
+namespace Acad2FdsSetupActions.BLL
 {
     public class Constants
     {

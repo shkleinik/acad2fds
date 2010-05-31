@@ -1,11 +1,11 @@
-namespace Fds2AcadSetupActions
+namespace Acad2FdsSetupActions
 {
     partial class SetupActions
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components;
 
         /// <summary> 
         /// Clean up any resources being used.
