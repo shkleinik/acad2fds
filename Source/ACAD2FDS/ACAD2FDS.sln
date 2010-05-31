@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialManager", "Material
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryConverter", "GeometryConverter\GeometryConverter.csproj", "{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Acad2FdsSetup", "Fds2AcadSetup\Fds2AcadSetup.vdproj", "{0FCE2A90-705E-4482-A6F9-9359F32D1C58}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Acad2FdsSetup", "Acad2FdsSetup\Acad2FdsSetup.vdproj", "{0FCE2A90-705E-4482-A6F9-9359F32D1C58}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2A691B60-4E5C-4E74-B063-104BA1470B6E} = {2A691B60-4E5C-4E74-B063-104BA1470B6E}
 		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17} = {4B31AA7C-201D-45B9-974D-9A9D30ED9B17}
@@ -46,9 +46,9 @@ Global
 		SccProjectUniqueName3 = GeometryConverter\\GeometryConverter.csproj
 		SccProjectName3 = GeometryConverter
 		SccLocalPath3 = GeometryConverter
-		SccProjectUniqueName4 = Fds2AcadSetup\\Fds2AcadSetup.vdproj
-		SccProjectName4 = Fds2AcadSetup
-		SccLocalPath4 = Fds2AcadSetup
+		SccProjectUniqueName4 = Acad2FdsSetup\\Acad2FdsSetup.vdproj
+		SccProjectName4 = Acad2FdsSetup
+		SccLocalPath4 = Acad2FdsSetup
 		SccProjectUniqueName5 = Fds2AcadSetupActions\\Fds2AcadSetupActions.csproj
 		SccProjectName5 = Fds2AcadSetupActions
 		SccLocalPath5 = Fds2AcadSetupActions
