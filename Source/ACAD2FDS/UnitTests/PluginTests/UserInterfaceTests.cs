@@ -131,8 +131,12 @@ namespace UnitTests.PluginTests
                                   new Entry("zxcvcz", surface)
                               };
 
+            var store = @"C:\surface.xml";
 
-            XmlSerializer<List<Entry>>.Serialize(entries, @"C:\surface.xml");
+            XmlSerializer<List<Entry>>.Serialize(entries, store);
+
+            var entries2 = XmlSerializer<List<Entry>>.Deserialize(store);
+
         }
     }
 }

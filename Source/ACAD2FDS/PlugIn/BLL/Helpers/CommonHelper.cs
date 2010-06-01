@@ -1,13 +1,16 @@
+
 namespace Fds2AcadPlugin.BLL.Helpers
 {
-    using System.Diagnostics;
     using System;
-    using System.Threading;
-    using NativeMethods;
-    using System.Drawing;
-    using MaterialManager.BLL;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.Linq;
+    using System.Threading;
     using Autodesk.AutoCAD.DatabaseServices;
+    using MaterialManager.BLL;
+    using NativeMethods;
 
     public static class CommonHelper
     {
@@ -116,6 +119,15 @@ namespace Fds2AcadPlugin.BLL.Helpers
             }
 
             return dictionary;
+        }
+
+        public static IEnumerable CreateStringWrapperForBinding(this IEnumerable<string> strings)
+        {
+
+            var values = from data in strings
+                         select new { Value = data };
+
+            return values.ToList();
         }
     }
 }
