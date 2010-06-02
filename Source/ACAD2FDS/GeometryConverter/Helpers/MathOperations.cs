@@ -240,6 +240,5 @@ namespace GeometryConverter.Helpers
         }
 
         #endregion
-
     }
 }

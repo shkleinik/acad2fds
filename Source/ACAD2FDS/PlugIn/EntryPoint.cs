@@ -1,3 +1,5 @@
+using GeometryConverter.Helpers;
+
 ///wouldn't it be great...
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
@@ -116,10 +118,11 @@ namespace Fds2AcadPlugin
             progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
 
             #endregion
-            
+
             #region Convert geometry
 
             var allOptimizedElements = new List<Element>();
+            var minMaxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids);
             var progress = 0;
             foreach (var solid in selectedSolids)
             {
@@ -155,23 +158,36 @@ namespace Fds2AcadPlugin
 
                 allOptimizedElements.AddRange(optimizer.Optimize());
 
-                
-
                 // GET ALL VALUABLE ELEMENTS TEST
                 // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
             }
 
-            progressWindow.Close(); 
+            progressWindow.Close();
 
             #endregion
-            
+
+            #region Handle negative offset
+
+            var minPoint = minMaxPoint[0];
+            var vector = ElementHelper.InitNegativeOffsetVector(minPoint);
+            if (vector != null)
+            {
+                foreach (var element in allOptimizedElements)
+                    element.Center.MoveUsingNegativeOffsetVector(vector);
+
+                minMaxPoint[0].MoveUsingNegativeOffsetVector(vector);
+                minMaxPoint[1].MoveUsingNegativeOffsetVector(vector);
+            }
+
+            #endregion
+
             #region Genrating output
 
             // EditMaterialsMappings();
             var mappings = XmlSerializer<List<Entry>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
             var uniqueSurfaces = mappings.ToDictionary().GetUniqueSurfaces();
 
-            var maxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids)[1];
+            var maxPoint = minMaxPoint[1];
 
             var documentName = AcadInfoProvider.GetDocumentName();
 
@@ -225,7 +241,7 @@ namespace Fds2AcadPlugin
             var allUsedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
             var materialsStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToMaterialsStore);
             var mappingMaterials = XmlSerializer<List<Entry>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
-            
+
             var materialMapper = new MaterialMapper(allUsedMaterials, materialsStore, mappingMaterials.ToDictionary());
             var dialogResult = materialMapper.ShowDialog();
             if (dialogResult == DialogResult.OK)
