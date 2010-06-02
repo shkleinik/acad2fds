@@ -3,6 +3,8 @@ using GeometryConverter.Helpers;
 ///wouldn't it be great...
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
+/// 
+/// ...to add devices (array[][] and spheric)
 
 namespace Fds2AcadPlugin
 {

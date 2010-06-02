@@ -346,14 +346,25 @@ namespace GeometryConverter.Optimization
                     }
                 }
             }
+            //if (dirX >= dirY)
+            //    if (dirZ >= dirY)
+            //        if (dirZ >= dirX)
+            //            result = Direction.Bottom;
+            //        else if (dirX >= dirY)
+            //            result = Direction.Left;
+            //        else
+            //            result = Direction.Back;
             if (dirX >= dirY)
-                if (dirZ >= dirY)
-                    if (dirZ >= dirX)
-                        result = Direction.Bottom;
-                    else if (dirX >= dirY)
-                        result = Direction.Left;
-                    else
-                        result = Direction.Back;
+                if (dirX >= dirZ)
+                    result = Direction.Left;
+                else
+                    result = Direction.Bottom;
+            else
+                if (dirY >= dirZ)
+                    result = Direction.Back;
+                else
+                    result = Direction.Bottom;
+
             return result;
         }
 

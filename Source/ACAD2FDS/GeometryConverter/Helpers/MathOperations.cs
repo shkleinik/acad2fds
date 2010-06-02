@@ -240,5 +240,39 @@ namespace GeometryConverter.Helpers
         }
 
         #endregion
+
+        public static double FindMin(double X, double Y, double Z)
+        {
+            double min;
+            if (X <= Y)
+                if (X <= Z)
+                    min = X;
+                else
+                    min = Z;
+            else
+                if (Y <= Z)
+                    min = Y;
+                else
+                    min = Z;
+            
+            return min;
+        }
+
+        public static double FindMax(double X, double Y, double Z)
+        {
+            double max;
+            if (X >= Y)
+                if (X >= Z)
+                    max = X;
+                else
+                    max = Z;
+            else
+                if (Y >= Z)
+                    max = Y;
+                else
+                    max = Z;
+
+            return max;
+        }
     }
 }
