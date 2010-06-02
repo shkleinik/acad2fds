@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace GeometryConverter.Helpers
+﻿namespace GeometryConverter.Helpers
 {
+    using System;
     using System.Collections.Generic;
     using Bases;
 
@@ -149,8 +148,7 @@ namespace GeometryConverter.Helpers
             var z = minpoint.Z < 0 ? minpoint.Z : 0;
             if (x < 0 || y < 0 || z < 0)
                 return new BasePoint(-x, -y, -z);
-            else
-                return null;
+            return null;
         }
 
         #endregion
