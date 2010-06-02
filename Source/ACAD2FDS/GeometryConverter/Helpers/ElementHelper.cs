@@ -139,5 +139,21 @@ namespace GeometryConverter.Helpers
                     return false;
             return true;
         }
+
+        #region Negative Offset Vector
+
+        public static BasePoint InitNegativeOffsetVector(BasePoint minpoint)
+        {
+            var x = minpoint.X < 0 ? minpoint.X : 0;
+            var y = minpoint.Y < 0 ? minpoint.Y : 0;
+            var z = minpoint.Z < 0 ? minpoint.Z : 0;
+            if (x < 0 || y < 0 || z < 0)
+                return new BasePoint(-x, -y, -z);
+            else
+                return null;
+        }
+
+        #endregion
+
     }
 }

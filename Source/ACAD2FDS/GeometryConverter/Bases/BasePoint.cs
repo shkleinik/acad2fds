@@ -122,5 +122,13 @@
         }
 
         #endregion
+
+        public void MoveUsingNegativeOffsetVector(BasePoint vector)
+        {
+            X += vector.X;
+            Y += vector.Y;
+            Z += vector.Z;
+        }
+
     }
 }
