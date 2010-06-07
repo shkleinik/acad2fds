@@ -1,6 +1,6 @@
 ﻿namespace Fds2AcadPlugin.UserInterface
 {
-    partial class ConvertionProgress
+    partial class ConversionProgress
     {
         /// <summary>
         /// Required designer variable.

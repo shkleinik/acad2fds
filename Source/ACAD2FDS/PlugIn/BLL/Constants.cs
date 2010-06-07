@@ -10,6 +10,8 @@ namespace Fds2AcadPlugin.BLL
 
         public const string MaterialsBasePath = "materials.xml";
 
+        public const string SurfacesBasePath = "surfaces.xml";
+
         public const string MappingsMaterialsPath = "mapping_materials.xml";
 
         public const string ConfigName = "fdsPlugin.config";
@@ -29,7 +31,7 @@ namespace Fds2AcadPlugin.BLL
         public const string OptionsCommandName = "PluginOptions";
         public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";
         public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
-        public const string OpenMaterialManagerMenuItem = "Material manager";
+        public const string OpenMaterialManagerMenuItem = "Material and Surfaces Manager";
         public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
 
         public const string BuildMenuCommandName = "BuildFdsMenu";

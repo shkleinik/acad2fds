@@ -2,7 +2,7 @@ namespace MaterialManager.BLL
 {
     public class Ramp
     {
-        private Ramp() { }
+        public Ramp() { }
 
         public Ramp(string identifier, double timeSpan, double functionValue)
         {

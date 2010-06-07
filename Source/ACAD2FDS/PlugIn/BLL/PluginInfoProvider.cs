@@ -13,6 +13,14 @@ namespace Fds2AcadPlugin.BLL
             }
         }
 
+        public static string PathToSurfacesStore
+        {
+            get
+            {
+                return Path.Combine(GetPathToPluginDirectory(), Constants.SurfacesBasePath);
+            }
+        }
+
         public static string PathToMappingsMaterials
         {
             get

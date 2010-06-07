@@ -1,4 +1,6 @@
-﻿namespace Fds2AcadPlugin.UserInterface.Materials
+﻿using System.ComponentModel;
+
+namespace Fds2AcadPlugin.UserInterface.Materials
 {
     using System;
     using System.Collections.Generic;
@@ -10,17 +12,27 @@
     {
         #region Fields
 
-        private readonly List<Surface> materialsStore;
+        private readonly List<Surface> surfacesStore;
+
+        private readonly List<Material> materialsStore;
 
         #endregion
 
         #region Properties
 
-        public List<Surface> MaterialsStore
+        public List<Material> MaterialsStore
         {
             get
             {
                 return materialsStore;
+            }
+        }
+        
+        public List<Surface> SurfacesStore
+        {
+            get
+            {
+                return surfacesStore;
             }
         }
 
@@ -30,10 +42,12 @@
 
         private MaterialProvider() { }
 
-        public MaterialProvider(List<Surface> materialsStore)
+        public MaterialProvider(List<Material> materialsStore, List<Surface> surfacesStore)
         {
             InitializeComponent();
+
             this.materialsStore = materialsStore;
+            this.surfacesStore = surfacesStore;
         }
 
         #endregion
@@ -43,6 +57,9 @@
         private void On_MaterialProvider_Load(object sender, EventArgs e)
         {
             InitMaterialCategoryComboBox();
+            On_cbMaterialType_SelectedIndexChanged(null, null);
+
+            lbSurfaces.DataSource = surfacesStore;
         }
 
         private void On_MaterialProvider_FormClosing(object sender, FormClosingEventArgs e)
@@ -54,7 +71,7 @@
 
         #region Controls events handling
 
-        private void On_btnAdd_Click(object sender, EventArgs e)
+        private void On_btnAddMaterial_Click(object sender, EventArgs e)
         {
             var materialEditor = new MaterialEditor();
             var dialogResult = materialEditor.ShowDialog(this);
@@ -62,14 +79,34 @@
             if (dialogResult != DialogResult.OK)
                 return;
 
-            materialsStore.Add(materialEditor.Surface);
+            materialsStore.Add(materialEditor.Material);
+            // UpdateSurfacesListBox();
             On_cbMaterialType_SelectedIndexChanged(null, null);
         }
 
-        private void On_btnEdit_Click(object sender, EventArgs e)
+        private void On_btnEditMaterial_Click(object sender, EventArgs e)
         {
-            var materialEditor = new MaterialEditor((Surface)lbMaterials.SelectedItem);
+            var materialEditor = new MaterialEditor((Material)lbMaterials.SelectedItem);
             materialEditor.ShowDialog(this);
+        }
+
+        private void On_btnAddSurface_Click(object sender, EventArgs e)
+        {
+            var surfaceEditor = new SurfaceEditor();
+            var dialogResult = surfaceEditor.ShowDialog(this);
+
+            if (dialogResult != DialogResult.OK)
+                return;
+
+            surfacesStore.Add(surfaceEditor.Surface);
+
+            UpdateSurfacesListBox();
+        }
+
+        private void On_btnEditSurface_Click(object sender, EventArgs e)
+        {
+            var surfaceEditor = new SurfaceEditor((Surface) lbSurfaces.SelectedItem);
+            surfaceEditor.ShowDialog(this);
         }
 
         private void On_cbMaterialType_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,6 +130,13 @@
                 case (int)MaterialCategory.SolidFuel:
 
                     lbMaterials.DataSource = GetMaterialsByCategory(MaterialCategory.SolidFuel);
+                    lbMaterials.ResetBindings();
+
+                    break;
+
+                case (int)MaterialCategory.Engineering:
+
+                    lbMaterials.DataSource = GetMaterialsByCategory(MaterialCategory.Engineering);
                     lbMaterials.ResetBindings();
 
                     break;
@@ -120,17 +164,23 @@
             }
 
             cbMaterialTypes.SelectedIndex = 0;
-            lbMaterials.DisplayMember = "ID";
-            On_cbMaterialType_SelectedIndexChanged(null, null);
         }
 
-        private IList<Surface> GetMaterialsByCategory(MaterialCategory category)
+        private IList<Material> GetMaterialsByCategory(MaterialCategory category)
         {
-            var materialsForCategory = from surface in materialsStore
-                                       where surface.MaterialCategory == category
-                                       select surface;
+            var materialsByCategory = from material in materialsStore
+                                      where material.MaterialCategory == category
+                                      select material;
 
-            return materialsForCategory.ToList();
+            return materialsByCategory.ToList();
+        }
+
+        private void UpdateSurfacesListBox()
+        {
+            lbSurfaces.DataSource = null;
+            lbSurfaces.DataSource = surfacesStore;
+            lbSurfaces.DisplayMember = "ID";
+            lbSurfaces.ResetBindings();
         }
 
         #endregion

@@ -1,13 +1,11 @@
-﻿using System.Windows.Forms;
-
-namespace Fds2AcadPlugin.UserInterface.Materials
+﻿namespace Fds2AcadPlugin.UserInterface.Materials
 {
-    partial class EditRamp
+    partial class SurfaceEditor
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,15 +28,16 @@ namespace Fds2AcadPlugin.UserInterface.Materials
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnSave = new System.Windows.Forms.Button();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(507, 237);
+            this.btnSave.Location = new System.Drawing.Point(227, 17);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 0;
@@ -46,30 +45,24 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.On_btnSave_Click);
             // 
-            // dataGridView
+            // errorProvider
             // 
-            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(570, 214);
-            this.dataGridView.TabIndex = 1;
-            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.On_dataGridView_DataError);
+            this.errorProvider.ContainerControl = this;
             // 
-            // EditRamp
+            // SurfaceEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 272);
-            this.Controls.Add(this.dataGridView);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(314, 52);
             this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "EditRamp";
-            this.Text = "EditRamp";
-            this.Load += new System.EventHandler(this.On_EditRamp_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.Name = "SurfaceEditor";
+            this.Text = "Surface Editor";
+            this.Load += new System.EventHandler(this.On_SurfaceEditor_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -77,6 +70,6 @@ namespace Fds2AcadPlugin.UserInterface.Materials
         #endregion
 
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

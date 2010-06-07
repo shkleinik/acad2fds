@@ -10,15 +10,15 @@
     {
         #region Fields
 
-        private readonly Dictionary<string, Surface> map;
+        private readonly List<MaterialAndSurface> map;
         private readonly List<string> usedMaterials;
-        private readonly List<Surface> allMaterials;
+        private readonly List<Surface> allSurfaces;
 
         #endregion
 
         #region Properties
 
-        public Dictionary<string, Surface> MappingMaterials
+        public List<MaterialAndSurface> MappingMaterials
         {
             get
             {
@@ -30,12 +30,12 @@
 
         #region Constructor
 
-        public MaterialMapper(List<string> usedMaterials, List<Surface> allMaterials, Dictionary<string, Surface> existingMapping)
+        public MaterialMapper(List<string> usedMaterials, List<Surface> allSurfaces, List<MaterialAndSurface> existingMapping)
         {
             InitializeComponent();
             this.usedMaterials = usedMaterials ?? new List<string>();
-            this.allMaterials = allMaterials ?? new List<Surface>();
-            map = existingMapping ?? new Dictionary<string, Surface>();
+            this.allSurfaces = allSurfaces ?? new List<Surface>();
+            map = existingMapping ?? new List<MaterialAndSurface>();
         }
 
         #endregion
@@ -45,11 +45,13 @@
         private void On_MaterialMapper_Load(object sender, EventArgs e)
         {
             Application.EnableVisualStyles();
-            dgvMapping.DataSource = usedMaterials.CreateStringWrapperForBinding();
+            dgvMapping.DataSource = CreateDataSource();
 
-            availableMaterials.DataSource = allMaterials;
-            availableMaterials.DisplayMember = "ID";
-            foundMaterials.DataPropertyName = "Value";
+            usedMaterialsColumn.DataPropertyName = "MaterialName";
+
+            availableMaterials.DataSource = allSurfaces.GetSurfacesIDs().CreateStringWrapperForBinding();
+            availableMaterials.DisplayMember = "Value";
+            availableMaterials.DataPropertyName = "SurfaceName";
         }
 
         #endregion
@@ -63,8 +65,18 @@
 
         #endregion
 
-        #region Internal implementation
+        #region Internal Implementation
 
+        private List<MaterialAndSurface> CreateDataSource()
+        {
+            foreach (var materialName in usedMaterials)
+            {
+                if (map.Find(mapItem => mapItem.MaterialName == materialName) == null)
+                    map.Add(new MaterialAndSurface { MaterialName = materialName, SurfaceName = allSurfaces[0].ID });
+            }
+
+            return map;
+        }
 
         #endregion
     }

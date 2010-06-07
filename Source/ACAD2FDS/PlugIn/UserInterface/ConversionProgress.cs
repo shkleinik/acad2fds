@@ -4,7 +4,7 @@ namespace Fds2AcadPlugin.UserInterface
 {
     using System.Windows.Forms;
 
-    public partial class ConvertionProgress : Form
+    public partial class ConversionProgress : Form
     {
 
         #region Fields
@@ -16,7 +16,7 @@ namespace Fds2AcadPlugin.UserInterface
 
         #region Consturctors
 
-        public ConvertionProgress(int maxProgress)
+        public ConversionProgress(int maxProgress)
         {
             InitializeComponent();
 
