@@ -1,4 +1,6 @@
-﻿namespace Fds2AcadPlugin.UserInterface.Materials
+﻿using System.Windows.Forms;
+
+namespace Fds2AcadPlugin.UserInterface.Materials
 {
     partial class EditRamp
     {
@@ -36,7 +38,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(504, 232);
+            this.btnSave.Location = new System.Drawing.Point(507, 237);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 0;
@@ -46,11 +48,13 @@
             // 
             // dataGridView
             // 
+            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(12, 12);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(570, 214);
             this.dataGridView.TabIndex = 1;
+            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.On_dataGridView_DataError);
             // 
             // EditRamp
             // 
@@ -64,6 +68,7 @@
             this.MinimizeBox = false;
             this.Name = "EditRamp";
             this.Text = "EditRamp";
+            this.Load += new System.EventHandler(this.On_EditRamp_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

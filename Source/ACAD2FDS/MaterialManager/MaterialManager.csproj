@@ -35,26 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BLL\Backing.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLL\FdsColor.cs" />
     <Compile Include="BLL\Material.cs" />
+    <Compile Include="BLL\MaterialAndSurface.cs" />
     <Compile Include="BLL\Surface.cs" />
     <Compile Include="BLL\MaterialCategory.cs" />
     <Compile Include="BLL\Ramp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeometryConverter\GeometryConverter.csproj">
-      <Project>{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}</Project>
-      <Name>GeometryConverter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -32,7 +32,6 @@ namespace Fds2AcadPlugin.BLL.Helpers
 
         private static XmlSerializer serializer;
 
-        [XmlInclude(typeof(MaterialManager.BLL.Surface))]
         public static void Serialize(T item, string filepath)
         {
             using (var fstream = new FileStream(filepath, FileMode.Create))

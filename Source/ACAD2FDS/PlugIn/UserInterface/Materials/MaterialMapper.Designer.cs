@@ -33,7 +33,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.btnApply = new System.Windows.Forms.Button();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.dgvMapping = new System.Windows.Forms.DataGridView();
-            this.foundMaterials = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.usedMaterialsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.availableMaterials = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMapping)).BeginInit();
@@ -65,7 +65,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.dgvMapping.AllowUserToDeleteRows = false;
             this.dgvMapping.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMapping.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.foundMaterials,
+            this.usedMaterialsColumn,
             this.availableMaterials});
             this.dgvMapping.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMapping.Location = new System.Drawing.Point(0, 0);
@@ -73,19 +73,22 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.dgvMapping.Size = new System.Drawing.Size(584, 274);
             this.dgvMapping.TabIndex = 8;
             this.dgvMapping.AutoGenerateColumns = false;
+            this.dgvMapping.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             // 
-            // foundMaterials
+            // usedMaterialsColumn
             // 
-            this.foundMaterials.HeaderText = "Found Materials";
-            this.foundMaterials.Name = "foundMaterials";
-            this.foundMaterials.ReadOnly = true;
-            this.foundMaterials.Width = 300;
+            this.usedMaterialsColumn.HeaderText = "Found Materials";
+            this.usedMaterialsColumn.Name = "usedMaterialsColumn";
+            this.usedMaterialsColumn.ReadOnly = true;
+            this.usedMaterialsColumn.Width = 300;
             // 
             // availableMaterials
             // 
             this.availableMaterials.HeaderText = "Available Materials";
             this.availableMaterials.Name = "availableMaterials";
             this.availableMaterials.Width = 200;
+            // this.availableMaterials.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            // this.availableMaterials.FlatStyle = FlatStyle.Flat;
             // 
             // MaterialMapper
             // 
@@ -112,7 +115,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
         private Button btnApply;
         private Panel pnlBottom;
         private DataGridView dgvMapping;
-        private DataGridViewTextBoxColumn foundMaterials;
+        private DataGridViewTextBoxColumn usedMaterialsColumn;
         private DataGridViewComboBoxColumn availableMaterials;
     }
 }

@@ -80,8 +80,6 @@
     <Compile Include="BLL\Constants.cs" />
     <Compile Include="BLL\DefaultFactory.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
-    <Compile Include="BLL\Helpers\Entry.cs" />
-    <Compile Include="BLL\Helpers\SerializableDictionary.cs" />
     <Compile Include="BLL\Helpers\XmlSerializer.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
     <Compile Include="BLL\PluginInfoProvider.cs" />
@@ -93,11 +91,11 @@
     <Compile Include="UserInterface\CalculationInfo.Designer.cs">
       <DependentUpon>CalculationInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserInterface\ConvertionProgress.cs">
+    <Compile Include="UserInterface\ConversionProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserInterface\ConvertionProgress.Designer.cs">
-      <DependentUpon>ConvertionProgress.cs</DependentUpon>
+    <Compile Include="UserInterface\ConversionProgress.Designer.cs">
+      <DependentUpon>ConversionProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="UserInterface\Materials\EditRamp.cs">
       <SubType>Form</SubType>
@@ -108,8 +106,14 @@
     <Compile Include="UserInterface\Materials\MaterialEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserInterface\Materials\MaterialEditor.designer.cs">
+    <Compile Include="UserInterface\Materials\MaterialEditor.Designer.cs">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Materials\SurfaceEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInterface\Materials\SurfaceEditor.designer.cs">
+      <DependentUpon>SurfaceEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UserInterface\Materials\MaterialMapper.cs">
       <SubType>Form</SubType>
@@ -135,8 +139,8 @@
       <DependentUpon>CalculationInfo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInterface\ConvertionProgress.resx">
-      <DependentUpon>ConvertionProgress.cs</DependentUpon>
+    <EmbeddedResource Include="UserInterface\ConversionProgress.resx">
+      <DependentUpon>ConversionProgress.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\EditRamp.resx">
@@ -145,6 +149,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\MaterialEditor.resx">
       <DependentUpon>MaterialEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Materials\SurfaceEditor.resx">
+      <DependentUpon>SurfaceEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Materials\MaterialMapper.resx">

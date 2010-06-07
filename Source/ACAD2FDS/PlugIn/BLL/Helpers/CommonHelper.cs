@@ -1,4 +1,3 @@
-
 namespace Fds2AcadPlugin.BLL.Helpers
 {
     using System;
@@ -94,40 +93,20 @@ namespace Fds2AcadPlugin.BLL.Helpers
             return uniqueSurfaces;
         }
 
-        public static List<Entry> ToEntryList(this Dictionary<string, MaterialManager.BLL.Surface> mappings)
-        {
-            var entries = new List<Entry>();
-
-            foreach (var pair in mappings)
-            {
-                entries.Add(new Entry(pair.Key, pair.Value));
-            }
-
-            return entries;
-        }
-
-        public static Dictionary<string , MaterialManager.BLL.Surface> ToDictionary(this List<Entry> entries)
-        {
-            var dictionary = new Dictionary<string, MaterialManager.BLL.Surface>();
-
-            if (entries == null)
-                return dictionary;
-
-            foreach (var entry in entries)
-            {
-                dictionary[(string)entry.Key] = (MaterialManager.BLL.Surface)entry.Value;
-            }
-
-            return dictionary;
-        }
-
         public static IEnumerable CreateStringWrapperForBinding(this IEnumerable<string> strings)
         {
-
             var values = from data in strings
                          select new { Value = data };
 
             return values.ToList();
+        }
+
+        public static IEnumerable<string> GetSurfacesIDs(this List<MaterialManager.BLL.Surface> surfaces)
+        {
+            foreach (var surface in surfaces)
+            {
+                yield return surface.ID;
+            }
         }
     }
 }
