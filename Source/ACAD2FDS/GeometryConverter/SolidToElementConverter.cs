@@ -1,4 +1,6 @@
-﻿namespace GeometryConverter
+﻿using System.Diagnostics;
+
+namespace GeometryConverter
 {
     using System;
     using System.Collections.Generic;
@@ -42,14 +44,43 @@
 
         }
 
+        public SolidToElementConverter(Entity solid, double elementSize)
+            : this(new List<Entity> { solid }, elementSize)
+        {
+
+        }
+
+
         public SolidToElementConverter(List<Entity> solids)
         {
-            IsSuccessfullConversion = true;
-            _solids = solids;
-            MaxMinPoint = GetMaxMinPoint(_solids);
-            _elementBase = InitializeElementBase();
-            //_elementBase = InitializeElementBasePro();
+            try
+            {
+                IsSuccessfullConversion = true;
+                _solids = solids;
+                MaxMinPoint = GetMaxMinPoint(_solids);
+                _elementBase = InitializeElementBase();
+            }
+            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception)
+            {
+                Debug.WriteLine("Exception occured");
+            }
         }
+
+        public SolidToElementConverter(List<Entity> solids, double elementSize)
+        {
+            try
+            {
+                IsSuccessfullConversion = true;
+                _solids = solids;
+                MaxMinPoint = GetMaxMinPoint(_solids);
+                _elementBase = new ElementBase(elementSize);
+            }
+            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception)
+            {
+                Debug.WriteLine("Exception occured");
+            }
+        }
+
 
         #endregion
 
@@ -71,20 +102,28 @@
 
             foreach (var solid in solids)
             {
-                var brep = new Brep(solid);
-                using (brep)
+                try
                 {
-                    foreach (var edg in brep.Edges)
-                    {
-                        var tmp = CastHelper.ConvertToBasePoint(edg.Vertex1.Point);
 
-                        if (tmp.X > xMax) xMax = tmp.X;
-                        if (tmp.X < xMin) xMin = tmp.X;
-                        if (tmp.Y > yMax) yMax = tmp.Y;
-                        if (tmp.Y < yMin) yMin = tmp.Y;
-                        if (tmp.Z > zMax) zMax = tmp.Z;
-                        if (tmp.Z < zMin) zMin = tmp.Z;
+                    var brep = new Brep(solid);
+                    using (brep)
+                    {
+                        foreach (var edg in brep.Edges)
+                        {
+                            var tmp = CastHelper.ConvertToBasePoint(edg.Vertex1.Point);
+
+                            if (tmp.X > xMax) xMax = tmp.X;
+                            if (tmp.X < xMin) xMin = tmp.X;
+                            if (tmp.Y > yMax) yMax = tmp.Y;
+                            if (tmp.Y < yMin) yMin = tmp.Y;
+                            if (tmp.Z > zMax) zMax = tmp.Z;
+                            if (tmp.Z < zMin) zMin = tmp.Z;
+                        }
                     }
+                }
+                catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception)
+                {
+                    Debug.WriteLine("Exception occured");
                 }
             }
 
@@ -143,6 +182,7 @@
                 }
             }
 
+
             double xLength;
             double yLength;
             double zLength;
@@ -152,13 +192,13 @@
 
             if ((totalEdges - (xEdges.Count + yEdges.Count + zEdges.Count) < deltaTotalEdges) && isCorvexSolid)
             {
-                    xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                    yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
-                    zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                xEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                yEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
+                zEdges.Sort((e1, e2) => e1.Length().CompareTo(e2.Length()));
 
-                    xLength = xEdges[0].Length();
-                    yLength = yEdges[0].Length();
-                    zLength = zEdges[0].Length();
+                xLength = xEdges[0].Length();
+                yLength = yEdges[0].Length();
+                zLength = zEdges[0].Length();
             }
             else
             {
@@ -239,58 +279,12 @@
         //    return (double)containees / collection.Count;
         //}
 
-        //private List<Element> GetCollection(BasePoint[] maxMinPoint, int stage)
-        //{
-        //    var resultCollection = new List<Element>();
-        //    var dimension = GetDimensions(maxMinPoint);
-        //    var tmpElementBase = new ElementBase(
-        //        Math.Round(dimension.X / (Math.Pow(2, stage)), 0),
-        //        Math.Round(dimension.Y / (Math.Pow(2, stage)), 0),
-        //        Math.Round(dimension.Z / (Math.Pow(2, stage)), 0)
-        //        );
-
-
-        //    var limitX = Math.Abs((int)(MaxMinPoint[0].X - MaxMinPoint[1].X) / tmpElementBase.XLength);
-        //    var limitY = Math.Abs((int)(MaxMinPoint[0].Y - MaxMinPoint[1].Y) / tmpElementBase.YLength);
-        //    var limitZ = Math.Abs((int)(MaxMinPoint[0].Z - MaxMinPoint[1].Z) / tmpElementBase.ZLength);
-
-        //    var startX = MaxMinPoint[0].X;
-        //    var startY = MaxMinPoint[0].Y;
-        //    var startZ = MaxMinPoint[0].Z;
-
-        //    for (var z = 0; z < limitZ; z++)
-        //        for (var y = 0; y < limitY; y++)
-        //            for (var x = 0; x < limitX; x++)
-        //            {
-        //                var center = new BasePoint(startX + (x + 0.5) * tmpElementBase.XLength,
-        //                                           startY + (y + 0.5) * tmpElementBase.YLength,
-        //                                           startZ + (z + 0.5) * tmpElementBase.ZLength);
-
-        //                var element = new Element(center, tmpElementBase, resultCollection.Count);
-        //                resultCollection.Add(element);
-        //            }
-
-        //    return resultCollection;
-
-        //}
-
-        //private static BasePoint GetDimensions(BasePoint[] maxMinPoint)
-        //{
-        //    var result = new BasePoint
-        //                     (
-        //                         maxMinPoint[1].X - maxMinPoint[0].X,
-        //                         maxMinPoint[1].Y - maxMinPoint[0].Y,
-        //                         maxMinPoint[1].Z - maxMinPoint[0].Z
-        //                     );
-        //    return result;
-        //}
-
         //private static BasePoint GetCoefficient(BasePoint dimensions)
         //{
         //    const int decimals = 1;
 
         //    var minValue = MathOperations.FindMin(dimensions.X, dimensions.Y, dimensions.Z);
-            
+
         //    var result = new BasePoint
         //                     (
         //                         Math.Round(dimensions.X / minValue, decimals),
@@ -397,6 +391,66 @@
             }
             return result;
         }
+
+        #endregion
+
+        #region Static methods
+
+        /// <summary>
+        /// Device coords provider
+        /// </summary>
+        /// <param name="maxMinPoint">MinMax point of entity or entity array</param>
+        /// <param name="stage">Number of splits</param>
+        /// <returns>
+        /// Math.Pow(2, 3 * stage) Elements with center coords distributed gradually in maxMinPoint-limited block.
+        /// MoveUsingNegativeOffsetVector ABSOLUTELY MUST be applied!
+        /// </returns>
+        public static List<Element> GetSplitBlockCollection(BasePoint[] maxMinPoint, int stage)
+        {
+            var resultCollection = new List<Element>();
+            var dimension = GetDimensions(maxMinPoint);
+            var tmpElementBase = new ElementBase(
+                Math.Round(dimension.X / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Y / (Math.Pow(2, stage)), 0),
+                Math.Round(dimension.Z / (Math.Pow(2, stage)), 0)
+                );
+
+
+            var limitX = Math.Abs((int)(maxMinPoint[0].X - maxMinPoint[1].X) / tmpElementBase.XLength);
+            var limitY = Math.Abs((int)(maxMinPoint[0].Y - maxMinPoint[1].Y) / tmpElementBase.YLength);
+            var limitZ = Math.Abs((int)(maxMinPoint[0].Z - maxMinPoint[1].Z) / tmpElementBase.ZLength);
+
+            var startX = maxMinPoint[0].X;
+            var startY = maxMinPoint[0].Y;
+            var startZ = maxMinPoint[0].Z;
+
+            for (var z = 0; z < limitZ; z++)
+                for (var y = 0; y < limitY; y++)
+                    for (var x = 0; x < limitX; x++)
+                    {
+                        var center = new BasePoint(startX + (x + 0.5) * tmpElementBase.XLength,
+                                                   startY + (y + 0.5) * tmpElementBase.YLength,
+                                                   startZ + (z + 0.5) * tmpElementBase.ZLength);
+                        var element = new Element(center, tmpElementBase.XLength, tmpElementBase.YLength,
+                                                  tmpElementBase.ZLength);
+                        resultCollection.Add(element);
+                    }
+
+            return resultCollection;
+
+        }
+
+        private static BasePoint GetDimensions(BasePoint[] maxMinPoint)
+        {
+            var result = new BasePoint
+                             (
+                                 maxMinPoint[1].X - maxMinPoint[0].X,
+                                 maxMinPoint[1].Y - maxMinPoint[0].Y,
+                                 maxMinPoint[1].Z - maxMinPoint[0].Z
+                             );
+            return result;
+        }
+
 
         #endregion
     }
