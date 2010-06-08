@@ -4,8 +4,6 @@ namespace MaterialManager.BLL
 
     public class Surface
     {
-        // public MaterialCategory MaterialCategory { get; set; }
-
         public string ID { get; set; }
 
         public string MaterialID { get; set; }
@@ -34,8 +32,6 @@ namespace MaterialManager.BLL
 
         public double ExtinguishingCoefficients { get; set; }
 
-        // public double HeatOfCombustion { get; set; }
-
         public double HeatOfVaporization { get; set; }
 
         public double KS { get; set; }
@@ -47,5 +43,7 @@ namespace MaterialManager.BLL
         public List<Ramp> RAMP_KS { get; set; }
 
         public List<Ramp> Ramp_Q { get; set; }
+
+        public double THICKNESS { get; set; }
     }
 }

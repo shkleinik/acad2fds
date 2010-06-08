@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<ArrayOfSurface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Surface>
+    <ID>FOAM SLAB</ID>
+    <MaterialID>FOAM</MaterialID>
+    <ForYouInformation>FOAM SLAB</ForYouInformation>
+    <Alpha>0</Alpha>
+    <BurnAway>true</BurnAway>
+    <Backing>EXPOSED</Backing>
+    <BurningRateMax>0</BurningRateMax>
+    <Color>
+      <R>255</R>
+      <G>128</G>
+      <B>255</B>
+    </Color>
+    <C_Delta_Rho>0</C_Delta_Rho>
+    <C_P>0</C_P>
+    <Delta>0</Delta>
+    <Density>0</Density>
+    <Emissivity>0</Emissivity>
+    <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
+    <HeatOfVaporization>0</HeatOfVaporization>
+    <KS>0</KS>
+    <Porosity>0</Porosity>
+    <RAMP_C_P />
+    <RAMP_KS />
+    <Ramp_Q />
+    <THICKNESS>0.05</THICKNESS>
+  </Surface>
+  <Surface>
+    <ID>CONCRETE SURFACE</ID>
+    <MaterialID>CONCRETE</MaterialID>
+    <ForYouInformation>CONCRETE SURFACE</ForYouInformation>
+    <Alpha>0</Alpha>
+    <BurnAway>false</BurnAway>
+    <Backing>VOID</Backing>
+    <BurningRateMax>0</BurningRateMax>
+    <Color>
+      <R>192</R>
+      <G>192</G>
+      <B>192</B>
+    </Color>
+    <C_Delta_Rho>0</C_Delta_Rho>
+    <C_P>0</C_P>
+    <Delta>0</Delta>
+    <Density>0</Density>
+    <Emissivity>0</Emissivity>
+    <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
+    <HeatOfVaporization>0</HeatOfVaporization>
+    <KS>0</KS>
+    <Porosity>0</Porosity>
+    <RAMP_C_P />
+    <RAMP_KS />
+    <Ramp_Q />
+    <THICKNESS>0.1</THICKNESS>
+  </Surface>
+  <Surface>
+    <ID>SHEET METAL</ID>
+    <MaterialID>STEEL</MaterialID>
+    <ForYouInformation>SHEET METAL</ForYouInformation>
+    <Alpha>0</Alpha>
+    <BurnAway>false</BurnAway>
+    <Backing>EXPOSED</Backing>
+    <BurningRateMax>0</BurningRateMax>
+    <Color>
+      <R>224</R>
+      <G>224</G>
+      <B>224</B>
+    </Color>
+    <C_Delta_Rho>0</C_Delta_Rho>
+    <C_P>0</C_P>
+    <Delta>0</Delta>
+    <Density>0</Density>
+    <Emissivity>0</Emissivity>
+    <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
+    <HeatOfVaporization>0</HeatOfVaporization>
+    <KS>0</KS>
+    <Porosity>0</Porosity>
+    <RAMP_C_P />
+    <RAMP_KS />
+    <Ramp_Q />
+    <THICKNESS>0.0013</THICKNESS>
+  </Surface>
+</ArrayOfSurface>

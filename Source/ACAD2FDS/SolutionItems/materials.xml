@@ -1,4 +1,177 @@
 <?xml version="1.0"?>
 <ArrayOfMaterial xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
+  <Material>
+    <ID>FOAM</ID>
+    <FYI>FOAM</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>1</SPECIFIC_HEAT>
+    <CONDUCTIVITY>0.2</CONDUCTIVITY>
+    <DENSITY>20</DENSITY>
+    <N_REACTIONS>1</N_REACTIONS>
+    <NU_FUEL>1</NU_FUEL>
+    <REFERENCE_TEMPERATURE>200</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>500</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
+  <Material>
+    <ID>PLASTIC</ID>
+    <FYI>PLASTIC</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>1.5</SPECIFIC_HEAT>
+    <CONDUCTIVITY>0.2</CONDUCTIVITY>
+    <DENSITY>1500</DENSITY>
+    <N_REACTIONS>1</N_REACTIONS>
+    <NU_FUEL>1</NU_FUEL>
+    <REFERENCE_TEMPERATURE>330</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>2500</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>25000</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
+  <Material>
+    <ID>COPPER</ID>
+    <FYI>COPPER</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>0.38</SPECIFIC_HEAT>
+    <CONDUCTIVITY>387</CONDUCTIVITY>
+    <DENSITY>8940</DENSITY>
+    <N_REACTIONS>0</N_REACTIONS>
+    <NU_FUEL>0</NU_FUEL>
+    <REFERENCE_TEMPERATURE>0</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>0</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
+  <Material>
+    <ID>CONCRETE</ID>
+    <FYI>Quintiere, Fire Behavior</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>0.88</SPECIFIC_HEAT>
+    <CONDUCTIVITY>1</CONDUCTIVITY>
+    <DENSITY>2100</DENSITY>
+    <N_REACTIONS>0</N_REACTIONS>
+    <NU_FUEL>0</NU_FUEL>
+    <REFERENCE_TEMPERATURE>0</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>0</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
+  <Material>
+    <ID>STEEL</ID>
+    <FYI>Quintiere, Fire Behavior</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>0.46</SPECIFIC_HEAT>
+    <CONDUCTIVITY>45.8</CONDUCTIVITY>
+    <DENSITY>7850</DENSITY>
+    <N_REACTIONS>0</N_REACTIONS>
+    <NU_FUEL>0</NU_FUEL>
+    <REFERENCE_TEMPERATURE>0</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>0</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
+  <Material>
+    <ID>A242_Steel</ID>
+    <FYI>A242 Steel</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>0</SPECIFIC_HEAT>
+    <CONDUCTIVITY>0</CONDUCTIVITY>
+    <DENSITY>7850</DENSITY>
+    <N_REACTIONS>0</N_REACTIONS>
+    <NU_FUEL>0</NU_FUEL>
+    <REFERENCE_TEMPERATURE>0</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>0</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP>
+      <Ramp>
+        <Identifier>c_steel</Identifier>
+        <TimeSpan>20</TimeSpan>
+        <FunctionValue>0.45</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>c_steel</Identifier>
+        <TimeSpan>377</TimeSpan>
+        <FunctionValue>0.6</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>c_steel</Identifier>
+        <TimeSpan>677</TimeSpan>
+        <FunctionValue>0.85</FunctionValue>
+      </Ramp>
+    </SPECIFIC_HEAT_RAMP>
+    <CONDUCTIVITY_RAMP>
+      <Ramp>
+        <Identifier>k_steel</Identifier>
+        <TimeSpan>20</TimeSpan>
+        <FunctionValue>48</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>k_steel</Identifier>
+        <TimeSpan>677</TimeSpan>
+        <FunctionValue>30</FunctionValue>
+      </Ramp>
+    </CONDUCTIVITY_RAMP>
+  </Material>
+  <Material>
+    <ID>INSULATION</ID>
+    <FYI>Isolatek BLAZE-SHIELD DC/F</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>0</SPECIFIC_HEAT>
+    <CONDUCTIVITY>0</CONDUCTIVITY>
+    <DENSITY>208</DENSITY>
+    <N_REACTIONS>0</N_REACTIONS>
+    <NU_FUEL>0</NU_FUEL>
+    <REFERENCE_TEMPERATURE>0</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>0</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>0</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP>
+      <Ramp>
+        <Identifier>c_insulation</Identifier>
+        <TimeSpan>20</TimeSpan>
+        <FunctionValue>0.8</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>c_insulation</Identifier>
+        <TimeSpan>677</TimeSpan>
+        <FunctionValue>2</FunctionValue>
+      </Ramp>
+    </SPECIFIC_HEAT_RAMP>
+    <CONDUCTIVITY_RAMP>
+      <Ramp>
+        <Identifier>k_insulation</Identifier>
+        <TimeSpan>20</TimeSpan>
+        <FunctionValue>0.05</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>k_insulation</Identifier>
+        <TimeSpan>377</TimeSpan>
+        <FunctionValue>0.1</FunctionValue>
+      </Ramp>
+      <Ramp>
+        <Identifier>k_insulation</Identifier>
+        <TimeSpan>677</TimeSpan>
+        <FunctionValue>0.2</FunctionValue>
+      </Ramp>
+    </CONDUCTIVITY_RAMP>
+  </Material>
+  <Material>
+    <ID>PMMA</ID>
+    <FYI>Para-Methoxymethamphetamine</FYI>
+    <MaterialCategory>Engineering</MaterialCategory>
+    <SPECIFIC_HEAT>1</SPECIFIC_HEAT>
+    <CONDUCTIVITY>0.25</CONDUCTIVITY>
+    <DENSITY>500</DENSITY>
+    <N_REACTIONS>1</N_REACTIONS>
+    <NU_FUEL>1</NU_FUEL>
+    <REFERENCE_TEMPERATURE>330</REFERENCE_TEMPERATURE>
+    <HEAT_OF_REACTION>1500</HEAT_OF_REACTION>
+    <HEAT_OF_COMBUSTION>25000</HEAT_OF_COMBUSTION>
+    <SPECIFIC_HEAT_RAMP />
+    <CONDUCTIVITY_RAMP />
+  </Material>
 </ArrayOfMaterial>

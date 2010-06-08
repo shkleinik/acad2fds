@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		SolutionItems\materials.xml = SolutionItems\materials.xml
 		SolutionItems\MbUnit.Framework.dll = SolutionItems\MbUnit.Framework.dll
 		SolutionItems\NVelocity.dll = SolutionItems\NVelocity.dll
+		SolutionItems\surfaces.xml = SolutionItems\surfaces.xml
 	EndProjectSection
 EndProject
 Global

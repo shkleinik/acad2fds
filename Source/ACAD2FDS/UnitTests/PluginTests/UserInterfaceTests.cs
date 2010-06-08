@@ -79,6 +79,7 @@ namespace UnitTests.PluginTests
         [Test]
         public void PluginOptionsTest()
         {
+            Application.EnableVisualStyles();
             var plugionOptions = new PluginOptions();
             plugionOptions.ShowDialog();
         }
