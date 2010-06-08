@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_03FC1C7E77A941939B62428DA3A3608A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
         "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
         "MsmSig" = "8:_UNDEFINED"
@@ -364,6 +370,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_03FC1C7E77A941939B62428DA3A3608A"
+            {
+            "SourcePath" = "8:..\\SolutionItems\\surfaces.xml"
+            "TargetName" = "8:surfaces.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0CEE881BEA14A2D33E59BB8232FAFDB8"
             {
             "AssemblyRegister" = "3:1"
@@ -1319,7 +1345,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9F3F9E52863E4E4DAF38E0815C199EFF"
             {
-            "SourcePath" = "8:..\\Fds2AcadSetupActions\\obj\\Debug\\Fds2AcadSetupActions.dll"
+            "SourcePath" = "8:..\\Acad2FdsSetupActions\\obj\\Debug\\Acad2FdsSetupActions.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
