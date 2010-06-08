@@ -51,9 +51,10 @@ namespace Fds2AcadPlugin
 
                 fdsMenu.AddMenuItem(0, Constants.RunFdsMenuItem, Constants.RunFdsCommandName);
                 fdsMenu.AddMenuItem(1, Constants.RunSmokeViewMenuItem, Constants.RunSmokeViewCommandName);
-                fdsMenu.AddMenuItem(2, Constants.OpenMaterialManagerMenuItem, Constants.OpenMaterialManagerCommandName);
-                fdsMenu.AddMenuItem(3, Constants.EditMaterialsMappingsMenuItem, Constants.EditMaterialsMappingsCommandName);
-                fdsMenu.AddMenuItem(4, Constants.OptionsMenuItem, Constants.OptionsCommandName);
+                fdsMenu.AddMenuItem(2, Constants.ConvertTo3dSolidsMenuItem, Constants.ConvertTo3dSolidsCommandName);
+                fdsMenu.AddMenuItem(3, Constants.OpenMaterialManagerMenuItem, Constants.OpenMaterialManagerCommandName);
+                fdsMenu.AddMenuItem(4, Constants.EditMaterialsMappingsMenuItem, Constants.EditMaterialsMappingsCommandName);
+                fdsMenu.AddMenuItem(5, Constants.OptionsMenuItem, Constants.OptionsCommandName);
                 fdsMenu.InsertInMenuBar(menuBar.Count);
                 menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
             }
@@ -99,7 +100,7 @@ namespace Fds2AcadPlugin
         {
             #region Check if config exists
 
-            if(new DefaultFactory().CreateFdsConfig() == null)
+            if (new DefaultFactory().CreateFdsConfig() == null)
             {
                 var fdsConfig = new PluginOptions();
                 fdsConfig.ShowDialog();
@@ -115,6 +116,8 @@ namespace Fds2AcadPlugin
 
             if (dialogResult == DialogResult.Cancel)
                 return;
+
+            EditMaterialsMappings();
 
             // get solids
             var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
@@ -195,8 +198,10 @@ namespace Fds2AcadPlugin
 
             #region Genrating output
 
-            // EditMaterialsMappings();
+            var usedSurfaces = CommonHelper.GetAllUsedSurfaces();
+            var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces();
             var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+            var materialsToSurfaces = mappings.GetDictionary();
 
             var maxPoint = minMaxPoint[1];
 
@@ -208,7 +213,9 @@ namespace Fds2AcadPlugin
             var parameters = new Dictionary<string, object>
                                          {
                                              {"elements", allOptimizedElements},
-                                             {"mappings", mappings},
+                                             {"usedSurfaces", usedSurfaces},
+                                             {"usedMaterials", requiredMaterials},
+                                             {"materialsToSurfaces", materialsToSurfaces},
                                              {"calculationTime", calculationInfo.CalculationTime},
                                              {"name", documentName},
                                              {"maxPoint", maxPoint}
@@ -228,7 +235,8 @@ namespace Fds2AcadPlugin
                         };
 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            Process.Start(startInfo); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            /* !!!!!!!!!!!!*/
+            Process.Start(startInfo); // !!!!!!!!!!!!!
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
             #endregion
@@ -243,7 +251,7 @@ namespace Fds2AcadPlugin
             var materialProvider = new MaterialProvider(materialsStore, surfacesStore);
             var dialogResult = materialProvider.ShowDialog();
 
-            if (dialogResult != DialogResult.OK) 
+            if (dialogResult != DialogResult.OK)
                 return;
 
             XmlSerializer<List<Material>>.Serialize(materialProvider.MaterialsStore, PluginInfoProvider.PathToMaterialsStore);
@@ -253,13 +261,14 @@ namespace Fds2AcadPlugin
         [CommandMethod(Constants.EditMaterialsMappingsCommandName)]
         static public void EditMaterialsMappings()
         {
-            var allUsedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
-            var materialsStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToMaterialsStore);
+            var usedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
+            var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore);
             var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
 
-            var materialMapper = new MaterialMapper(allUsedMaterials, materialsStore, mappingMaterials);
+            var materialMapper = new MaterialMapper(usedMaterials, surfacesStore, mappingMaterials);
 
             var dialogResult = materialMapper.ShowDialog();
+
             if (dialogResult == DialogResult.OK)
                 XmlSerializer<List<MaterialAndSurface>>.Serialize(materialMapper.MappingMaterials, PluginInfoProvider.PathToMappingsMaterials);
         }

@@ -52,7 +52,7 @@
         /// Converts collection to single element
         /// </summary>
         /// <returns>Element</returns>
-        public static Element ToElement(this List<Element> Elements)
+        public static Element ToElement(this List<Element> elements)
         {
             var minX = double.MaxValue;
             var minY = double.MaxValue;
@@ -62,7 +62,7 @@
             var maxY = double.MinValue;
             var maxZ = double.MinValue;
 
-            foreach (var element in Elements)
+            foreach (var element in elements)
             {
                 if (element.X1 < minX)
                     minX = element.X1;
@@ -85,7 +85,7 @@
             var center = new BasePoint(centerX, centerY, centerZ);
 
             // Todo : decide if it is necessary to set in this constructor index
-            return new Element(center, maxX - minX, maxY - minY, maxZ - minZ);
+            return new Element(center, maxX - minX, maxY - minY, maxZ - minZ, elements[0].Material);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Fds2AcadPlugin.BLL
         public const string RunFdsCommandName = "RunCalculationInFds";
         public const string RunSmokeViewMenuItem = "View result in SmokeView";
         public const string RunSmokeViewCommandName = "ViewResultInSmokeView";
+        public const string ConvertTo3dSolidsMenuItem = "Convert Objects to 3D Solids";
+        public const string ConvertTo3dSolidsCommandName = "ConvertTo3dSolids";
         public const string OptionsMenuItem = "Options";
         public const string OptionsCommandName = "PluginOptions";
         public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";

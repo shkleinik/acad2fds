@@ -1,6 +1,4 @@
-﻿using GeometryConverter.Helpers;
-
-namespace GeometryConverter.Bases
+﻿namespace GeometryConverter.Bases
 {
     using System;
 
@@ -130,6 +128,11 @@ namespace GeometryConverter.Bases
 
         public Element(BasePoint center, double xLength, double yLength, double zLength)
             : this(center, xLength, yLength, zLength, new Element[neighboursNumber], string.Empty, null)
+        {
+        }
+
+        public Element(BasePoint center, double xLength, double yLength, double zLength, string material)
+            : this(center, xLength, yLength, zLength, new Element[neighboursNumber], material, null)
         {
         }
 

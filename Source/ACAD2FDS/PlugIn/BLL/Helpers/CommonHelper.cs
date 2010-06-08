@@ -73,7 +73,7 @@ namespace Fds2AcadPlugin.BLL.Helpers
 
             foreach (var solid in solids)
             {
-                if(!materials.Contains(solid.Material))
+                if (!materials.Contains(solid.Material))
                     materials.Add(solid.Material);
             }
 
@@ -86,14 +86,14 @@ namespace Fds2AcadPlugin.BLL.Helpers
 
             foreach (var pair in mapping)
             {
-                if(!uniqueSurfaces.Contains(pair.Value))
+                if (!uniqueSurfaces.Contains(pair.Value))
                     uniqueSurfaces.Add(pair.Value);
             }
 
             return uniqueSurfaces;
         }
 
-        public static IEnumerable CreateStringWrapperForBinding(this IEnumerable<string> strings)
+        public static IList CreateStringWrapperForBinding(this IEnumerable<string> strings)
         {
             var values = from data in strings
                          select new { Value = data };
@@ -107,6 +107,68 @@ namespace Fds2AcadPlugin.BLL.Helpers
             {
                 yield return surface.ID;
             }
+        }
+
+        public static IList<MaterialManager.BLL.Surface> GetAllUsedSurfaces()
+        {
+            var usedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
+            var surfacesStore = XmlSerializer<List<MaterialManager.BLL.Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore);
+            var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+
+            //var usedSuraces = from surface in surfacesStore
+            //       from mapping in mappingMaterials
+            //       where surface.ID == mapping.SurfaceName && usedMaterials.Contains(mapping.MaterialName)
+            //       select surface;
+
+            var usedSurfaces = new List<MaterialManager.BLL.Surface>();
+
+            foreach (var material in usedMaterials)
+            {
+                var mapItem = mappingMaterials.Find(mapping => mapping.MaterialName == material);
+                if (mapItem == null)
+                    continue;
+
+                var surf = surfacesStore.Find(surface => surface.ID == mapItem.SurfaceName);
+
+                if (surf == null)
+                    continue;
+
+                if (!usedSurfaces.Contains(surf))
+                    usedSurfaces.Add(surf);
+            }
+
+
+            return usedSurfaces;
+        }
+
+        public static IList<MaterialManager.BLL.Material> GetNecessaryMaterialsFromSurfaces(this IList<MaterialManager.BLL.Surface> surfaces)
+        {
+            var necessaryMaterials = new List<MaterialManager.BLL.Material>();
+            var allMaterials = XmlSerializer<List<MaterialManager.BLL.Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore) ?? new List<MaterialManager.BLL.Material>();
+
+            foreach (var surface in surfaces)
+            {
+                var material = allMaterials.Find(mat => mat.ID == surface.MaterialID);
+
+                if(material == null)
+                    continue;
+
+                necessaryMaterials.Add(material);
+            }
+
+            return necessaryMaterials;
+        }
+
+        public static Dictionary<string, string> GetDictionary(this List<MaterialAndSurface> materialAndSurfaces)
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            foreach (var materialAndSurface in materialAndSurfaces)
+            {
+                dictionary.Add(materialAndSurface.MaterialName, materialAndSurface.SurfaceName);
+            }
+
+            return dictionary;
         }
     }
 }
