@@ -22,8 +22,6 @@
 ## hardcode BEGIN
 ## **********************************************************************
 ##
-##&MISC SURF_DEFAULT='WALL' / 
-##
 &REAC ID         = 'POLYURETHANE'
       FYI        = 'C_6.3 H_7.1 N O_2.1, NFPA Handbook, Babrauskas'
       SOOT_YIELD = 0.10
@@ -32,8 +30,6 @@
       H          = 7.1
       O          = 2.1  /
 ##
-##
-&SURF ID='BURNER', HRRPUA=1000., COLOR='RASPBERRY' /
 ##
 ## **********************************************************************
 ## hardcode END
@@ -46,6 +42,7 @@
       CONDUCTIVITY  = $material.CONDUCTIVITY
       SPECIFIC_HEAT = $material.SPECIFIC_HEAT
       DENSITY       = $material.DENSITY /
+
 #end
 ##
 ##   SURFACES
@@ -53,15 +50,24 @@
 #foreach($surface in $usedSurfaces)
 &SURF ID             = '$surface.ID'
       RGB            = $surface.Color.R,$surface.Color.G,$surface.Color.B
+      FYI              = '$surface.ForYouInformation'
+#if($surface.MaterialID != '')
       MATL_ID        = '$surface.MaterialID'
-      FYI            = '$surface.ForYouInformation'
+#end
 #if($surface.BurnAway)
       BURN_AWAY      = .TRUE.
 #end
-      BACKING        = '$surface.Backing'      
-#if($surface.THICKNESS != 0)
-      THICKNESS      =  $surface.THICKNESS/
+#if($surface.Backing != 0)
+      BACKING        = '$surface.Backing'
 #end
+#if($surface.THICKNESS != 0)
+      THICKNESS      =  $surface.THICKNESS
+#end
+#if($surface.HRRPUA != 0)
+      HRRPUA      =  $surface.HRRPUA
+#end
+/
+
 #end
 ##
 ##     ELEMENTS
@@ -73,8 +79,5 @@
 #set($Y2 = $element.FdsY2 / $scale)
 #set($Z1 = $element.FdsZ1 / $scale)
 #set($Z2 = $element.FdsZ2 / $scale)
-#if($element.Material == "Red")
-&VENT XB= $X1, $X2, $Y1, $Y2, $Z2, $Z2, SURF_ID='BURNER'/
-#end
-&OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='$materialsToSurfaces[$element.Material]' /
+&OBST XB= $X1,$X2, $Y1, $Y2, $Z1, $Z2, SURF_ID='$materialsToSurfaces.get_Item($element.Material)' /
 #end   ## FOREACH

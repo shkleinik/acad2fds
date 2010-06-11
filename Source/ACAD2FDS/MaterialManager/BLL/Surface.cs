@@ -34,6 +34,8 @@ namespace MaterialManager.BLL
 
         public double HeatOfVaporization { get; set; }
 
+        public double HRRPUA { get; set; }
+
         public double KS { get; set; }
 
         public double Porosity { get; set; }

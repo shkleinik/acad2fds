@@ -79,6 +79,8 @@
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />
     <Compile Include="BLL\DefaultFactory.cs" />
+    <Compile Include="BLL\Entities\InfoCollectorType.cs" />
+    <Compile Include="BLL\Entities\InfoCollector.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
     <Compile Include="BLL\Helpers\XmlSerializer.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />

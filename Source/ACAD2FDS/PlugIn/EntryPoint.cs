@@ -1,5 +1,3 @@
-using GeometryConverter.Helpers;
-
 ///wouldn't it be great...
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
@@ -20,6 +18,7 @@ namespace Fds2AcadPlugin
     using BLL.NativeMethods;
     using GeometryConverter;
     using GeometryConverter.Bases;
+    using GeometryConverter.Helpers;
     using GeometryConverter.Optimization;
     using GeometryConverter.Templates;
     using MaterialManager.BLL;
@@ -100,10 +99,13 @@ namespace Fds2AcadPlugin
         {
             #region Check if config exists
 
-            if (new DefaultFactory().CreateFdsConfig() == null)
+            var pluginConfig = new DefaultFactory().CreateFdsConfig();
+
+            if (pluginConfig == null)
             {
                 var fdsConfig = new PluginOptions();
                 fdsConfig.ShowDialog();
+                pluginConfig = fdsConfig.PluginConfig;
             }
 
             #endregion
@@ -144,10 +146,18 @@ namespace Fds2AcadPlugin
                 progressWindow.Update(progress, string.Format("{0} of {1} solids converted", ++progress, selectedSolids.Count));
 
                 // LEVEL OPTIMIZER TEST
-                var converter = new SolidToElementConverter(solid)
-                                    {
-                                        SolidVolume = ((Acad3DSolid)solid.AcadObject).Volume
-                                    };
+
+                SolidToElementConverter converter ;
+
+                if (pluginConfig.UseCustomElementSize)
+                {
+                    converter = new SolidToElementConverter(solid, pluginConfig.ElementSize);
+                }
+                else
+                {
+                    converter = new SolidToElementConverter(solid);
+                }
+
                 var valuableElements = converter.ValueableElements;
 
                 #region Handle out of memory exception
@@ -210,6 +220,7 @@ namespace Fds2AcadPlugin
             var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Concat(documentName, Constants.FdsFileExtension));
 
             var templateManager = new TemplateManager(PluginInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
+
             var parameters = new Dictionary<string, object>
                                          {
                                              {"elements", allOptimizedElements},
@@ -229,7 +240,7 @@ namespace Fds2AcadPlugin
 
             var startInfo = new ProcessStartInfo
                         {
-                            FileName = new DefaultFactory().CreateFdsConfig().PathToFds,
+                            FileName = pluginConfig.PathToFds,
                             Arguments = string.Concat("\"", pathToFile, "\""),
                             WorkingDirectory = calculationInfo.OutputPath
                         };

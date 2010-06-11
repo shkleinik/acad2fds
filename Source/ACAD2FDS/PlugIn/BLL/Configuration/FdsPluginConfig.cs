@@ -1,3 +1,5 @@
+using Fds2AcadPlugin.BLL.Entities;
+using System.Collections.Generic;
 namespace Fds2AcadPlugin.BLL.Configuration
 {
     /// <summary>
@@ -36,6 +38,11 @@ namespace Fds2AcadPlugin.BLL.Configuration
         /// Density for devices.
         /// </summary>
         public int DevicesDensity { get; set; }
+
+        /// <summary>
+        /// Collection of devices, SLCFs and BNDFs.
+        /// </summary>
+        public List<InfoCollector> InfoCollectors { get; set; }
 
         #endregion
     }

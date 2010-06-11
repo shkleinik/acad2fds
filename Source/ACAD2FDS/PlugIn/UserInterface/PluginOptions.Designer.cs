@@ -42,6 +42,7 @@
             this.lblElementSize = new System.Windows.Forms.Label();
             this.chbElementSize = new System.Windows.Forms.CheckBox();
             this.gbDevicesDensity = new System.Windows.Forms.GroupBox();
+            this.chlbDevices = new System.Windows.Forms.CheckedListBox();
             this.tbDevicesDensity = new System.Windows.Forms.TextBox();
             this.lblDevicesDensity = new System.Windows.Forms.Label();
             this.chbDevicesDensity = new System.Windows.Forms.CheckBox();
@@ -136,7 +137,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(407, 272);
+            this.btnSave.Location = new System.Drawing.Point(407, 389);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 7;
@@ -185,13 +186,24 @@
             // 
             // gbDevicesDensity
             // 
+            this.gbDevicesDensity.Controls.Add(this.chlbDevices);
             this.gbDevicesDensity.Controls.Add(this.tbDevicesDensity);
             this.gbDevicesDensity.Controls.Add(this.lblDevicesDensity);
             this.gbDevicesDensity.Location = new System.Drawing.Point(12, 188);
             this.gbDevicesDensity.Name = "gbDevicesDensity";
-            this.gbDevicesDensity.Size = new System.Drawing.Size(470, 74);
+            this.gbDevicesDensity.Size = new System.Drawing.Size(470, 195);
             this.gbDevicesDensity.TabIndex = 8;
             this.gbDevicesDensity.TabStop = false;
+            // 
+            // chlbDevices
+            // 
+            this.chlbDevices.CheckOnClick = true;
+            this.chlbDevices.DisplayMember = "DisplayName";
+            this.chlbDevices.FormattingEnabled = true;
+            this.chlbDevices.Location = new System.Drawing.Point(9, 61);
+            this.chlbDevices.Name = "chlbDevices";
+            this.chlbDevices.Size = new System.Drawing.Size(454, 124);
+            this.chlbDevices.TabIndex = 3;
             // 
             // tbDevicesDensity
             // 
@@ -230,7 +242,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 307);
+            this.ClientSize = new System.Drawing.Size(494, 424);
             this.Controls.Add(this.chbDevicesDensity);
             this.Controls.Add(this.chbElementSize);
             this.Controls.Add(this.gbDevicesDensity);
@@ -275,5 +287,6 @@
         private System.Windows.Forms.TextBox tbDevicesDensity;
         private System.Windows.Forms.Label lblDevicesDensity;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.CheckedListBox chlbDevices;
     }
 }
