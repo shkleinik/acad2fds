@@ -20,6 +20,7 @@
     <Emissivity>0</Emissivity>
     <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
     <HeatOfVaporization>0</HeatOfVaporization>
+    <HRRPUA>0</HRRPUA>
     <KS>0</KS>
     <Porosity>0</Porosity>
     <RAMP_C_P />
@@ -47,6 +48,7 @@
     <Emissivity>0</Emissivity>
     <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
     <HeatOfVaporization>0</HeatOfVaporization>
+    <HRRPUA>0</HRRPUA>
     <KS>0</KS>
     <Porosity>0</Porosity>
     <RAMP_C_P />
@@ -74,11 +76,40 @@
     <Emissivity>0</Emissivity>
     <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
     <HeatOfVaporization>0</HeatOfVaporization>
+    <HRRPUA>0</HRRPUA>
     <KS>0</KS>
     <Porosity>0</Porosity>
     <RAMP_C_P />
     <RAMP_KS />
     <Ramp_Q />
     <THICKNESS>0.0013</THICKNESS>
+  </Surface>
+  <Surface>
+    <ID>DefaultBurner</ID>
+    <MaterialID />
+    <ForYouInformation>DefaultBurner</ForYouInformation>
+    <Alpha>0</Alpha>
+    <BurnAway>false</BurnAway>
+    <Backing>VOID</Backing>
+    <BurningRateMax>0</BurningRateMax>
+    <Color>
+      <R>255</R>
+      <G>0</G>
+      <B>0</B>
+    </Color>
+    <C_Delta_Rho>0</C_Delta_Rho>
+    <C_P>0</C_P>
+    <Delta>0</Delta>
+    <Density>0</Density>
+    <Emissivity>0</Emissivity>
+    <ExtinguishingCoefficients>0</ExtinguishingCoefficients>
+    <HeatOfVaporization>0</HeatOfVaporization>
+    <HRRPUA>1000</HRRPUA>
+    <KS>0</KS>
+    <Porosity>0</Porosity>
+    <RAMP_C_P />
+    <RAMP_KS />
+    <Ramp_Q />
+    <THICKNESS>0</THICKNESS>
   </Surface>
 </ArrayOfSurface>

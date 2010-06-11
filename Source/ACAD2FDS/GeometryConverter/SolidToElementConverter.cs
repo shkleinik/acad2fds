@@ -1,24 +1,30 @@
-﻿using System.Diagnostics;
-
-namespace GeometryConverter
+﻿namespace GeometryConverter
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Autodesk.AutoCAD.BoundaryRepresentation;
     using Autodesk.AutoCAD.DatabaseServices;
     using Bases;
     using Helpers;
-    using Element = Bases.Element;
     using BrFace = Autodesk.AutoCAD.BoundaryRepresentation.Face;
+    using Element = Bases.Element;
 
     public class SolidToElementConverter
     {
+        #region Constants
+
+        private const double DefaultElementSize = 100.0;
+
+        #endregion
+
         #region Fields
 
-        protected List<Entity> _solids;
+        protected Entity _solid;
         protected ElementBase _elementBase;
         private List<Element> _fullCollection;
         private List<Element> _valueableElements;
+        private readonly double elementSize;
 
         #endregion
 
@@ -39,25 +45,18 @@ namespace GeometryConverter
         #region Constructors
 
         public SolidToElementConverter(Entity solid)
-            : this(new List<Entity> { solid })
+            : this(solid, DefaultElementSize)
         {
-
         }
 
         public SolidToElementConverter(Entity solid, double elementSize)
-            : this(new List<Entity> { solid }, elementSize)
-        {
-
-        }
-
-
-        public SolidToElementConverter(List<Entity> solids)
         {
             try
             {
                 IsSuccessfullConversion = true;
-                _solids = solids;
-                MaxMinPoint = GetMaxMinPoint(_solids);
+                _solid = solid;
+                MaxMinPoint = GetMaxMinPoint(new List<Entity> { _solid });
+                this.elementSize = elementSize;
                 _elementBase = InitializeElementBase();
             }
             catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception)
@@ -65,22 +64,6 @@ namespace GeometryConverter
                 Debug.WriteLine("Exception occured");
             }
         }
-
-        public SolidToElementConverter(List<Entity> solids, double elementSize)
-        {
-            try
-            {
-                IsSuccessfullConversion = true;
-                _solids = solids;
-                MaxMinPoint = GetMaxMinPoint(_solids);
-                _elementBase = new ElementBase(elementSize);
-            }
-            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception)
-            {
-                Debug.WriteLine("Exception occured");
-            }
-        }
-
 
         #endregion
 
@@ -148,40 +131,36 @@ namespace GeometryConverter
 
             var totalEdges = 0;
             var isCorvexSolid = true;
-            foreach (var solid in _solids)
+            var brep = new Brep(_solid);
+            using (brep)
             {
-                var brep = new Brep(solid);
-                using (brep)
+                foreach (BrFace fce in brep.Faces)
                 {
-                    foreach (BrFace fce in brep.Faces)
+                    if (!fce.IsCorvex())
                     {
-                        if (!fce.IsCorvex())
-                        {
-                            isCorvexSolid = false;
-                            break;
-                        }
-                    }
-                    foreach (var edg in brep.Edges)
-                    {
-                        xPoints.Add(edg.Vertex1.Point.X);
-                        xPoints.Add(edg.Vertex2.Point.X);
-                        yPoints.Add(edg.Vertex1.Point.Y);
-                        yPoints.Add(edg.Vertex2.Point.Y);
-                        zPoints.Add(edg.Vertex1.Point.Z);
-                        zPoints.Add(edg.Vertex2.Point.Z);
-
-                        if (edg.IsAlongX())
-                            xEdges.Add(edg);
-                        else if (edg.IsAlongY())
-                            yEdges.Add(edg);
-                        else if (edg.IsAlongZ())
-                            zEdges.Add(edg);
-
-                        totalEdges++;
+                        isCorvexSolid = false;
+                        break;
                     }
                 }
-            }
+                foreach (var edg in brep.Edges)
+                {
+                    xPoints.Add(edg.Vertex1.Point.X);
+                    xPoints.Add(edg.Vertex2.Point.X);
+                    yPoints.Add(edg.Vertex1.Point.Y);
+                    yPoints.Add(edg.Vertex2.Point.Y);
+                    zPoints.Add(edg.Vertex1.Point.Z);
+                    zPoints.Add(edg.Vertex2.Point.Z);
 
+                    if (edg.IsAlongX())
+                        xEdges.Add(edg);
+                    else if (edg.IsAlongY())
+                        yEdges.Add(edg);
+                    else if (edg.IsAlongZ())
+                        zEdges.Add(edg);
+
+                    totalEdges++;
+                }
+            }
 
             double xLength;
             double yLength;
@@ -210,7 +189,7 @@ namespace GeometryConverter
         private ElementBase InitializeElementBaseByMinMaxPoint()
         {
             const int nils = 3;
-            int multiplier = (int)Math.Pow(10, nils);
+            var multiplier = (int)Math.Pow(10, nils);
             var X = (int)Math.Round((MaxMinPoint[1].X - MaxMinPoint[0].X) * multiplier, 0);
             var Y = (int)Math.Round((MaxMinPoint[1].Y - MaxMinPoint[0].Y) * multiplier, 0);
             var Z = (int)Math.Round((MaxMinPoint[1].Z - MaxMinPoint[0].Z) * multiplier, 0);
@@ -221,7 +200,8 @@ namespace GeometryConverter
 
             var minLength = (int)MathOperations.FindMin(xLength, yLength, zLength);
 
-            var size = minLength >= 6 ? 100 : 0.1;
+            var size = minLength >= 6 ? elementSize : 0.1;
+
             //int size = (int)Math.Pow(10, minLength - (nils + 1)); // 2 is a kind of magic...
             return new ElementBase(size);
         }
@@ -265,7 +245,7 @@ namespace GeometryConverter
         //    var containees = 0;
         //    for (var i = 0; i < collection.Count; i++)
         //    {
-        //        foreach (var solid in _solids)
+        //        foreach (var solid in _solid)
         //        {
         //            var brep = new Brep(solid);
         //            PointContainment containment;
@@ -358,25 +338,22 @@ namespace GeometryConverter
             else
                 return _valueableElements;
 
-
             for (var i = 0; i < AllElements.Count; i++)
             {
-                foreach (var solid in _solids)
-                {
-                    var brep = new Brep(solid);
-                    PointContainment containment;
-                    brep.GetPointContainment(AllElements[i].Center.ConverToAcadPoint(), out containment);
 
-                    if (containment != PointContainment.Inside)
-                        continue;
+                var brep = new Brep(_solid);
+                PointContainment containment;
+                brep.GetPointContainment(AllElements[i].Center.ConverToAcadPoint(), out containment);
 
-                    AllElements[i].Material = solid.Material;
+                if (containment != PointContainment.Inside)
+                    continue;
 
-                    var tmpElement = (Element)AllElements[i].Clone();
-                    tmpElement.Index = _valueableElements.Count;
+                AllElements[i].Material = _solid.Material;
 
-                    _valueableElements.Add(tmpElement);
-                }
+                var tmpElement = (Element)AllElements[i].Clone();
+                tmpElement.Index = _valueableElements.Count;
+
+                _valueableElements.Add(tmpElement);
             }
 
             return _valueableElements;

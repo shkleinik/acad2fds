@@ -1,12 +1,15 @@
-﻿namespace Fds2AcadPlugin.UserInterface
+﻿using System.Collections.Generic;
+
+namespace Fds2AcadPlugin.UserInterface
 {
     using System;
-    using System.Windows.Forms;
-    using BLL;
-    using BLL.Helpers;
-    using BLL.Configuration;
     using System.ComponentModel;
     using System.IO;
+    using System.Windows.Forms;
+    using BLL;
+    using BLL.Configuration;
+    using BLL.Entities;
+    using BLL.Helpers;
 
     public partial class PluginOptions : Form
     {
@@ -17,6 +20,28 @@
         private const string StringValidationError = "Please, specify path to executable";
 
         #endregion
+
+        #region Properties
+
+        public FdsPluginConfig PluginConfig
+        {
+            get
+            {
+                return new FdsPluginConfig
+                {
+                    PathToFds = tbFdsPath.Text,
+                    PathToSmokeView = tbSmokeViewPath.Text,
+                    UseCustomElementSize = chbElementSize.Checked,
+                    ElementSize = Int32.Parse(tbElementSize.Text),
+                    DefineCustomDevicesDensity = chbDevicesDensity.Checked,
+                    DevicesDensity = Int32.Parse(tbDevicesDensity.Text),
+                    InfoCollectors = GetInfoCollectorsCollection()
+                };
+            }
+        }
+
+        #endregion
+
 
         #region Constructor
 
@@ -31,8 +56,12 @@
 
         private void On_PluginOptions_Load(object sender, EventArgs e)
         {
-            var config = new DefaultFactory().CreateFdsConfig() ?? new FdsPluginConfig { ElementSize = 100, DevicesDensity = 4 };
-
+            var config = new DefaultFactory().CreateFdsConfig() ?? new FdsPluginConfig
+                                                                      {
+                                                                          ElementSize = 100,
+                                                                          DevicesDensity = 4,
+                                                                          InfoCollectors = GetInfoCollectors()
+                                                                      };
             tbFdsPath.Text = config.PathToFds;
             tbSmokeViewPath.Text = config.PathToSmokeView;
 
@@ -43,6 +72,11 @@
             chbDevicesDensity.Checked = config.DefineCustomDevicesDensity;
             gbDevicesDensity.Enabled = config.DefineCustomDevicesDensity;
             tbDevicesDensity.Text = config.DevicesDensity.ToString();
+
+            foreach (var collector in config.InfoCollectors)
+            {
+                chlbDevices.Items.Add(collector, collector.CollectInfo);
+            }
         }
 
         private void On_btnBrowseFds_Click(object sender, EventArgs e)
@@ -78,17 +112,7 @@
 
         private void On_btnSave_Click(object sender, EventArgs e)
         {
-            var fdsPluginConfig = new FdsPluginConfig
-                                      {
-                                          PathToFds = tbFdsPath.Text,
-                                          PathToSmokeView = tbSmokeViewPath.Text,
-                                          UseCustomElementSize = chbElementSize.Checked,
-                                          ElementSize = Int32.Parse(tbElementSize.Text),
-                                          DefineCustomDevicesDensity = chbDevicesDensity.Checked,
-                                          DevicesDensity = Int32.Parse(tbDevicesDensity.Text)
-                                      };
-
-            XmlSerializer<FdsPluginConfig>.Serialize(fdsPluginConfig, PluginInfoProvider.PathToPluginConfig);
+            XmlSerializer<FdsPluginConfig>.Serialize(PluginConfig, PluginInfoProvider.PathToPluginConfig);
 
             DialogResult = DialogResult.OK;
         }
@@ -145,6 +169,79 @@
         private void On_chbDevicesDensity_CheckedChanged(object sender, EventArgs e)
         {
             gbDevicesDensity.Enabled = chbDevicesDensity.Checked;
+        }
+
+        #endregion
+
+        #region Internal imlementation
+
+        private static List<InfoCollector> GetInfoCollectors()
+        {
+            var infoCollectors = new List<InfoCollector>
+                                     {
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Boundary File for GAUGE HEAT FLUX",
+                                             CollectorType = InfoCollectorType.BoundaryFile,
+                                             CollectorPattern = "&BNDF QUANTITY='GAUGE HEAT FLUX' /"
+                                         },
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Boundary File for WALL TEMPERATURE",
+                                             CollectorType = InfoCollectorType.BoundaryFile,
+                                             CollectorPattern = "&BNDF QUANTITY='WALL TEMPERATURE' /"
+                                         },
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Boundary File for BURNING RATE",
+                                             CollectorType = InfoCollectorType.BoundaryFile,
+                                             CollectorPattern = "&BNDF QUANTITY='BURNING RATE' /"
+                                         },
+                                        new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Slice File for TEMPERATURE",
+                                             CollectorType = InfoCollectorType.SliceFile,
+                                             CollectorPattern = "&SLCF PBX={0}, QUANTITY='TEMPERATURE' /"
+                                         },
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Slice File for HRRPUV(Heat Release Rate per Unit Volume)",
+                                             CollectorType = InfoCollectorType.SliceFile,
+                                             CollectorPattern = "&SLCF PBX={0}, QUANTITY='HRRPUV' /"
+                                         },
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Slice File for MIXTURE FRACTION",
+                                             CollectorType = InfoCollectorType.SliceFile,
+                                             CollectorPattern = "&SLCF PBX={0}, QUANTITY='MIXTURE FRACTION' /"
+                                         },
+                                         new InfoCollector{
+                                             CollectInfo = true, 
+                                             DisplayName = "Device for TEMPERATURE",
+                                             CollectorType = InfoCollectorType.Device,
+                                             CollectorPattern = "&DEVC XYZ={0},{1},{2}, QUANTITY='TEMPERATURE' /"
+                                         }
+                                     };
+
+            return infoCollectors;
+        }
+
+        private List<InfoCollector> GetInfoCollectorsCollection()
+        {
+            var infoCollectors = new List<InfoCollector>();
+
+            for (var i = 0; i < chlbDevices.Items.Count; i++)
+            {
+                var collector = chlbDevices.Items[i] as InfoCollector;
+
+                if (collector == null)
+                    continue;
+
+                collector.CollectInfo = chlbDevices.CheckedIndices.Contains(i);
+                infoCollectors.Add(collector);
+            }
+
+            return infoCollectors;
         }
 
         #endregion
