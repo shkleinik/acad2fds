@@ -51,6 +51,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4B795C0BC63B4A43B488472D000D0D53"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5A3FCAF03E47F8E34C2F101D0B3AF248"
         "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
         "MsmSig" = "8:_UNDEFINED"
@@ -82,12 +88,6 @@
         "Entry"
         {
         "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
-        "OwnerKey" = "8:_A8DC5E791F3971801024E5BE258DAD04"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
         "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -99,19 +99,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9F3F9E52863E4E4DAF38E0815C199EFF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A2D0B9EF8BCA6D227573340CB06FD2B8"
-        "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A8DC5E791F3971801024E5BE258DAD04"
         "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -154,13 +142,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F3F9E52863E4E4DAF38E0815C199EFF"
+        "OwnerKey" = "8:_D998AB809557497770AB2B18C806E26F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D998AB809557497770AB2B18C806E26F"
+        "OwnerKey" = "8:_4B795C0BC63B4A43B488472D000D0D53"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,12 +190,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A8DC5E791F3971801024E5BE258DAD04"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -231,7 +213,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Fds2AcadSetup.msi"
+        "OutputFilename" = "8:Debug\\ACAD2FDS_Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -268,7 +250,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Fds2AcadSetup.msi"
+        "OutputFilename" = "8:Release\\ACAD2FDS_Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -305,45 +287,45 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_5386BE40AD9444E1BAFA1160012D1E6A"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_34CDCB7BAAB94B89970120C8E68F5127"
             {
-            "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
+            "Name" = "8:Primary output from Acad2FdsSetupActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:_9F3F9E52863E4E4DAF38E0815C199EFF"
+            "Object" = "8:_4B795C0BC63B4A43B488472D000D0D53"
             "FileType" = "3:1"
             "InstallAction" = "3:3"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_0BFBFD25_0495_4632_89B0_9031AB807BFF"
+            "Identifier" = "8:_23681EA3_7191_4566_9CD1_E2106EE53F74"
             "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
+            "CustomActionData" = "8:/targetdir=\"[TARGETDIR]\\\""
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_824094ECAEDA4D608EBD33C8C90E403A"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_CC19FF3B76FE416E8542DDFDEDBAC0E8"
             {
-            "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
+            "Name" = "8:Primary output from Acad2FdsSetupActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:_9F3F9E52863E4E4DAF38E0815C199EFF"
+            "Object" = "8:_4B795C0BC63B4A43B488472D000D0D53"
             "FileType" = "3:1"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_04805BF8_9908_4A15_8377_3AF823CED9EE"
+            "Identifier" = "8:_67FDFDD7_76D1_4410_AB46_8ED61052C53C"
             "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
+            "CustomActionData" = "8:/targetdir=\"[TARGETDIR]\\\""
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_8EA65A2136B74DE085258102F9E7DA00"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F6AC699EF8454140B58B172F1758809F"
             {
-            "Name" = "8:Primary output from Fds2AcadSetupActions (Active)"
+            "Name" = "8:Primary output from Acad2FdsSetupActions (Active)"
             "Condition" = "8:"
-            "Object" = "8:_9F3F9E52863E4E4DAF38E0815C199EFF"
+            "Object" = "8:_4B795C0BC63B4A43B488472D000D0D53"
             "FileType" = "3:1"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_9F28270E_F0FB_4EF3_B87E_03CB61487098"
+            "Identifier" = "8:_0D61749D_3796_4BEB_AEBF_E4F67CFA226A"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -596,37 +578,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A8DC5E791F3971801024E5BE258DAD04"
-            {
-            "AssemblyRegister" = "3:2"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AecBaseMgd, Version=5.7.68.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_A8DC5E791F3971801024E5BE258DAD04"
-                    {
-                    "Name" = "8:AecBaseMgd.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:AecBaseMgd.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D998AB809557497770AB2B18C806E26F"
             {
             "AssemblyRegister" = "3:1"
@@ -795,9 +746,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:AutoCad to Fds plugin"
+        "ProductName" = "8:AutoCAD to FDS plugin"
         "ProductCode" = "8:{8212E92A-984E-406A-99FC-6C7787C11255}"
-        "PackageCode" = "8:{3BABBFF2-48E7-4D1E-B9AB-448DAD33325E}"
+        "PackageCode" = "8:{AF0E9867-4A60-453D-8F36-34C8B51E4D07}"
         "UpgradeCode" = "8:{22F55A49-B06F-409D-B47B-9DFADE61004C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -807,12 +758,12 @@
         "Manufacturer" = "8:Walash Ltd."
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://acad2fds.codeplex.com/"
-        "Title" = "8:AutoCad to Fds plugin"
+        "Title" = "8:AutoCAD to FDS plugin"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Pavel Shkleinik, Alexander Konovkov"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Plugin to convert AutoCad geometry to FDS format."
-        "ARPURLINFOABOUT" = "8:http://fds2acad.codeplex.com/"
+        "ARPCOMMENTS" = "8:Plugin to convert AutoCAD geometry to FDS format."
+        "ARPURLINFOABOUT" = "8:http://acad2fds.codeplex.com/"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -1315,35 +1266,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9D974E72CCDA4465824D924C25B982DD"
-            {
-            "SourcePath" = "8:..\\PlugIn\\obj\\Debug\\Fds2AcadPlugin.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{166C3D96-3C0E-4F82-B885-09B6F3744928}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9F3F9E52863E4E4DAF38E0815C199EFF"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4B795C0BC63B4A43B488472D000D0D53"
             {
             "SourcePath" = "8:..\\Acad2FdsSetupActions\\obj\\Debug\\Acad2FdsSetupActions.dll"
             "TargetName" = "8:"
@@ -1366,6 +1289,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{2A691B60-4E5C-4E74-B063-104BA1470B6E}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9D974E72CCDA4465824D924C25B982DD"
+            {
+            "SourcePath" = "8:..\\PlugIn\\obj\\Debug\\Acad2FdsPlugin.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{166C3D96-3C0E-4F82-B885-09B6F3744928}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

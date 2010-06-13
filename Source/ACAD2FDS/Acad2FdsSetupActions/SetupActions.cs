@@ -32,8 +32,9 @@
             CheckIfAutoCadIsRunning();
 
             // Note: Add logging here
-            RegistryHelper.CreateFdsBranch(Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.CreateFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            var pluginLocation = Context.Parameters["targetdir"];
+            RegistryHelper.CreateFdsBranch(pluginLocation, Constants.AutoCadApplicationsRegistryKey);
+            RegistryHelper.CreateFdsBranch(pluginLocation, Constants.AutoCadArchitectureApplicationsRegistryKey);
         }
 
         public override void Rollback(IDictionary savedState)

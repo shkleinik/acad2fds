@@ -1,6 +1,7 @@
 namespace Acad2FdsSetupActions.BLL
 {
     using System;
+    using System.IO;
     using Microsoft.Win32;
     using Properties;
 
@@ -11,7 +12,7 @@ namespace Acad2FdsSetupActions.BLL
             return null != Registry.LocalMachine.OpenSubKey(Constants.AutoCadRegistryKey);
         }
 
-        public static void CreateFdsBranch(string acadRegistryKeyName)
+        public static void CreateFdsBranch(string pluginLocation, string acadRegistryKeyName)
         {
             var acadApplicationsKey = Registry.LocalMachine.OpenSubKey(acadRegistryKeyName, true);
 
@@ -21,10 +22,7 @@ namespace Acad2FdsSetupActions.BLL
 
             var fdsKey = acadApplicationsKey.CreateSubKey(Constants.FdsPluginRegistryKey, RegistryKeyPermissionCheck.ReadWriteSubTree);
             fdsKey.SetValue(Constants.DescriptionRegValue, Resources.FdsPluginDescription, RegistryValueKind.String);
-            var pathToPluginAssembly = string.Format(Constants.PluginFileSystemLocationPattern,
-                                                     Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                                     Constants.FdsPluginAssemblyName
-                );
+            var pathToPluginAssembly = Path.Combine(pluginLocation, Constants.FdsPluginAssemblyName);
             fdsKey.SetValue(Constants.LoaderRegValue, pathToPluginAssembly);
             fdsKey.SetValue(Constants.LoadctrlsRegValue, 2, RegistryValueKind.DWord);
             fdsKey.SetValue(Constants.ManagedRegValue, 1, RegistryValueKind.DWord);
