@@ -2,6 +2,7 @@ namespace Fds2AcadPlugin.BLL
 {
     using System;
     using System.IO;
+    using System.Reflection;
 
     public static class PluginInfoProvider
     {
@@ -47,7 +48,7 @@ namespace Fds2AcadPlugin.BLL
 
         public static string GetPathToPluginDirectory()
         {
-            return string.Format(Constants.PluginFileSystemLocationPattern, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+            return Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
         }
     }
 }

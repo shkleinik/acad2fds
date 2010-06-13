@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Fds2AcadPlugin</RootNamespace>
-    <AssemblyName>Fds2AcadPlugin</AssemblyName>
+    <AssemblyName>Acad2FdsPlugin</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>%24/fds2acad/Source/ACAD2FDS/PlugIn</SccProjectName>
@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Program Files\Walash Ltd\Fds to AutoCad plugin\</OutputPath>
+    <OutputPath>C:\Program Files\Walash Ltd\AutoCAD to FDS plugin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,10 +43,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\AutoCAD 2009\acmgd.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="AecBaseMgd, Version=5.7.68.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\AutoCAD Architecture 2009\AecBaseMgd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

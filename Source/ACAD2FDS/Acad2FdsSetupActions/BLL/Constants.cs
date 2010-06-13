@@ -4,8 +4,7 @@ namespace Acad2FdsSetupActions.BLL
     {
         #region File system
 
-        public const string FdsPluginAssemblyName = "Fds2AcadPlugin.dll";
-        public const string PluginFileSystemLocationPattern = @"{0}\Walash Ltd\Fds to AutoCad plugin\{1}";
+        public const string FdsPluginAssemblyName = "Acad2FdsPlugin.dll";
 
         #endregion
 
@@ -15,7 +14,7 @@ namespace Acad2FdsSetupActions.BLL
         public const string LoaderRegValue = "LOADER";
         public const string LoadctrlsRegValue = "LOADCTRLS";
         public const string ManagedRegValue = "MANAGED";
-        public const string FdsPluginRegistryKey = "FDS2ACAD";
+        public const string FdsPluginRegistryKey = "ACAD2FDS";
         public const string AutoCadRegistryKey = @"SOFTWARE\Autodesk\AutoCAD";
         public const string AutoCadApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7001:409\Applications\";
         public const string AutoCadArchitectureApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7004:419\Applications\";
