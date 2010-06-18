@@ -48,7 +48,7 @@ namespace Fds2AcadPlugin.BLL
 
         public static string GetPathToPluginDirectory()
         {
-            return Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
     }
 }

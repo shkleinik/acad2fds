@@ -42,7 +42,12 @@ namespace Fds2AcadPlugin.BLL
 
         public static IEnumerable<Entity> AllSolidsFromCurrentDrawing()
         {
-            var objectIds = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Editor.SelectAll().Value.GetObjectIds();
+            var promtResut = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Editor.SelectAll();
+
+            if (promtResut.Status == PromptStatus.Error || promtResut.Value == null)
+                yield break; 
+
+            var objectIds = promtResut.Value.GetObjectIds();
             var transaction = new DefaultFactory().CreateDocumentManager().MdiActiveDocument.Database.TransactionManager.StartTransaction();
 
             foreach (var objectId in objectIds)
@@ -52,7 +57,6 @@ namespace Fds2AcadPlugin.BLL
                 if (dbObject.GetType() == typeof(Solid3d))
                     yield return (Entity)dbObject;
             }
-            
         }
 
         public static string GetDocumentName()
