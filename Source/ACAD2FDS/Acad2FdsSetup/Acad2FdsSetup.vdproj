@@ -9,7 +9,7 @@
 "UILanguageId" = "3:1033"
 "SccProjectName" = "8:$/fds2acad/Source/ACAD2FDS/Acad2FdsSetup"
 "SccLocalPath" = "8:."
-"SccAuxPath" = "8:https://tfs08.codeplex.com"
+"SccAuxPath" = "8:https://tfs.codeplex.com/tfs/tfs08"
 "SccProvider" = "8:{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}"
     "Hierarchy"
     {
@@ -76,7 +76,7 @@
         "Entry"
         {
         "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
-        "OwnerKey" = "8:_A2D0B9EF8BCA6D227573340CB06FD2B8"
+        "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
-        "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
+        "OwnerKey" = "8:_A2D0B9EF8BCA6D227573340CB06FD2B8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -148,49 +148,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4B795C0BC63B4A43B488472D000D0D53"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F58B4FB95C632E12739D3254862510A0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A2D0B9EF8BCA6D227573340CB06FD2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3A5D6BED77FF9D8B6BEAE173C23F283B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5A3FCAF03E47F8E34C2F101D0B3AF248"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
+        "OwnerKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,7 +160,49 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_97E139184BF206B7CDC122C7116F23E3"
+        "OwnerKey" = "8:_0CEE881BEA14A2D33E59BB8232FAFDB8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5A3FCAF03E47F8E34C2F101D0B3AF248"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3A5D6BED77FF9D8B6BEAE173C23F283B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A2D0B9EF8BCA6D227573340CB06FD2B8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F58B4FB95C632E12739D3254862510A0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9D974E72CCDA4465824D924C25B982DD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2E9A437B963EEBDD54A09E463CA0C6AB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4B795C0BC63B4A43B488472D000D0D53"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -344,7 +344,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "Version" = "8:3.5.21022"
+                "FrameworkVersion" = "8:3.5.21022"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -379,11 +379,6 @@
             "AssemblyAsmDisplayName" = "8:acmgd, Version=17.2.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_0CEE881BEA14A2D33E59BB8232FAFDB8"
-                    {
-                    "Name" = "8:acmgd.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:acmgd.dll"
             "TargetName" = "8:"
@@ -441,11 +436,6 @@
             "AssemblyAsmDisplayName" = "8:NVelocity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3A5D6BED77FF9D8B6BEAE173C23F283B"
-                    {
-                    "Name" = "8:NVelocity.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:NVelocity.dll"
             "TargetName" = "8:"
@@ -492,11 +482,6 @@
             "AssemblyAsmDisplayName" = "8:acdbmgdbrep, Version=17.2.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_5A3FCAF03E47F8E34C2F101D0B3AF248"
-                    {
-                    "Name" = "8:acdbmgdbrep.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:acdbmgdbrep.dll"
             "TargetName" = "8:"
@@ -523,11 +508,6 @@
             "AssemblyAsmDisplayName" = "8:acdbmgd, Version=17.2.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_97E139184BF206B7CDC122C7116F23E3"
-                    {
-                    "Name" = "8:acdbmgd.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:acdbmgd.dll"
             "TargetName" = "8:"
@@ -554,11 +534,6 @@
             "AssemblyAsmDisplayName" = "8:GeometryConverter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A2D0B9EF8BCA6D227573340CB06FD2B8"
-                    {
-                    "Name" = "8:GeometryConverter.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GeometryConverter.dll"
             "TargetName" = "8:"
@@ -636,11 +611,6 @@
             "AssemblyAsmDisplayName" = "8:AdWindows, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E6126E87B2F9A43FFF97AA7420BD3369"
-                    {
-                    "Name" = "8:AdWindows.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:AdWindows.dll"
             "TargetName" = "8:"
@@ -667,11 +637,6 @@
             "AssemblyAsmDisplayName" = "8:MaterialManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F58B4FB95C632E12739D3254862510A0"
-                    {
-                    "Name" = "8:MaterialManager.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MaterialManager.dll"
             "TargetName" = "8:"
@@ -750,6 +715,7 @@
         "ProductCode" = "8:{8212E92A-984E-406A-99FC-6C7787C11255}"
         "PackageCode" = "8:{AF0E9867-4A60-453D-8F36-34C8B51E4D07}"
         "UpgradeCode" = "8:{22F55A49-B06F-409D-B47B-9DFADE61004C}"
+        "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
@@ -1268,7 +1234,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4B795C0BC63B4A43B488472D000D0D53"
             {
-            "SourcePath" = "8:..\\Acad2FdsSetupActions\\obj\\Debug\\Acad2FdsSetupActions.dll"
+            "SourcePath" = "8:..\\Acad2FdsSetupActions\\obj\\Release\\Acad2FdsSetupActions.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
@@ -1296,7 +1262,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9D974E72CCDA4465824D924C25B982DD"
             {
-            "SourcePath" = "8:..\\PlugIn\\obj\\Debug\\Acad2FdsPlugin.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C5EB165FF8E041C594D2E2CDB203444C"
