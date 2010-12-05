@@ -23,6 +23,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acad2FdsSetupActions", "Aca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{0B4335BD-C080-4149-89C1-25699A99EF1B}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\fds.template = SolutionItems\fds.template
+		SolutionItems\materials.xml = SolutionItems\materials.xml
+		SolutionItems\MbUnit.Framework.dll = SolutionItems\MbUnit.Framework.dll
+		SolutionItems\NVelocity.dll = SolutionItems\NVelocity.dll
+		SolutionItems\Product.ico = SolutionItems\Product.ico
+		SolutionItems\surfaces.xml = SolutionItems\surfaces.xml
+		SolutionItems\Version.Designer.cs = SolutionItems\Version.Designer.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6
