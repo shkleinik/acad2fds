@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlugIn", "PlugIn\PlugIn.csproj", "{166C3D96-3C0E-4F82-B885-09B6F3744928}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4B31AA7C-201D-45B9-974D-9A9D30ED9B17} = {4B31AA7C-201D-45B9-974D-9A9D30ED9B17}
@@ -23,39 +23,41 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acad2FdsSetupActions", "Aca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3DFEAA06-5D18-4247-AAB1-7B629A3781F1}"
-	ProjectSection(SolutionItems) = preProject
-		SolutionItems\fds.template = SolutionItems\fds.template
-		SolutionItems\materials.xml = SolutionItems\materials.xml
-		SolutionItems\MbUnit.Framework.dll = SolutionItems\MbUnit.Framework.dll
-		SolutionItems\NVelocity.dll = SolutionItems\NVelocity.dll
-		SolutionItems\surfaces.xml = SolutionItems\surfaces.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs08.codeplex.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = PlugIn\\PlugIn.csproj
-		SccProjectName1 = PlugIn
-		SccLocalPath1 = PlugIn
-		SccProjectUniqueName2 = MaterialManager\\MaterialManager.csproj
-		SccProjectName2 = MaterialManager
-		SccLocalPath2 = MaterialManager
-		SccProjectUniqueName3 = GeometryConverter\\GeometryConverter.csproj
-		SccProjectName3 = GeometryConverter
-		SccLocalPath3 = GeometryConverter
-		SccProjectUniqueName4 = Acad2FdsSetup\\Acad2FdsSetup.vdproj
-		SccProjectName4 = Acad2FdsSetup
-		SccLocalPath4 = Acad2FdsSetup
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs08
+		SccProjectUniqueName0 = PlugIn\\PlugIn.csproj
+		SccProjectName0 = PlugIn
+		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs08
+		SccLocalPath0 = PlugIn
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = MaterialManager\\MaterialManager.csproj
+		SccProjectName1 = MaterialManager
+		SccAuxPath1 = https://tfs.codeplex.com/tfs/tfs08
+		SccLocalPath1 = MaterialManager
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = GeometryConverter\\GeometryConverter.csproj
+		SccProjectName2 = GeometryConverter
+		SccAuxPath2 = https://tfs.codeplex.com/tfs/tfs08
+		SccLocalPath2 = GeometryConverter
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = Acad2FdsSetup\\Acad2FdsSetup.vdproj
+		SccProjectName3 = Acad2FdsSetup
+		SccAuxPath3 = https://tfs.codeplex.com/tfs/tfs08
+		SccLocalPath3 = Acad2FdsSetup
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = Acad2FdsSetupActions\\Acad2FdsSetupActions.csproj
+		SccProjectName4 = Acad2FdsSetupActions
+		SccAuxPath4 = https://tfs.codeplex.com/tfs/tfs08
+		SccLocalPath4 = Acad2FdsSetupActions
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName5 = UnitTests\\UnitTests.csproj
 		SccProjectName5 = UnitTests
+		SccAuxPath5 = https://tfs.codeplex.com/tfs/tfs08
 		SccLocalPath5 = UnitTests
-		SccProjectUniqueName6 = Acad2FdsSetupActions\\Acad2FdsSetupActions.csproj
-		SccProjectName6 = Acad2FdsSetupActions
-		SccLocalPath6 = Acad2FdsSetupActions
+		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,7 +84,6 @@ Global
 		{2A691B60-4E5C-4E74-B063-104BA1470B6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C81E4FAE-9545-4D4A-9E9F-39C5307A01BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
