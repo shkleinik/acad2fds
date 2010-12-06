@@ -1,45 +1,137 @@
 namespace Acad2FdsSetupActions.BLL
 {
-    using System;
-    using System.IO;
+    using System.Collections.Generic;
     using Microsoft.Win32;
     using Properties;
 
     public class RegistryHelper
     {
+        private delegate bool RegistryAction(RegistryKey registryKey, params object[] objects);
+
         public static bool IsAutoCadInstalled()
         {
             return null != Registry.LocalMachine.OpenSubKey(Constants.AutoCadRegistryKey);
         }
 
-        public static void CreateFdsBranch(string pluginLocation, string acadRegistryKeyName)
+        public static IList<string> CreateFdsBranchForEachAutoCadInstance(string pathToPluginAssembly)
         {
-            var acadApplicationsKey = Registry.LocalMachine.OpenSubKey(acadRegistryKeyName, true);
+            return IterateAutocadProducts(CreateFdsBranch, pathToPluginAssembly);
+        }
 
-            if (acadApplicationsKey == null)
-                //throw new ArgumentException("Check if this acad product version is installed and this registry hive exists", "acadRegistryKeyName");
-                return;
+        public static IList<string> RemoveFdsBranchFromEachAutoCadInstance()
+        {
+            return IterateAutocadProducts(RemoveFdsBranch, null);
+        }
+
+        private static IList<string> IterateAutocadProducts(RegistryAction action, params object[] objects)
+        {
+            var autocadInstances = new List<string>();
+
+            var autocadRootKey = Registry.LocalMachine.OpenSubKey(Constants.AutoCadRegistryKey, true);
+
+            if (autocadRootKey != null)
+            {
+                var autocadVersionsNames = autocadRootKey.GetSubKeyNames();
+
+                foreach (var autocadVersionName in autocadVersionsNames)
+                {
+                    var autocadVersion = autocadRootKey.OpenSubKey(autocadVersionName, true);
+
+                    if (autocadVersion != null)
+                    {
+                        var autocadProductNames = autocadVersion.GetSubKeyNames();
+
+                        foreach (var autocadProductName in autocadProductNames)
+                        {
+                            var autocadProduct = autocadVersion.OpenSubKey(autocadProductName);
+
+                            if (autocadProduct != null)
+                            {
+                                var productApplications = autocadProduct.OpenSubKey(Constants.AutoCadApplicationsRegistryKeyName, true);
+
+                                if (action(productApplications, objects))
+                                    autocadInstances.Add(autocadProduct.Name.Replace(@"HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\", ""));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return autocadInstances;
+        }
+
+        /*
+
+        public static IList<string> CreateFdsBranchForEachAutoCadInstance(string pathToPluginAssembly)
+        {
+            var autocadInstances = new List<string>();
+
+            var autocadRootKey = Registry.LocalMachine.OpenSubKey(Constants.AutoCadRegistryKey, true);
+
+            if (autocadRootKey != null)
+            {
+                var autocadVersionsNames = autocadRootKey.GetSubKeyNames();
+
+                foreach (var autocadVersionName in autocadVersionsNames)
+                {
+                    var autocadVersion = autocadRootKey.OpenSubKey(autocadVersionName, true);
+
+                    if (autocadVersion != null)
+                    {
+                        var autocadProductNames = autocadVersion.GetSubKeyNames();
+
+                        foreach (var autocadProductName in autocadProductNames)
+                        {
+                            var autocadProduct = autocadVersion.OpenSubKey(autocadProductName);
+
+                            if (autocadProduct != null)
+                            {
+                                var productApplications = autocadProduct.OpenSubKey(Constants.AutoCadApplicationsRegistryKeyName, true);
+
+                                if (CreateFdsBranch(pathToPluginAssembly, productApplications))
+                                    autocadInstances.Add(autocadProduct.Name.Replace(@"HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\", ""));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return autocadInstances;
+        }
+
+        */
+
+        private static bool CreateFdsBranch(RegistryKey acadApplicationsKey, params object[] pathToPluginAssembly)
+        {
+            if (acadApplicationsKey == null || pathToPluginAssembly == null || pathToPluginAssembly.Length == 0)
+                return false;
 
             var fdsKey = acadApplicationsKey.CreateSubKey(Constants.FdsPluginRegistryKey, RegistryKeyPermissionCheck.ReadWriteSubTree);
             fdsKey.SetValue(Constants.DescriptionRegValue, Resources.FdsPluginDescription, RegistryValueKind.String);
-            var pathToPluginAssembly = Path.Combine(pluginLocation, Constants.FdsPluginAssemblyName);
-            fdsKey.SetValue(Constants.LoaderRegValue, pathToPluginAssembly);
+            fdsKey.SetValue(Constants.LoaderRegValue, pathToPluginAssembly[0].ToString());
             fdsKey.SetValue(Constants.LoadctrlsRegValue, 2, RegistryValueKind.DWord);
             fdsKey.SetValue(Constants.ManagedRegValue, 1, RegistryValueKind.DWord);
 
             var fdsCommandsKey = fdsKey.CreateSubKey(Constants.CommandsRegistryKey, RegistryKeyPermissionCheck.ReadWriteSubTree);
 
             fdsCommandsKey.SetValue(Constants.BuildMenuCommandName, Constants.BuildMenuCommandName, RegistryValueKind.String);
+
+            return true;
         }
 
-        public static void RemoveFdsBranch(string acadRegistryKeyName)
+        private static bool RemoveFdsBranch(RegistryKey acadRegistryKeyName, params object[] objects)
         {
-            var fdsPluginRegistryKey = String.Concat(acadRegistryKeyName, Constants.FdsPluginRegistryKey);
+            if (acadRegistryKeyName == null)
+                return false;
 
-            if (Registry.LocalMachine.OpenSubKey(fdsPluginRegistryKey, true) == null)
-                return;
+            var fdsPluginRegistryKey = acadRegistryKeyName.OpenSubKey(Constants.FdsPluginRegistryKey);
 
-            Registry.LocalMachine.DeleteSubKeyTree(fdsPluginRegistryKey);
+            if (fdsPluginRegistryKey == null)
+                return false;
+
+            acadRegistryKeyName.DeleteSubKeyTree(Constants.FdsPluginRegistryKey);
+
+            return true;
         }
     }
 }

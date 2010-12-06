@@ -1,12 +1,13 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace UnitTests.InstallerTests
 {
     using Acad2FdsSetupActions.BLL;
-    using MbUnit.Framework;
 
-    [TestFixture]
+    [TestClass]
     public class CommonHelperTests
     {
-        [Test]
+        [TestMethod]
         public void IsAutoCadRunningTest()
         {
             Assert.IsTrue(CommonHelper.IsAutoCadRunning());

@@ -1,12 +1,12 @@
 namespace UnitTests.PluginTests
 {
-    using MbUnit.Framework;
     using Fds2AcadPlugin;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class CommandsTests
     {
-        [Test]
+        [TestMethod]
         public void ViewResultInSmokeViewTest()
         {
             EntryPoint.ViewResultInSmokeView();
