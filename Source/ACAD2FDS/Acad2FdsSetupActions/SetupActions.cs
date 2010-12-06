@@ -2,8 +2,11 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Configuration.Install;
+    using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
     using BLL;
     using Properties;
@@ -33,14 +36,17 @@
 
             // Note: Add logging here
             var pluginLocation = Context.Parameters["targetdir"];
-            RegistryHelper.CreateFdsBranch(pluginLocation, Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.CreateFdsBranch(pluginLocation, Constants.AutoCadArchitectureApplicationsRegistryKey);
+            var pathToPluginAssembly = Path.Combine(pluginLocation, Constants.FdsPluginAssemblyName);
+
+            var updatedInstances = RegistryHelper.CreateFdsBranchForEachAutoCadInstance(pathToPluginAssembly.Replace(@"\\", @"\")); // Todo : find out why path combine works incorrectly.
+
+            ShowSetupResult(updatedInstances, true);
         }
 
         public override void Rollback(IDictionary savedState)
         {
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            var updatedInstances = RegistryHelper.RemoveFdsBranchFromEachAutoCadInstance();
+            ShowSetupResult(updatedInstances, false);
 
             base.Rollback(savedState);
         }
@@ -48,8 +54,8 @@
         public override void Uninstall(IDictionary savedState)
         {
             CheckIfAutoCadIsRunning();
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            var updatedInstances = RegistryHelper.RemoveFdsBranchFromEachAutoCadInstance();
+            ShowSetupResult(updatedInstances, false);
 
             base.Uninstall(savedState);
         }
@@ -64,8 +70,6 @@
         /// </summary>
         public void CheckIfAutoCadIsRunning()
         {
-
-            CheckIfAutoCadIsRunning:
             if (!CommonHelper.IsAutoCadRunning())
                 return;
 
@@ -74,12 +78,49 @@
                                              MessageBoxButtons.RetryCancel,
                                              MessageBoxIcon.Warning,
                                              MessageBoxDefaultButton.Button1
-                );
+                                            );
 
             if (DialogResult.Retry == userChoice)
-                goto CheckIfAutoCadIsRunning;
+                CheckIfAutoCadIsRunning();
+            else
+                throw new OperationCanceledException(Resources.UserSetupCancelation);
+        }
 
-            throw new OperationCanceledException(Resources.UserSetupCancelation);
+        /// <summary>
+        /// Informs user about actions perfomed under the registry.
+        /// </summary>
+        /// <param name="updatedInstances">List of registry keys on whi</param>
+        /// <param name="stopInstallation">Indicates if it necessary to exit setup if error occurs.</param>
+        private static void ShowSetupResult(IList<string> updatedInstances, bool stopInstallation)
+        {
+            if (updatedInstances.Count <= 0)
+            {
+                MessageBox.Show(Resources.AcadNotInstalledMessage,
+                Resources.InfoCaption,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1
+                );
+
+                if (stopInstallation)
+                    throw new InvalidOperationException(Resources.AcadNotInstalledMessage);
+            }
+            else
+            {
+                var infoMessage = "Following AutoCAD instances were updated:\n"; // Todo : Replace with resources.
+
+                foreach (var updatedInstance in updatedInstances)
+                {
+                    infoMessage = string.Concat(infoMessage, updatedInstance, Environment.NewLine);
+                }
+
+                MessageBox.Show(infoMessage,
+                                Resources.InfoCaption,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information,
+                                MessageBoxDefaultButton.Button1
+                    );
+            }
         }
 
         #endregion

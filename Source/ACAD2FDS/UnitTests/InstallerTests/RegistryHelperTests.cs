@@ -1,26 +1,24 @@
 ﻿namespace UnitTests.InstallerTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Acad2FdsSetupActions.BLL;
-    using MbUnit.Framework;
 
-    [TestFixture]
+    [TestClass]
     public class RegistryHelperTests
     {
-        [Test]
+        [TestMethod]
         public void CreateFdsBranchTest()
         {
-            RegistryHelper.CreateFdsBranch(Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.CreateFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            RegistryHelper.CreateFdsBranchForEachAutoCadInstance("c:\\Test.dll");
         }
 
-        [Test]
+        [TestMethod]
         public void RemoveFdsBranchTest()
         {
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadApplicationsRegistryKey);
-            RegistryHelper.RemoveFdsBranch(Constants.AutoCadArchitectureApplicationsRegistryKey);
+            RegistryHelper.RemoveFdsBranchFromEachAutoCadInstance();
         }
 
-        [Test]
+        [TestMethod]
         public void IsAutoCadIntalledTest()
         {
             Assert.IsTrue(RegistryHelper.IsAutoCadInstalled());

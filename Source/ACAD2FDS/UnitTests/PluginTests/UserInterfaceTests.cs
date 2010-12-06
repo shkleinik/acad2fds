@@ -1,22 +1,22 @@
-using System.Collections.Generic;
-using Fds2AcadPlugin.BLL.Helpers;
-
 namespace UnitTests.PluginTests
 {
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+    using Fds2AcadPlugin.BLL.Helpers;
     using Fds2AcadPlugin.UserInterface;
-    using MbUnit.Framework;
     using Fds2AcadPlugin.UserInterface.Materials;
     using MaterialManager.BLL;
-    using System.Windows.Forms;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+
+    [TestClass]
     public class UserInterfaceTests
     {
         private Surface surface;
 
         private Material material;
 
-        [SetUp]
+        [ClassInitialize]
         public void TestSetup()
         {
             var r1 = new Ramp("C_P", 0.0, 0.0);
@@ -76,7 +76,7 @@ namespace UnitTests.PluginTests
             Application.EnableVisualStyles();
         }
 
-        [Test]
+        [TestMethod]
         public void PluginOptionsTest()
         {
             Application.EnableVisualStyles();
@@ -84,14 +84,14 @@ namespace UnitTests.PluginTests
             plugionOptions.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void CalculationInfoTest()
         {
             var calculationInfo = new CalculationInfo();
             calculationInfo.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void SurfaceEditorTest()
         {
             var surfaceEditor1 = new SurfaceEditor(surface);
@@ -101,7 +101,7 @@ namespace UnitTests.PluginTests
             surfaceEditor2.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void MaterialEditorTest()
         {
             TestSetup();
@@ -113,7 +113,7 @@ namespace UnitTests.PluginTests
             materialEditor2.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void MaterialMapperTest()
         {
             var usedMaterials = new List<string> { "wood", "plastic", "metan", "C4", "steel" };
@@ -137,7 +137,7 @@ namespace UnitTests.PluginTests
             materialMapper2.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void MaterialProviderTest()
         {
             TestSetup();
@@ -159,7 +159,7 @@ namespace UnitTests.PluginTests
             materialProvider.ShowDialog();
         }
 
-        [Test]
+        [TestMethod]
         public void SerializationTest()
         {
             //var r1 = new Ramp("C_P", 0.0, 0.0);

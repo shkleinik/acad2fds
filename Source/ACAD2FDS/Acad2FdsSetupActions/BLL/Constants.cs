@@ -10,14 +10,14 @@ namespace Acad2FdsSetupActions.BLL
 
         #region Registry
 
+        //public const string Registry
         public const string DescriptionRegValue = "DESCRIPTION";
         public const string LoaderRegValue = "LOADER";
         public const string LoadctrlsRegValue = "LOADCTRLS";
         public const string ManagedRegValue = "MANAGED";
         public const string FdsPluginRegistryKey = "ACAD2FDS";
         public const string AutoCadRegistryKey = @"SOFTWARE\Autodesk\AutoCAD";
-        public const string AutoCadApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7001:409\Applications\";
-        public const string AutoCadArchitectureApplicationsRegistryKey = @"SOFTWARE\Autodesk\AutoCAD\R17.2\ACAD-7004:419\Applications\";
+        public const string AutoCadApplicationsRegistryKeyName = "Applications";
         public const string CommandsRegistryKey = "Commands";
         public const string BuildMenuCommandName = "BuildFdsMenu";
 

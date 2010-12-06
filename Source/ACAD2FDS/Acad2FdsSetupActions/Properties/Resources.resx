@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AcadIsRunningMessage" xml:space="preserve">
-    <value>An instance of AutoCad is running now. Please, close it and try again.</value>
+    <value>An instance of AutoCAD is running now. Please, terminate it and try again.</value>
   </data>
   <data name="AcadNotInstalledMessage" xml:space="preserve">
-    <value>You have no AutoCad installed. The installation will be canceled.</value>
+    <value>You have no supported AutoCAD version installed. The installation will be canceled.</value>
   </data>
   <data name="FdsPluginDescription" xml:space="preserve">
-    <value>Plugin for AutoCad which facilitates interacting FDS (Fire Dynamics Simulation) with this CAD system</value>
+    <value>Plugin for AutoCAD for converting 3D geomentry to FDS (Fire Dynamics Simulation) format.</value>
+  </data>
+  <data name="InfoCaption" xml:space="preserve">
+    <value>Info</value>
   </data>
   <data name="InstallPreventionWindowCaption" xml:space="preserve">
     <value>Warning</value>

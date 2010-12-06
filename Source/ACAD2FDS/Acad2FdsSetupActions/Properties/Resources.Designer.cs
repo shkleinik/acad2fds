@@ -61,7 +61,7 @@ namespace Acad2FdsSetupActions.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An instance of AutoCad is running now. Please, close it and try again..
+        ///   Looks up a localized string similar to An instance of AutoCAD is running now. Please, terminate it and try again..
         /// </summary>
         internal static string AcadIsRunningMessage {
             get {
@@ -70,7 +70,7 @@ namespace Acad2FdsSetupActions.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have no AutoCad installed. The installation will be canceled..
+        ///   Looks up a localized string similar to You have no supported AutoCAD version installed. The installation will be canceled..
         /// </summary>
         internal static string AcadNotInstalledMessage {
             get {
@@ -79,11 +79,20 @@ namespace Acad2FdsSetupActions.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plugin for AutoCad which facilitates interacting FDS (Fire Dynamics Simulation) with this CAD system.
+        ///   Looks up a localized string similar to Plugin for AutoCAD for converting 3D geomentry to FDS (Fire Dynamics Simulation) format..
         /// </summary>
         internal static string FdsPluginDescription {
             get {
                 return ResourceManager.GetString("FdsPluginDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string InfoCaption {
+            get {
+                return ResourceManager.GetString("InfoCaption", resourceCulture);
             }
         }
         
