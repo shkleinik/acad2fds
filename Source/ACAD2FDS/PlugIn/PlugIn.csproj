@@ -92,6 +92,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionItems\CommonInfo.cs">
+      <Link>Properties\CommonInfo.cs</Link>
+    </Compile>
     <Compile Include="BLL\AcadInfoProvider.cs" />
     <Compile Include="BLL\Configuration\FdsPluginConfig.cs" />
     <Compile Include="BLL\Constants.cs" />
