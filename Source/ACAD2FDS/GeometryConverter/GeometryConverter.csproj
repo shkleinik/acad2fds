@@ -74,6 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionItems\CommonInfo.cs">
+      <Link>Properties\CommonInfo.cs</Link>
+    </Compile>
     <Compile Include="Optimization\LevelOptimizer.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Templates\TemplateProvider.cs" />
