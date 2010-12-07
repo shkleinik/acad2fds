@@ -69,6 +69,7 @@
     <Compile Include="..\SolutionItems\CommonInfo.cs">
       <Link>Properties\CommonInfo.cs</Link>
     </Compile>
+    <Compile Include="CommonTests\LoggerTests.cs" />
     <Compile Include="InstallerTests\CommonHelperTests.cs" />
     <Compile Include="InstallerTests\RegistryHelperTests.cs" />
     <Compile Include="PluginTests\CommandsTests.cs" />
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\Acad2FdsSetupActions\Acad2FdsSetupActions.csproj">
       <Project>{2A691B60-4E5C-4E74-B063-104BA1470B6E}</Project>
       <Name>Acad2FdsSetupActions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{BC61B22D-9DDE-42D4-89C3-6C03FA206121}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaterialManager\MaterialManager.csproj">
       <Project>{4B31AA7C-201D-45B9-974D-9A9D30ED9B17}</Project>
