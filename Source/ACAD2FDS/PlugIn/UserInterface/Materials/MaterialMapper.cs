@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Windows.Forms;
     using BLL.Helpers;
+    using Common.UI;
     using MaterialManager.BLL;
 
-    public partial class MaterialMapper : Form
+    public partial class MaterialMapper : FormBase
     {
         #region Fields
 

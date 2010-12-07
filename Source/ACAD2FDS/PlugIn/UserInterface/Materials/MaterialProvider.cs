@@ -1,14 +1,13 @@
-﻿using System.ComponentModel;
-
-namespace Fds2AcadPlugin.UserInterface.Materials
+﻿namespace Fds2AcadPlugin.UserInterface.Materials
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using Common.UI;
     using MaterialManager.BLL;
 
-    public partial class MaterialProvider : Form
+    public partial class MaterialProvider : FormBase
     {
         #region Fields
 

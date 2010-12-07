@@ -4,8 +4,9 @@
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
+    using Common.UI;
 
-    public partial class CalculationInfo : Form
+    public partial class CalculationInfo : FormBase
     {
         #region Properties
 

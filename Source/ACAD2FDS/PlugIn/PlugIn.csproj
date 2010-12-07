@@ -191,6 +191,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{BC61B22D-9DDE-42D4-89C3-6C03FA206121}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeometryConverter\GeometryConverter.csproj">
       <Project>{C3CB49BD-1A02-48BD-A2DD-ED595BC981E7}</Project>
       <Name>GeometryConverter</Name>

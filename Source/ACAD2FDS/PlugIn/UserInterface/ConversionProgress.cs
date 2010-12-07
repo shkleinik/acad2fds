@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Fds2AcadPlugin.UserInterface
+﻿namespace Fds2AcadPlugin.UserInterface
 {
-    using System.Windows.Forms;
+    using System;
+    using Common.UI;
 
-    public partial class ConversionProgress : Form
+    public partial class ConversionProgress : FormBase
     {
-
         #region Fields
 
         private int _progress;
@@ -39,7 +37,6 @@ namespace Fds2AcadPlugin.UserInterface
         } 
 
         #endregion
-
 
         #region Internal implementation
         /// <summary>
