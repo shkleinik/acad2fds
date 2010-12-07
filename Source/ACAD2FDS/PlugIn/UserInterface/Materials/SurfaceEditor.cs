@@ -7,9 +7,10 @@
     using System.Reflection;
     using System.Windows.Forms;
     using BLL.Helpers;
+    using Common.UI;
     using MaterialManager.BLL;
 
-    public partial class SurfaceEditor : Form
+    public partial class SurfaceEditor : FormBase
     {
         #region Constants
 

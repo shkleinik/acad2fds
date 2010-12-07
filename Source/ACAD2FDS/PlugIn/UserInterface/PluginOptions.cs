@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Fds2AcadPlugin.UserInterface
+﻿namespace Fds2AcadPlugin.UserInterface
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
@@ -10,8 +9,9 @@ namespace Fds2AcadPlugin.UserInterface
     using BLL.Configuration;
     using BLL.Entities;
     using BLL.Helpers;
+    using Common.UI;
 
-    public partial class PluginOptions : Form
+    public partial class PluginOptions : FormBase
     {
         #region Constants
 
@@ -41,7 +41,6 @@ namespace Fds2AcadPlugin.UserInterface
         }
 
         #endregion
-
 
         #region Constructor
 

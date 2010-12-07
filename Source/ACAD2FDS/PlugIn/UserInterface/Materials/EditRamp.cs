@@ -1,11 +1,13 @@
-﻿namespace Fds2AcadPlugin.UserInterface.Materials
+﻿
+namespace Fds2AcadPlugin.UserInterface.Materials
 {
     using System.Collections.Generic;
-    using System.Windows.Forms;
-    using MaterialManager.BLL;
     using System.ComponentModel;
+    using System.Windows.Forms;
+    using Common.UI;
+    using MaterialManager.BLL;
 
-    public partial class EditRamp : Form
+    public partial class EditRamp : FormBase
     {
         #region Fields
 

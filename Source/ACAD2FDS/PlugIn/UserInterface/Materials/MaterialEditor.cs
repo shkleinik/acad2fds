@@ -6,9 +6,10 @@
     using System.Drawing;
     using System.Reflection;
     using System.Windows.Forms;
+    using Common.UI;
     using MaterialManager.BLL;
 
-    public partial class MaterialEditor : Form
+    public partial class MaterialEditor : FormBase
     {
         #region Constants
 
