@@ -1,4 +1,6 @@
-﻿namespace Acad2FdsSetupActions
+﻿using Common;
+
+namespace Acad2FdsSetupActions
 {
     using System;
     using System.Collections;
@@ -113,6 +115,8 @@
                 {
                     infoMessage = string.Concat(infoMessage, updatedInstance, Environment.NewLine);
                 }
+
+                StaticLogger.LogInfo(infoMessage);
 
                 MessageBox.Show(infoMessage,
                                 Resources.InfoCaption,

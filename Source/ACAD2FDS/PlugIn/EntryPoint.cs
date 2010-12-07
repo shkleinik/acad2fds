@@ -1,4 +1,4 @@
-///wouldn't it be great...
+/// wouldn't it be great...
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
 /// 
@@ -16,6 +16,7 @@ namespace Fds2AcadPlugin
     using BLL;
     using BLL.Helpers;
     using BLL.NativeMethods;
+    using Common;
     using GeometryConverter;
     using GeometryConverter.Bases;
     using GeometryConverter.Helpers;
@@ -56,13 +57,17 @@ namespace Fds2AcadPlugin
                 fdsMenu.AddMenuItem(5, Constants.OptionsMenuItem, Constants.OptionsCommandName);
                 fdsMenu.InsertInMenuBar(menuBar.Count);
                 menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
+
+                StaticLogger.LogInfo("Plugin menu was successfully built.");
             }
             catch (COMException ex)
             {
+                StaticLogger.LogError(ex);
                 MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
             catch (System.Exception ex)
             {
+                StaticLogger.LogError(ex);
                 MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
         }
@@ -147,7 +152,7 @@ namespace Fds2AcadPlugin
 
                 // LEVEL OPTIMIZER TEST
 
-                SolidToElementConverter converter ;
+                SolidToElementConverter converter;
 
                 if (pluginConfig.UseCustomElementSize)
                 {
@@ -295,6 +300,7 @@ namespace Fds2AcadPlugin
 
         public void Terminate()
         {
+            StaticLogger.LogInfo("Plugin was successfully terminated.");
         }
 
         #endregion
