@@ -1,4 +1,4 @@
-/// wouldn't it be great...
+///    wouldn't it be great
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
 /// 
@@ -28,10 +28,16 @@ namespace Fds2AcadPlugin
 
     public class EntryPoint : IExtensionApplication
     {
+        #region Properties
+
+        private Logger Log { get; set; }
+
+        #endregion
+
         #region Commands
 
         [CommandMethod(Constants.BuildMenuCommandName)]
-        public static void BuildFdsMenu()
+        public void BuildFdsMenu()
         {
             try
             {
@@ -58,16 +64,16 @@ namespace Fds2AcadPlugin
                 fdsMenu.InsertInMenuBar(menuBar.Count);
                 menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
 
-                StaticLogger.LogInfo("Plugin menu was successfully built.");
+                Log.LogInfo("Plugin menu was successfully built.");
             }
             catch (COMException ex)
             {
-                StaticLogger.LogError(ex);
+                Log.LogError(ex);
                 MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
             catch (System.Exception ex)
             {
-                StaticLogger.LogError(ex);
+                Log.LogError(ex);
                 MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
         }
@@ -295,12 +301,15 @@ namespace Fds2AcadPlugin
 
         public void Initialize()
         {
+            Log = new Logger();
+            Log.LogInfo("Plugin initialization was started.");
             BuildFdsMenu();
+            Log.LogInfo("Plugin initialization was finished.");
         }
 
         public void Terminate()
         {
-            StaticLogger.LogInfo("Plugin was successfully terminated.");
+            Log.LogInfo("Plugin was terminated.");
         }
 
         #endregion
