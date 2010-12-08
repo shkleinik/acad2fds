@@ -1,6 +1,4 @@
-﻿using Common;
-
-namespace Acad2FdsSetupActions
+﻿namespace Acad2FdsSetupActions
 {
     using System;
     using System.Collections;
@@ -8,19 +6,24 @@ namespace Acad2FdsSetupActions
     using System.ComponentModel;
     using System.Configuration.Install;
     using System.IO;
-    using System.Linq;
     using System.Windows.Forms;
     using BLL;
+    using Common;
     using Properties;
 
     [RunInstaller(true)]
     public partial class SetupActions : Installer
     {
+
+        private Logger Log { get; set; }
+
         #region Constructors
 
         public SetupActions()
         {
             InitializeComponent();
+
+            Log = new Logger();
         }
 
         #endregion
@@ -93,7 +96,7 @@ namespace Acad2FdsSetupActions
         /// </summary>
         /// <param name="updatedInstances">List of registry keys on whi</param>
         /// <param name="stopInstallation">Indicates if it necessary to exit setup if error occurs.</param>
-        private static void ShowSetupResult(IList<string> updatedInstances, bool stopInstallation)
+        private void ShowSetupResult(IList<string> updatedInstances, bool stopInstallation)
         {
             if (updatedInstances.Count <= 0)
             {
@@ -116,7 +119,7 @@ namespace Acad2FdsSetupActions
                     infoMessage = string.Concat(infoMessage, updatedInstance, Environment.NewLine);
                 }
 
-                StaticLogger.LogInfo(infoMessage);
+                Log.LogInfo(infoMessage);
 
                 MessageBox.Show(infoMessage,
                                 Resources.InfoCaption,
