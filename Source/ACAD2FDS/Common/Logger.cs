@@ -3,7 +3,6 @@
     using System;
     using System.Diagnostics;
     using System.IO;
-    using System.Reflection;
     using System.Text;
 
     public class Logger
@@ -20,7 +19,20 @@
 
         #region Fields
 
+        private readonly string pathToLogFile;
+        private readonly string pathToLogFolder;
+
         private static readonly object syncObj = new object();
+
+        #endregion
+
+        #region Construction and finalization
+
+        public Logger()
+        {
+            pathToLogFolder = Path.GetFullPath(FolderName);
+            pathToLogFile = Path.Combine(pathToLogFolder, FileName);
+        }
 
         #endregion
 
@@ -52,7 +64,10 @@
                     sb.AppendFormat("Line number : {0}{1}", lineNumber, Environment.NewLine);
                     sb.AppendFormat("Error Message: {0}{1}", ex.Message, Environment.NewLine);
 
-                    WriteTextToFile(sb.ToString()); 
+                    if (!string.IsNullOrEmpty(ex.StackTrace))
+                        sb.AppendFormat("Stacktrace: {0}{1}{2}", Environment.NewLine, ex.StackTrace, Environment.NewLine);
+
+                    WriteTextToFile(sb.ToString());
                 }
             }
             catch (Exception exception)
@@ -68,11 +83,8 @@
             {
                 if (!Directory.Exists(FolderName))
                 {
-                    Directory.CreateDirectory(FolderName);
+                    Directory.CreateDirectory(pathToLogFolder);
                 }
-
-                var pathToLogFile = FolderName + Path.DirectorySeparatorChar + FileName;
-
 
                 try
                 {
@@ -91,7 +103,6 @@
                 }
             }
         }
-
 
         #endregion
     }

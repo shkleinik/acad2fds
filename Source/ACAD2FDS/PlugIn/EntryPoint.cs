@@ -230,7 +230,7 @@ namespace Fds2AcadPlugin
 
             var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Concat(documentName, Constants.FdsFileExtension));
 
-            var templateManager = new TemplateManager(PluginInfoProvider.GetPathToPluginDirectory(), Constants.FdsTemplateName);
+            var templateManager = new TemplateManager(Info.PluginDirectory, Constants.FdsTemplateName);
 
             var parameters = new Dictionary<string, object>
                                          {
