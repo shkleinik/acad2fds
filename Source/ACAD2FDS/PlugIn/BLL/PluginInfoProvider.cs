@@ -1,8 +1,7 @@
 namespace Fds2AcadPlugin.BLL
 {
-    using System;
     using System.IO;
-    using System.Reflection;
+    using Common;
 
     public static class PluginInfoProvider
     {
@@ -10,7 +9,7 @@ namespace Fds2AcadPlugin.BLL
         {
             get
             {
-                return Path.Combine(GetPathToPluginDirectory(), Constants.MaterialsBasePath);
+                return Path.Combine(Info.PluginDirectory, Constants.MaterialsBasePath);
             }
         }
 
@@ -18,7 +17,7 @@ namespace Fds2AcadPlugin.BLL
         {
             get
             {
-                return Path.Combine(GetPathToPluginDirectory(), Constants.SurfacesBasePath);
+                return Path.Combine(Info.PluginDirectory, Constants.SurfacesBasePath);
             }
         }
 
@@ -26,7 +25,7 @@ namespace Fds2AcadPlugin.BLL
         {
             get
             {
-                return Path.Combine(GetPathToPluginDirectory(), Constants.MappingsMaterialsPath);
+                return Path.Combine(Info.PluginDirectory, Constants.MappingsMaterialsPath);
             }
         }
 
@@ -34,7 +33,7 @@ namespace Fds2AcadPlugin.BLL
         {
             get
             {
-                return Path.Combine(GetPathToPluginDirectory(), Constants.ConfigName);
+                return Path.Combine(Info.PluginDirectory, Constants.ConfigName);
             }
         }
 
@@ -42,13 +41,8 @@ namespace Fds2AcadPlugin.BLL
         {
             get
             {
-                return Path.Combine(GetPathToPluginDirectory(), Constants.FdsTemplateName);
+                return Path.Combine(Info.PluginDirectory, Constants.FdsTemplateName);
             }
-        }
-
-        public static string GetPathToPluginDirectory()
-        {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
     }
 }
