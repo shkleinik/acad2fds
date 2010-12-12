@@ -6,6 +6,7 @@
 
 namespace Fds2AcadPlugin
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -17,6 +18,7 @@ namespace Fds2AcadPlugin
     using BLL.Helpers;
     using BLL.NativeMethods;
     using Common;
+    using Common.UI;
     using GeometryConverter;
     using GeometryConverter.Bases;
     using GeometryConverter.Helpers;
@@ -30,7 +32,7 @@ namespace Fds2AcadPlugin
     {
         #region Properties
 
-        private Logger Log { get; set; }
+        private ILogger Log { get; set; }
 
         #endregion
 
@@ -61,20 +63,21 @@ namespace Fds2AcadPlugin
                 fdsMenu.AddMenuItem(3, Constants.OpenMaterialManagerMenuItem, Constants.OpenMaterialManagerCommandName);
                 fdsMenu.AddMenuItem(4, Constants.EditMaterialsMappingsMenuItem, Constants.EditMaterialsMappingsCommandName);
                 fdsMenu.AddMenuItem(5, Constants.OptionsMenuItem, Constants.OptionsCommandName);
+                fdsMenu.AddMenuItem(6, Constants.AboutMenuItem, Constants.AboutCommandName);
                 fdsMenu.InsertInMenuBar(menuBar.Count);
                 menuGroup.Save(AcMenuFileType.acMenuFileCompiled);
 
-                Log.LogInfo("Plugin menu was successfully built.");
+                Log.LogInfo("Plugin's menu was successfully built.");
             }
             catch (COMException ex)
             {
                 Log.LogError(ex);
-                MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
+                UserNotifier.ShowError(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
             catch (System.Exception ex)
             {
                 Log.LogError(ex);
-                MessageBox.Show(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
+                UserNotifier.ShowError(string.Format(Constants.MenuBuildErrorMessagePattern, ex.Message));
             }
         }
 
@@ -152,9 +155,10 @@ namespace Fds2AcadPlugin
             var allOptimizedElements = new List<Element>();
             var minMaxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids);
             var progress = 0;
+
             foreach (var solid in selectedSolids)
             {
-                progressWindow.Update(progress, string.Format("{0} of {1} solids converted", ++progress, selectedSolids.Count));
+                progressWindow.Update(progress, string.Format(Constants.ConvertedSolidsInfoPattern, ++progress, selectedSolids.Count));
 
                 // LEVEL OPTIMIZER TEST
 
@@ -175,14 +179,12 @@ namespace Fds2AcadPlugin
 
                 if (!converter.IsSuccessfullConversion)
                 {
-                    var result = MessageBox.Show("Lack of system resources. Proceed?", "Warning",
-                                    MessageBoxButtons.OKCancel,
-                                    MessageBoxIcon.Exclamation,
-                                    MessageBoxDefaultButton.Button1);
+                    var result = UserNotifier.ShowWarningWithConfirmation(Constants.OutOfMemoruMessage);
 
                     if (result == DialogResult.Cancel)
                     {
-                        progressWindow.Close();
+                        Action action = progressWindow.Close;
+                        progressWindow.Invoke(action);
                         return;
                     }
                     break;
@@ -293,6 +295,21 @@ namespace Fds2AcadPlugin
 
             if (dialogResult == DialogResult.OK)
                 XmlSerializer<List<MaterialAndSurface>>.Serialize(materialMapper.MappingMaterials, PluginInfoProvider.PathToMappingsMaterials);
+        }
+
+        [CommandMethod(Constants.AboutCommandName)]
+        public void ShowAboutForm()
+        {
+            var about = new About(Log)
+                            {
+                                ProductLogo = PluginInfoProvider.ProductLogo,
+                                PluginName = PluginInfoProvider.ProductName,
+                                Authors = string.Join(", ", PluginInfoProvider.Authors),
+                                Description = PluginInfoProvider.ProductDescription,
+                                Version = PluginInfoProvider.ProductVersion
+                            };
+
+            about.ShowDialog();
         }
 
         #endregion
