@@ -130,5 +130,11 @@ namespace Fds2AcadPlugin.UserInterface
                 UserNotifier.ShowError(exception.Message);
             }
         }
+
+        private void OnFormKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                DialogResult = DialogResult.OK;
+        }
     }
 }

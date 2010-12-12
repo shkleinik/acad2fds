@@ -66,9 +66,9 @@
             // 
             this.tbFdsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFdsPath.Enabled = false;
             this.tbFdsPath.Location = new System.Drawing.Point(102, 19);
             this.tbFdsPath.Name = "tbFdsPath";
+            this.tbFdsPath.ReadOnly = true;
             this.tbFdsPath.Size = new System.Drawing.Size(274, 20);
             this.tbFdsPath.TabIndex = 1;
             this.tbFdsPath.TextChanged += new System.EventHandler(this.On_textBox_TextChanged);
@@ -98,9 +98,9 @@
             // 
             this.tbSmokeViewPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSmokeViewPath.Enabled = false;
             this.tbSmokeViewPath.Location = new System.Drawing.Point(102, 49);
             this.tbSmokeViewPath.Name = "tbSmokeViewPath";
+            this.tbSmokeViewPath.ReadOnly = true;
             this.tbSmokeViewPath.Size = new System.Drawing.Size(274, 20);
             this.tbSmokeViewPath.TabIndex = 4;
             this.tbSmokeViewPath.TextChanged += new System.EventHandler(this.On_textBox_TextChanged);

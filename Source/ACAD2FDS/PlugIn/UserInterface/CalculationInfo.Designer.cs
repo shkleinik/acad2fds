@@ -83,9 +83,9 @@
             // 
             // tbPath
             // 
-            this.tbPath.Enabled = false;
             this.tbPath.Location = new System.Drawing.Point(100, 9);
             this.tbPath.Name = "tbPath";
+            this.tbPath.ReadOnly = true;
             this.tbPath.Size = new System.Drawing.Size(246, 20);
             this.tbPath.TabIndex = 4;
             this.tbPath.Validating += new System.ComponentModel.CancelEventHandler(this.On_tbPath_Validating);
