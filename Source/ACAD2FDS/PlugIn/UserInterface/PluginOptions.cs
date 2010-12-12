@@ -9,6 +9,7 @@
     using BLL.Configuration;
     using BLL.Entities;
     using BLL.Helpers;
+    using Common;
     using Common.UI;
 
     public partial class PluginOptions : FormBase
@@ -40,12 +41,15 @@
             }
         }
 
+        private ILogger Log { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public PluginOptions()
+        public PluginOptions(ILogger logger)
         {
+            Log = logger;
             InitializeComponent();
         }
 
@@ -55,7 +59,7 @@
 
         private void On_PluginOptions_Load(object sender, EventArgs e)
         {
-            var config = new DefaultFactory().CreateFdsConfig() ?? new FdsPluginConfig
+            var config = new DefaultFactory(Log).CreateFdsConfig() ?? new FdsPluginConfig
                                                                       {
                                                                           ElementSize = 100,
                                                                           DevicesDensity = 4,
@@ -98,8 +102,7 @@
             var openFileDialog = new OpenFileDialog
                                      {
                                          Multiselect = false,
-                                         Filter = "Executable files|*.exe",
-                                         InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+                                         Filter = "Executable files|*.exe"
                                      };
 
             var dialogResult = openFileDialog.ShowDialog(this);

@@ -3,6 +3,7 @@ namespace Fds2AcadPlugin.BLL.Helpers
     using System;
     using System.IO;
     using System.Xml.Serialization;
+    using Common;
 
     public class XmlSerializer<T> where T : class
     {
@@ -40,7 +41,7 @@ namespace Fds2AcadPlugin.BLL.Helpers
             }
         }
 
-        public static T Deserialize(string filepath)
+        public static T Deserialize(string filepath, ILogger log)
         {
             try
             {
@@ -53,8 +54,9 @@ namespace Fds2AcadPlugin.BLL.Helpers
 
                 return (T)item;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                log.LogError(exception);
                 return null;
             }
         }

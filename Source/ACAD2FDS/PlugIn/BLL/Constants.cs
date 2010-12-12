@@ -1,3 +1,5 @@
+using System;
+
 namespace Fds2AcadPlugin.BLL
 {
     public class Constants
@@ -49,6 +51,10 @@ namespace Fds2AcadPlugin.BLL
         public const string OutOfMemoruMessage = "Lack of system resources. Do you want to proceed?";
 
         public const string ConvertedSolidsInfoPattern = "{0} of {1} solids converted";
+
+        public static string PluginWasNotConfigured = "Plugin was not configured yet. Navigate to 'Acad to FDS plugin -> Options' to configure.";
+
+        public const string SmokeViewPathIsnotConfigured = "Path to SmokeView is not configured.\r\nNavigate to 'Acad to FDS plugin -> Options' to configure.";
 
         #endregion
     }
