@@ -15,7 +15,7 @@
     public partial class SetupActions : Installer
     {
 
-        private Logger Log { get; set; }
+        private ILogger Log { get; set; }
 
         #region Constructors
 

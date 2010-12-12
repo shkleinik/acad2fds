@@ -25,6 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{0B4335BD-C080-4149-89C1-25699A99EF1B}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionItems\acad.exe.config = SolutionItems\acad.exe.config
 		SolutionItems\CommonInfo.cs = SolutionItems\CommonInfo.cs
 		SolutionItems\fds.template = SolutionItems\fds.template
 		SolutionItems\materials.xml = SolutionItems\materials.xml

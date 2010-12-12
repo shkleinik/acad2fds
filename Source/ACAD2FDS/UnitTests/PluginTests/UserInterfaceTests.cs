@@ -2,22 +2,22 @@ namespace UnitTests.PluginTests
 {
     using System.Collections.Generic;
     using System.Windows.Forms;
+    using Fds2AcadPlugin.BLL;
     using Fds2AcadPlugin.BLL.Helpers;
     using Fds2AcadPlugin.UserInterface;
     using Fds2AcadPlugin.UserInterface.Materials;
     using MaterialManager.BLL;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
     [TestClass]
     public class UserInterfaceTests
     {
-        private Surface surface;
+        private static Surface surface;
 
-        private Material material;
+        private static Material material;
 
         [ClassInitialize]
-        public void TestSetup()
+        public static void TestSetup(TestContext context)
         {
             var r1 = new Ramp("C_P", 0.0, 0.0);
             var r2 = new Ramp("C_P", 1.0, 5.0);
@@ -104,7 +104,7 @@ namespace UnitTests.PluginTests
         [TestMethod]
         public void MaterialEditorTest()
         {
-            TestSetup();
+            TestSetup(null);
 
             var materialEditor1 = new MaterialEditor(material);
             materialEditor1.ShowDialog();
@@ -140,7 +140,7 @@ namespace UnitTests.PluginTests
         [TestMethod]
         public void MaterialProviderTest()
         {
-            TestSetup();
+            TestSetup(null);
 
             var materials = new List<Material>();
             var surfaces = new List<Surface>();
@@ -206,6 +206,21 @@ namespace UnitTests.PluginTests
 
             //var entries2 = XmlSerializer<List<Entry>>.Deserialize(store);
 
+        }
+
+        [TestMethod]
+        public void AboutFormTest()
+        {
+            var about = new About
+            {
+                ProductLogo = PluginInfoProvider.ProductLogo,
+                PluginName = PluginInfoProvider.ProductName,
+                Authors = string.Join(", ", PluginInfoProvider.Authors),
+                Description = PluginInfoProvider.ProductDescription,
+                Version = PluginInfoProvider.ProductVersion
+            };
+
+            about.ShowDialog();
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Fds2AcadPlugin.BLL
         public const string ConfigName = "fdsPlugin.config";
 
         public const string FdsFileExtension = ".fds";
-        
+
         #endregion
-        
+
         #region Menu
 
         public const string FdsMenuName = "Acad to FDS plugin";
@@ -29,20 +29,26 @@ namespace Fds2AcadPlugin.BLL
         public const string RunSmokeViewCommandName = "ViewResultInSmokeView";
         public const string ConvertTo3dSolidsMenuItem = "Convert Objects to 3D Solids";
         public const string ConvertTo3dSolidsCommandName = "ConvertTo3dSolids";
-        public const string OptionsMenuItem = "Options";
-        public const string OptionsCommandName = "PluginOptions";
-        public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";
-        public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
         public const string OpenMaterialManagerMenuItem = "Material and Surfaces Manager";
         public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
+        public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";
+        public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
+        public const string OptionsMenuItem = "Options";
+        public const string OptionsCommandName = "PluginOptions";
+        public const string AboutMenuItem = "About";
+        public const string AboutCommandName = "ShowAbout";
 
         public const string BuildMenuCommandName = "BuildFdsMenu";
 
         #endregion
 
-        #region Error Messages
+        #region Messages
 
-        public const string MenuBuildErrorMessagePattern = "Error occured during FDS menu building.\n\n {0}";
+        public const string MenuBuildErrorMessagePattern = "Error occured during FDS menu building.\r\n\r\n {0}";
+
+        public const string OutOfMemoruMessage = "Lack of system resources. Do you want to proceed?";
+
+        public const string ConvertedSolidsInfoPattern = "{0} of {1} solids converted";
 
         #endregion
     }

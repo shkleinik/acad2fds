@@ -8,8 +8,8 @@ namespace UnitTests.CommonTests
     [TestClass]
     public class LoggerTests
     {
-        private Logger log1;
-        private Logger log2;
+        private ILogger log1;
+        private ILogger log2;
 
         [TestMethod]
         [Timeout(TestTimeout.Infinite)]

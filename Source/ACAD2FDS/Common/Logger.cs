@@ -5,7 +5,7 @@
     using System.IO;
     using System.Text;
 
-    public class Logger
+    public class Logger : ILogger
     {
         #region Constants
 
