@@ -4,9 +4,9 @@ namespace Common.UI
 {
     public class UserNotifier
     {
-        public const string WarningCaption = "Warning";
+        public const string WarningCaption = "Warning - AutoCAD to FDS plugin";
 
-        public const string ErrorCaption = "Error";
+        public const string ErrorCaption = "Error - AutoCAD to FDS plugin";
 
         public static void ShowWarning(string text)
         {
