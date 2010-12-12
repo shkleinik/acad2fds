@@ -61,7 +61,7 @@ namespace Acad2FdsSetupActions.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An instance of AutoCAD is running now. Please, terminate it and try again..
+        ///   Looks up a localized string similar to An instance of AutoCAD is running now. Please, close AutoCAD application it and try again..
         /// </summary>
         internal static string AcadIsRunningMessage {
             get {
@@ -84,24 +84,6 @@ namespace Acad2FdsSetupActions.Properties {
         internal static string FdsPluginDescription {
             get {
                 return ResourceManager.GetString("FdsPluginDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Info.
-        /// </summary>
-        internal static string InfoCaption {
-            get {
-                return ResourceManager.GetString("InfoCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning.
-        /// </summary>
-        internal static string InstallPreventionWindowCaption {
-            get {
-                return ResourceManager.GetString("InstallPreventionWindowCaption", resourceCulture);
             }
         }
         

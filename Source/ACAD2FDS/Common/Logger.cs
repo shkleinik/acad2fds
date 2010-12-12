@@ -30,7 +30,7 @@
 
         public Logger()
         {
-            pathToLogFolder = Path.GetFullPath(FolderName);
+            pathToLogFolder = Path.Combine(Info.PluginDirectory, FolderName);
             pathToLogFile = Path.Combine(pathToLogFolder, FileName);
         }
 

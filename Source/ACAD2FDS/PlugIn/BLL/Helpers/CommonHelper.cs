@@ -8,6 +8,7 @@ namespace Fds2AcadPlugin.BLL.Helpers
     using System.Linq;
     using System.Threading;
     using Autodesk.AutoCAD.DatabaseServices;
+    using Common;
     using MaterialManager.BLL;
     using NativeMethods;
 
@@ -109,11 +110,11 @@ namespace Fds2AcadPlugin.BLL.Helpers
             }
         }
 
-        public static IList<MaterialManager.BLL.Surface> GetAllUsedSurfaces()
+        public static IList<MaterialManager.BLL.Surface> GetAllUsedSurfaces(ILogger log)
         {
             var usedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
-            var surfacesStore = XmlSerializer<List<MaterialManager.BLL.Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore);
-            var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+            var surfacesStore = XmlSerializer<List<MaterialManager.BLL.Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore, log);
+            var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials, log);
 
             //var usedSuraces = from surface in surfacesStore
             //       from mapping in mappingMaterials
@@ -141,16 +142,16 @@ namespace Fds2AcadPlugin.BLL.Helpers
             return usedSurfaces;
         }
 
-        public static IList<MaterialManager.BLL.Material> GetNecessaryMaterialsFromSurfaces(this IList<MaterialManager.BLL.Surface> surfaces)
+        public static IList<MaterialManager.BLL.Material> GetNecessaryMaterialsFromSurfaces(this IList<MaterialManager.BLL.Surface> surfaces, ILogger log)
         {
             var necessaryMaterials = new List<MaterialManager.BLL.Material>();
-            var allMaterials = XmlSerializer<List<MaterialManager.BLL.Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore) ?? new List<MaterialManager.BLL.Material>();
+            var allMaterials = XmlSerializer<List<MaterialManager.BLL.Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore, log) ?? new List<MaterialManager.BLL.Material>();
 
             foreach (var surface in surfaces)
             {
                 var material = allMaterials.Find(mat => mat.ID == surface.MaterialID);
 
-                if(material == null)
+                if (material == null)
                     continue;
 
                 necessaryMaterials.Add(material);

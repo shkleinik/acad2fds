@@ -32,7 +32,7 @@ namespace Fds2AcadPlugin
     {
         #region Properties
 
-        private ILogger Log { get; set; }
+        private static ILogger Log { get; set; }
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace Fds2AcadPlugin
         {
             try
             {
-                var app = new DefaultFactory().CreateAcadApplication();
+                var app = new DefaultFactory(Log).CreateAcadApplication();
                 var menuBar = app.MenuBar;
                 var menuGroup = app.MenuGroups.Item(1);
                 var menus = menuGroup.Menus;
@@ -82,29 +82,53 @@ namespace Fds2AcadPlugin
         }
 
         [CommandMethod(Constants.RunSmokeViewCommandName)]
-        public static void ViewResultInSmokeView()
+        public void ViewResultInSmokeView()
         {
-            var openFileDialog = new OpenFileDialog
+            try
             {
-                Multiselect = false,
-                Filter = "SmokeView files|*.smv",
-            };
+                var fdsConfig = new DefaultFactory(Log).CreateFdsConfig();
 
-            var dialogResult = openFileDialog.ShowDialog();
 
-            if (DialogResult.OK != dialogResult)
-                return;
+                if (fdsConfig == null)
+                {
+                    UserNotifier.ShowWarning(Constants.PluginWasNotConfigured);
+                    return;
+                }
 
-            var smokeViewHandle = CommonHelper.StartSmokeViewProcess(new DefaultFactory().CreateFdsConfig().PathToSmokeView, openFileDialog.FileName);
-            var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory().CreateAcadActiveWindow().Handle);
+                if (string.IsNullOrEmpty(fdsConfig.PathToSmokeView))
+                {
+                    UserNotifier.ShowWarning(Constants.SmokeViewPathIsnotConfigured);
+                    return;
+                }
 
-            NativeMethods.SetParent(smokeViewHandle, mdiHostHandle);
+                var openFileDialog = new OpenFileDialog
+                                    {
+                                        Multiselect = false,
+                                        Filter = "SmokeView files|*.smv",
+                                    };
+
+                var dialogResult = openFileDialog.ShowDialog();
+
+                if (DialogResult.OK != dialogResult)
+                    return;
+
+                var smokeViewHandle = CommonHelper.StartSmokeViewProcess(fdsConfig.PathToSmokeView, openFileDialog.FileName);
+                var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory(Log).CreateAcadActiveWindow().Handle);
+
+                NativeMethods.SetParent(smokeViewHandle, mdiHostHandle);
+                NativeMethods.ShowWindow(smokeViewHandle, NativeMethods.SW_SHOWMAXIMIZED);
+            }
+            catch (System.Exception exception)
+            {
+                Log.LogError(exception);
+                UserNotifier.ShowError(exception.Message);
+            }
         }
 
         [CommandMethod(Constants.OptionsCommandName)]
         public static void PluginOptions()
         {
-            var plugionOptions = new PluginOptions();
+            var plugionOptions = new PluginOptions(Log);
             plugionOptions.ShowDialog();
         }
 
@@ -116,11 +140,11 @@ namespace Fds2AcadPlugin
             {
                 #region Check if config exists
 
-                var pluginConfig = new DefaultFactory().CreateFdsConfig();
+                var pluginConfig = new DefaultFactory(Log).CreateFdsConfig();
 
                 if (pluginConfig == null)
                 {
-                    var fdsConfig = new PluginOptions();
+                    var fdsConfig = new PluginOptions(Log);
                     fdsConfig.ShowDialog();
                     pluginConfig = fdsConfig.PluginConfig;
                 }
@@ -149,7 +173,7 @@ namespace Fds2AcadPlugin
                 #region Initialize progress window
 
                 var progressWindow = new ConversionProgress(selectedSolids.Count);
-                progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
+                progressWindow.Show(new DefaultFactory(Log).CreateAcadActiveWindow());
 
                 #endregion
 
@@ -224,9 +248,9 @@ namespace Fds2AcadPlugin
 
                 #region Genrating output
 
-                var usedSurfaces = CommonHelper.GetAllUsedSurfaces();
-                var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces();
-                var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+                var usedSurfaces = CommonHelper.GetAllUsedSurfaces(Log);
+                var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces(Log);
+                var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials, Log);
                 var materialsToSurfaces = mappings.GetDictionary();
 
                 var maxPoint = minMaxPoint[1];
@@ -278,8 +302,8 @@ namespace Fds2AcadPlugin
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
         static public void OpenMaterialManager()
         {
-            var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore) ?? new List<Surface>();
-            var materialsStore = XmlSerializer<List<Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore) ?? new List<Material>();
+            var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore, Log) ?? new List<Surface>();
+            var materialsStore = XmlSerializer<List<Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore, Log) ?? new List<Material>();
 
             var materialProvider = new MaterialProvider(materialsStore, surfacesStore);
             var dialogResult = materialProvider.ShowDialog();
@@ -295,8 +319,8 @@ namespace Fds2AcadPlugin
         static public void EditMaterialsMappings()
         {
             var usedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
-            var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore);
-            var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+            var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore, Log);
+            var mappingMaterials = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials, Log);
 
             var materialMapper = new MaterialMapper(usedMaterials, surfacesStore, mappingMaterials);
 

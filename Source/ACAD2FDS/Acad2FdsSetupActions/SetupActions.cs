@@ -9,6 +9,7 @@
     using System.Windows.Forms;
     using BLL;
     using Common;
+    using Common.UI;
     using Properties;
 
     [RunInstaller(true)]
@@ -78,12 +79,7 @@
             if (!CommonHelper.IsAutoCadRunning())
                 return;
 
-            var userChoice = MessageBox.Show(Resources.AcadIsRunningMessage,
-                                             Resources.InstallPreventionWindowCaption,
-                                             MessageBoxButtons.RetryCancel,
-                                             MessageBoxIcon.Warning,
-                                             MessageBoxDefaultButton.Button1
-                                            );
+            var userChoice = UserNotifier.ShowRetry(Resources.AcadIsRunningMessage);
 
             if (DialogResult.Retry == userChoice)
                 CheckIfAutoCadIsRunning();
@@ -100,12 +96,7 @@
         {
             if (updatedInstances.Count <= 0)
             {
-                MessageBox.Show(Resources.AcadNotInstalledMessage,
-                Resources.InfoCaption,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1
-                );
+                UserNotifier.ShowInfo(Resources.AcadNotInstalledMessage);
 
                 if (stopInstallation)
                     throw new InvalidOperationException(Resources.AcadNotInstalledMessage);
@@ -120,13 +111,7 @@
                 }
 
                 Log.LogInfo(infoMessage);
-
-                MessageBox.Show(infoMessage,
-                                Resources.InfoCaption,
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information,
-                                MessageBoxDefaultButton.Button1
-                    );
+                UserNotifier.ShowInfo(infoMessage);
             }
         }
 
