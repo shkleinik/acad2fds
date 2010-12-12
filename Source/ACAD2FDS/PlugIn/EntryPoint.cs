@@ -109,132 +109,135 @@ namespace Fds2AcadPlugin
         }
 
         [CommandMethod(Constants.RunFdsCommandName)]
-        static public void RunCalculationInFds()
+        public void RunCalculationInFds()
         {
-            #region Check if config exists
-
-            var pluginConfig = new DefaultFactory().CreateFdsConfig();
-
-            if (pluginConfig == null)
+            // Todo : Bad practice to use such kind of exception handling.
+            try
             {
-                var fdsConfig = new PluginOptions();
-                fdsConfig.ShowDialog();
-                pluginConfig = fdsConfig.PluginConfig;
-            }
+                #region Check if config exists
 
-            #endregion
+                var pluginConfig = new DefaultFactory().CreateFdsConfig();
 
-            #region Collect information
-
-            // Ask user to configure calculation
-            var calculationInfo = new CalculationInfo();
-            var dialogResult = calculationInfo.ShowDialog();
-
-            if (dialogResult == DialogResult.Cancel)
-                return;
-
-            EditMaterialsMappings();
-
-            // get solids
-            var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
-
-            if (selectedSolids.Count < 1)
-                return;
-
-            #endregion
-
-            #region Initialize progress window
-
-            var progressWindow = new ConversionProgress(selectedSolids.Count);
-            progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
-
-            #endregion
-
-            #region Convert geometry
-
-            var allOptimizedElements = new List<Element>();
-            var minMaxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids);
-            var progress = 0;
-
-            foreach (var solid in selectedSolids)
-            {
-                progressWindow.Update(progress, string.Format(Constants.ConvertedSolidsInfoPattern, ++progress, selectedSolids.Count));
-
-                // LEVEL OPTIMIZER TEST
-
-                SolidToElementConverter converter;
-
-                if (pluginConfig.UseCustomElementSize)
+                if (pluginConfig == null)
                 {
-                    converter = new SolidToElementConverter(solid, pluginConfig.ElementSize);
-                }
-                else
-                {
-                    converter = new SolidToElementConverter(solid);
-                }
-
-                var valuableElements = converter.ValueableElements;
-
-                #region Handle out of memory exception
-
-                if (!converter.IsSuccessfullConversion)
-                {
-                    var result = UserNotifier.ShowWarningWithConfirmation(Constants.OutOfMemoruMessage);
-
-                    if (result == DialogResult.Cancel)
-                    {
-                        Action action = progressWindow.Close;
-                        progressWindow.Invoke(action);
-                        return;
-                    }
-                    break;
+                    var fdsConfig = new PluginOptions();
+                    fdsConfig.ShowDialog();
+                    pluginConfig = fdsConfig.PluginConfig;
                 }
 
                 #endregion
 
-                var optimizer = new LevelOptimizer(valuableElements);
+                #region Collect information
 
-                allOptimizedElements.AddRange(optimizer.Optimize());
+                // Ask user to configure calculation
+                var calculationInfo = new CalculationInfo();
+                var dialogResult = calculationInfo.ShowDialog();
 
-                // GET ALL VALUABLE ELEMENTS TEST
-                // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
-            }
+                if (dialogResult == DialogResult.Cancel)
+                    return;
 
-            progressWindow.Close();
+                EditMaterialsMappings();
 
-            #endregion
+                // get solids
+                var selectedSolids = AcadInfoProvider.AskUserToSelectSolids();
 
-            #region Handle negative offset
+                if (selectedSolids.Count < 1)
+                    return;
 
-            var minPoint = minMaxPoint[0];
-            var vector = ElementHelper.InitNegativeOffsetVector(minPoint);
-            if (vector != null)
-            {
-                foreach (var element in allOptimizedElements)
-                    element.Center.MoveUsingNegativeOffsetVector(vector);
+                #endregion
 
-                minMaxPoint[0].MoveUsingNegativeOffsetVector(vector);
-                minMaxPoint[1].MoveUsingNegativeOffsetVector(vector);
-            }
+                #region Initialize progress window
 
-            #endregion
+                var progressWindow = new ConversionProgress(selectedSolids.Count);
+                progressWindow.Show(new DefaultFactory().CreateAcadActiveWindow());
 
-            #region Genrating output
+                #endregion
 
-            var usedSurfaces = CommonHelper.GetAllUsedSurfaces();
-            var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces();
-            var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
-            var materialsToSurfaces = mappings.GetDictionary();
+                #region Convert geometry
 
-            var maxPoint = minMaxPoint[1];
+                var allOptimizedElements = new List<Element>();
+                var minMaxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids);
+                var progress = 0;
 
-            var documentName = AcadInfoProvider.GetDocumentName();
+                foreach (var solid in selectedSolids)
+                {
+                    progressWindow.Update(progress, string.Format(Constants.ConvertedSolidsInfoPattern, ++progress, selectedSolids.Count));
 
-            var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Concat(documentName, Constants.FdsFileExtension));
+                    // LEVEL OPTIMIZER TEST
 
-            var templateManager = new TemplateManager(Info.PluginDirectory, Constants.FdsTemplateName);
+                    SolidToElementConverter converter;
 
-            var parameters = new Dictionary<string, object>
+                    if (pluginConfig.UseCustomElementSize)
+                    {
+                        converter = new SolidToElementConverter(solid, pluginConfig.ElementSize);
+                    }
+                    else
+                    {
+                        converter = new SolidToElementConverter(solid);
+                    }
+
+                    var valuableElements = converter.ValueableElements;
+
+                    #region Handle out of memory exception
+
+                    if (!converter.IsSuccessfullConversion)
+                    {
+                        var result = UserNotifier.ShowWarningWithConfirmation(Constants.OutOfMemoruMessage);
+
+                        if (result == DialogResult.Cancel)
+                        {
+                            Action action = progressWindow.Close;
+                            progressWindow.Invoke(action);
+                            return;
+                        }
+                        break;
+                    }
+
+                    #endregion
+
+                    var optimizer = new LevelOptimizer(valuableElements);
+
+                    allOptimizedElements.AddRange(optimizer.Optimize());
+
+                    // GET ALL VALUABLE ELEMENTS TEST
+                    // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
+                }
+
+                progressWindow.Close();
+
+                #endregion
+
+                #region Handle negative offset
+
+                var minPoint = minMaxPoint[0];
+                var vector = ElementHelper.InitNegativeOffsetVector(minPoint);
+                if (vector != null)
+                {
+                    foreach (var element in allOptimizedElements)
+                        element.Center.MoveUsingNegativeOffsetVector(vector);
+
+                    minMaxPoint[0].MoveUsingNegativeOffsetVector(vector);
+                    minMaxPoint[1].MoveUsingNegativeOffsetVector(vector);
+                }
+
+                #endregion
+
+                #region Genrating output
+
+                var usedSurfaces = CommonHelper.GetAllUsedSurfaces();
+                var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces();
+                var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials);
+                var materialsToSurfaces = mappings.GetDictionary();
+
+                var maxPoint = minMaxPoint[1];
+
+                var documentName = AcadInfoProvider.GetDocumentName();
+
+                var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Concat(documentName, Constants.FdsFileExtension));
+
+                var templateManager = new TemplateManager(Info.PluginDirectory, Constants.FdsTemplateName);
+
+                var parameters = new Dictionary<string, object>
                                          {
                                              {"elements", allOptimizedElements},
                                              {"usedSurfaces", usedSurfaces},
@@ -245,25 +248,31 @@ namespace Fds2AcadPlugin
                                              {"maxPoint", maxPoint}
                                          };
 
-            templateManager.MergeTemplateWithObjects(parameters, pathToFile);
+                templateManager.MergeTemplateWithObjects(parameters, pathToFile);
 
-            #endregion
+                #endregion
 
-            #region Start Calculations
+                #region Start Calculations
 
-            var startInfo = new ProcessStartInfo
-                        {
-                            FileName = pluginConfig.PathToFds,
-                            Arguments = string.Concat("\"", pathToFile, "\""),
-                            WorkingDirectory = calculationInfo.OutputPath
-                        };
+                var startInfo = new ProcessStartInfo
+                            {
+                                FileName = pluginConfig.PathToFds,
+                                Arguments = string.Concat("\"", pathToFile, "\""),
+                                WorkingDirectory = calculationInfo.OutputPath
+                            };
 
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            /* !!!!!!!!!!!!*/
-            Process.Start(startInfo); // !!!!!!!!!!!!!
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                /* !!!!!!!!!!!!*/
+                Process.Start(startInfo); // !!!!!!!!!!!!!
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
-            #endregion
+                #endregion
+            }
+            catch (System.Exception exception)
+            {
+                Log.LogError(exception);
+                UserNotifier.ShowError(exception.Message);
+            }
         }
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
@@ -316,15 +325,16 @@ namespace Fds2AcadPlugin
 
         #region IExtensionApplication Members
 
-        public void Initialize()
+        void IExtensionApplication.Initialize()
         {
             Log = new Logger();
+
             Log.LogInfo("Plugin initialization was started.");
             BuildFdsMenu();
             Log.LogInfo("Plugin initialization was finished.");
         }
 
-        public void Terminate()
+        void IExtensionApplication.Terminate()
         {
             Log.LogInfo("Plugin was terminated.");
         }
