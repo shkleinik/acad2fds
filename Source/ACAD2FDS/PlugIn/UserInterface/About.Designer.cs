@@ -134,6 +134,7 @@
             this.Controls.Add(this.pbLogo);
             this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(450, 250);
             this.MinimizeBox = false;
@@ -141,6 +142,7 @@
             this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About - AutoCAD to FDS plugin";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnFormKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
