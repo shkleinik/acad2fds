@@ -41,11 +41,11 @@
 
         private void On_CalculationInfo_Load(object sender, EventArgs e)
         {
-#if DEBUG
 
+#if DEBUG
             tbPath.Text = @"C:\!FdsTest";
-            tbTime.Text = "0";
 #endif
+            tbTime.Text = 0.ToString();
             tbTime.Focus();
             tbTime.SelectAll();
             btnStart.Enabled = ValidateChildren();
@@ -84,6 +84,7 @@
         private void On_btnBrowse_Click(object sender, EventArgs e)
         {
             var browserDialog = new FolderBrowserDialog();
+
             var dialogResult = browserDialog.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
