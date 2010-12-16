@@ -1,8 +1,11 @@
-///    wouldn't it be great
+/*    wouldn't it be great
 /// 
 /// ...to save current calculation directory if user wants to make some changes and calculate again
 /// 
 /// ...to add devices (array[][] and spheric)
+*/
+
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Fds2AcadPlugin
 {
@@ -11,6 +14,7 @@ namespace Fds2AcadPlugin
     using System.Diagnostics;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Threading;
     using System.Windows.Forms;
     using Autodesk.AutoCAD.Interop.Common;
     using Autodesk.AutoCAD.Runtime;
@@ -104,7 +108,7 @@ namespace Fds2AcadPlugin
                 var openFileDialog = new OpenFileDialog
                                     {
                                         Multiselect = false,
-                                        Filter = "SmokeView files|*.smv",
+                                        Filter = @"SmokeView files|*.smv",
                                     };
 
                 var dialogResult = openFileDialog.ShowDialog();
@@ -113,7 +117,7 @@ namespace Fds2AcadPlugin
                     return;
 
                 var smokeViewHandle = CommonHelper.StartSmokeViewProcess(fdsConfig.PathToSmokeView, openFileDialog.FileName);
-                var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory(Log).CreateAcadActiveWindow().Handle);
+                var mdiHostHandle = NativeMethods.GetParent(new DefaultFactory(Log).GetAcadActiveWindow().Handle);
 
                 NativeMethods.SetParent(smokeViewHandle, mdiHostHandle);
                 NativeMethods.ShowWindow(smokeViewHandle, NativeMethods.SW_SHOWMAXIMIZED);
@@ -126,7 +130,7 @@ namespace Fds2AcadPlugin
         }
 
         [CommandMethod(Constants.OptionsCommandName)]
-        public static void PluginOptions()
+        public void PluginOptions()
         {
             var plugionOptions = new PluginOptions(Log);
             plugionOptions.ShowDialog();
@@ -147,6 +151,8 @@ namespace Fds2AcadPlugin
                     var fdsConfig = new PluginOptions(Log);
                     fdsConfig.ShowDialog();
                     pluginConfig = fdsConfig.PluginConfig;
+                    fdsConfig.Dispose();
+                    fdsConfig = null;
                 }
 
                 #endregion
@@ -156,6 +162,13 @@ namespace Fds2AcadPlugin
                 // Ask user to configure calculation
                 var calculationInfo = new CalculationInfo();
                 var dialogResult = calculationInfo.ShowDialog();
+
+
+                var calcTime = calculationInfo.CalculationTime;
+                var workingDir = calculationInfo.OutputPath;
+
+                calculationInfo.Dispose();
+                calculationInfo = null;
 
                 if (dialogResult == DialogResult.Cancel)
                     return;
@@ -170,125 +183,31 @@ namespace Fds2AcadPlugin
 
                 #endregion
 
-                #region Initialize progress window
-
-                var progressWindow = new ConversionProgress(selectedSolids.Count);
-                progressWindow.Show(new DefaultFactory(Log).CreateAcadActiveWindow());
-
-                #endregion
-
-                #region Convert geometry
-
-                var allOptimizedElements = new List<Element>();
-                var minMaxPoint = SolidToElementConverter.GetMaxMinPoint(selectedSolids);
-                var progress = 0;
-
-                foreach (var solid in selectedSolids)
-                {
-                    progressWindow.Update(progress, string.Format(Constants.ConvertedSolidsInfoPattern, ++progress, selectedSolids.Count));
-
-                    // LEVEL OPTIMIZER TEST
-
-                    SolidToElementConverter converter;
-
-                    if (pluginConfig.UseCustomElementSize)
-                    {
-                        converter = new SolidToElementConverter(solid, pluginConfig.ElementSize);
-                    }
-                    else
-                    {
-                        converter = new SolidToElementConverter(solid);
-                    }
-
-                    var valuableElements = converter.ValueableElements;
-
-                    #region Handle out of memory exception
-
-                    if (!converter.IsSuccessfullConversion)
-                    {
-                        var result = UserNotifier.ShowWarningWithConfirmation(Constants.OutOfMemoruMessage);
-
-                        if (result == DialogResult.Cancel)
-                        {
-                            Action action = progressWindow.Close;
-                            progressWindow.Invoke(action);
-                            return;
-                        }
-                        break;
-                    }
-
-                    #endregion
-
-                    var optimizer = new LevelOptimizer(valuableElements);
-
-                    allOptimizedElements.AddRange(optimizer.Optimize());
-
-                    // GET ALL VALUABLE ELEMENTS TEST
-                    // allOptimizedElements.AddRange(new SolidToElementConverter(solid).ValueableElements);
-                }
-
-                progressWindow.Close();
-
-                #endregion
-
-                #region Handle negative offset
-
-                var minPoint = minMaxPoint[0];
-                var vector = ElementHelper.InitNegativeOffsetVector(minPoint);
-                if (vector != null)
-                {
-                    foreach (var element in allOptimizedElements)
-                        element.Center.MoveUsingNegativeOffsetVector(vector);
-
-                    minMaxPoint[0].MoveUsingNegativeOffsetVector(vector);
-                    minMaxPoint[1].MoveUsingNegativeOffsetVector(vector);
-                }
-
-                #endregion
-
-                #region Genrating output
-
-                var usedSurfaces = CommonHelper.GetAllUsedSurfaces(Log);
-                var requiredMaterials = usedSurfaces.GetNecessaryMaterialsFromSurfaces(Log);
-                var mappings = XmlSerializer<List<MaterialAndSurface>>.Deserialize(PluginInfoProvider.PathToMappingsMaterials, Log);
-                var materialsToSurfaces = mappings.GetDictionary();
-
-                var maxPoint = minMaxPoint[1];
-
-                var documentName = AcadInfoProvider.GetDocumentName();
-
-                var pathToFile = Path.Combine(calculationInfo.OutputPath, string.Concat(documentName, Constants.FdsFileExtension));
-
-                var templateManager = new TemplateManager(Info.PluginDirectory, Constants.FdsTemplateName);
-
-                var parameters = new Dictionary<string, object>
-                                         {
-                                             {"elements", allOptimizedElements},
-                                             {"usedSurfaces", usedSurfaces},
-                                             {"usedMaterials", requiredMaterials},
-                                             {"materialsToSurfaces", materialsToSurfaces},
-                                             {"calculationTime", calculationInfo.CalculationTime},
-                                             {"name", documentName},
-                                             {"maxPoint", maxPoint}
-                                         };
-
-                templateManager.MergeTemplateWithObjects(parameters, pathToFile);
-
-                #endregion
-
                 #region Start Calculations
 
-                var startInfo = new ProcessStartInfo
-                            {
-                                FileName = pluginConfig.PathToFds,
-                                Arguments = string.Concat("\"", pathToFile, "\""),
-                                WorkingDirectory = calculationInfo.OutputPath
-                            };
+                var fdsStartInfo = new FdsStartInfo
+                                       {
+                                           // Arguments = string.Concat("\"", pathToFile, "\""),
+                                           CalculationTime = calcTime,
+                                           DocumentName = AcadInfoProvider.GetDocumentName(),
+                                           PathToFds = pluginConfig.PathToFds,
+                                           SelectedSolids = selectedSolids.CloneList(),
+                                           UsedSurfaces = CommonHelper.GetAllUsedSurfaces(Log),
+                                           WorkingDirectory = workingDir
+                                       };
 
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                /* !!!!!!!!!!!!*/
-                Process.Start(startInfo); // !!!!!!!!!!!!!
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+                selectedSolids.Clear();
+                selectedSolids = null;
+
+                var calcManager = new ThreadedCalculationManager(fdsStartInfo, Log);
+                calcManager.StartCalculation();
+
+                //var fdsThread = new Thread(StartFdsProcess)
+                //                {
+                //                    Name = "FDS process start thread"
+                //                };
+
+                //fdsThread.Start(fdsStartInfo);
 
                 #endregion
             }
@@ -300,7 +219,7 @@ namespace Fds2AcadPlugin
         }
 
         [CommandMethod(Constants.OpenMaterialManagerCommandName)]
-        static public void OpenMaterialManager()
+        public void OpenMaterialManager()
         {
             var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore, Log) ?? new List<Surface>();
             var materialsStore = XmlSerializer<List<Material>>.Deserialize(PluginInfoProvider.PathToMaterialsStore, Log) ?? new List<Material>();
@@ -316,7 +235,7 @@ namespace Fds2AcadPlugin
         }
 
         [CommandMethod(Constants.EditMaterialsMappingsCommandName)]
-        static public void EditMaterialsMappings()
+        public void EditMaterialsMappings()
         {
             var usedMaterials = AcadInfoProvider.AllSolidsFromCurrentDrawing().GetMaterials();
             var surfacesStore = XmlSerializer<List<Surface>>.Deserialize(PluginInfoProvider.PathToSurfacesStore, Log);
@@ -328,6 +247,9 @@ namespace Fds2AcadPlugin
 
             if (dialogResult == DialogResult.OK)
                 XmlSerializer<List<MaterialAndSurface>>.Serialize(materialMapper.MappingMaterials, PluginInfoProvider.PathToMappingsMaterials);
+
+            materialMapper.Dispose();
+            materialMapper = null;
         }
 
         [CommandMethod(Constants.AboutCommandName)]
@@ -344,6 +266,22 @@ namespace Fds2AcadPlugin
 
             about.ShowDialog();
         }
+
+#if DEBUG
+
+        [CommandMethod("ThreadTest")]
+        public void ThreadTest()
+        {
+            var thread = new Thread(RunTestThread);
+            thread.Start();
+        }
+
+        public void RunTestThread()
+        {
+            Thread.Sleep(new TimeSpan(0, 0, 0, 30));
+        }
+
+#endif
 
         #endregion
 
@@ -364,5 +302,20 @@ namespace Fds2AcadPlugin
         }
 
         #endregion
+    }
+
+    public static class SomeExtensions
+    {
+        public static IList<Entity> CloneList(this IList<Entity> list)
+        {
+            var clonedList = new List<Entity>();
+
+            foreach (var entity in list)
+            {
+                clonedList.Add((Entity)entity.Clone());
+            }
+
+            return clonedList;
+        }
     }
 }

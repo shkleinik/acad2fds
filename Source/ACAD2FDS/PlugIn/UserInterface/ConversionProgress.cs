@@ -1,14 +1,24 @@
-﻿namespace Fds2AcadPlugin.UserInterface
-{
-    using System;
-    using Common.UI;
+﻿using Common.UI;
 
-    public partial class ConversionProgress : FormBase
+namespace Fds2AcadPlugin.UserInterface
+{
+    using System.Windows.Forms;
+
+    public partial class ConversionProgress : Form
     {
         #region Fields
 
-        private int _progress;
-        private string _description = ""; 
+        private object syncRoot = new object();
+
+        private delegate void InvokeDelegate();
+
+        #endregion
+
+        #region Properties
+
+        public bool AllowUpdate { get; set; }
+
+        public bool ForceClose { get; set; }
 
         #endregion
 
@@ -16,10 +26,13 @@
 
         public ConversionProgress(int maxProgress)
         {
+            AllowUpdate = true;
+            ForceClose = false;
+
             InitializeComponent();
 
             pbStatus.Maximum = maxProgress;
-        } 
+        }
 
         #endregion
 
@@ -32,55 +45,38 @@
         /// <param name="description">Description of progress</param>
         public void Update(int progress, string description)
         {
-            SetProgress(progress);
-            SetDescription(description);
-        } 
+            if (AllowUpdate)
+            {
+                InvokeDelegate invokeDelegate = delegate
+                {
+                    pbStatus.Value = progress;
+                    pbStatus.Update();
+                    lblProgressStatus.Text = description;
+                    lblProgressStatus.Update();
+                };
+                Invoke(invokeDelegate);
+            }
+        }
 
         #endregion
 
-        #region Internal implementation
-        /// <summary>
-        /// Wrapper for progress change invocation.
-        /// </summary>
-        /// <param name="progress"></param>
-        private void SetProgress(int progress)
+        private void ConversionProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _progress = progress;
-            Invoke(new EventHandler(SetProgress));
-        }
+            if (ForceClose)
+                return;
 
-        /// <summary>
-        /// Changes text of the label under the progress bar.
-        /// </summary>
-        /// <param name="description"></param>
-        private void SetDescription(string description)
-        {
-            _description = description;
-            Invoke(new EventHandler(SetDescription));
-        }
+            if (AllowUpdate)
+            {
+                e.Cancel = true;
 
-        /// <summary>
-        /// Delegate for async progress bar update.
-        /// </summary>
-        /// <param name="sender">Required parameter.</param>
-        /// <param name="args">Required parameter.</param>
-        private void SetProgress(object sender, EventArgs args)
-        {
-            pbStatus.Value = _progress;
-            Refresh();
-        }
+                var result = UserNotifier.ShowQuestion("Do you want to stop conversion?");
 
-        /// <summary>
-        /// Delegate for async label label update.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void SetDescription(object sender, EventArgs args)
-        {
-            lblProgressStatus.Text = _description;
-            lblProgressStatus.Refresh();
-            Refresh();
-        } 
-        #endregion
+                if (result == DialogResult.Yes)
+                {
+                    AllowUpdate = false;
+                    BeginInvoke(new InvokeDelegate(Close));
+                }
+            }
+        }
     }
 }

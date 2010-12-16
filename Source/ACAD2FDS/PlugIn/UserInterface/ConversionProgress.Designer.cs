@@ -49,7 +49,7 @@
             this.lblProgressStatus.TabIndex = 1;
             this.lblProgressStatus.Text = "Progress . . .";
             // 
-            // ConvertionProgress
+            // ConversionProgress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -59,8 +59,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ConvertionProgress";
+            this.Name = "ConversionProgress";
             this.Text = "Convertion Progress";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConversionProgress_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

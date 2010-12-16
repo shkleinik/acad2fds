@@ -4,15 +4,21 @@ namespace Common.UI
 
     public class UserNotifier
     {
+        #region Constants
+
         public const string WarningCaption = "Warning" + CaptionPattern;
 
         public const string ErrorCaption = "Error" + CaptionPattern;
 
         public const string InfoCaption = "Info" + CaptionPattern;
 
-        public const string RetryCaption = "Retry" + CaptionPattern; // "Retry - AutoCAD to FDS plugin";
+        public const string RetryCaption = "Retry" + CaptionPattern;
+
+        public const string QuestionCaption = "Question" + CaptionPattern;
 
         private const string CaptionPattern = " - AutoCAD to FDS plugin";
+
+        #endregion
 
         public static void ShowWarning(string text)
         {
@@ -59,6 +65,16 @@ namespace Common.UI
                                    MessageBoxButtons.RetryCancel,
                                    MessageBoxIcon.Warning,
                                    MessageBoxDefaultButton.Button1
+                                   );
+        }
+
+        public static DialogResult ShowQuestion(string text)
+        {
+            return MessageBox.Show(text,
+                                   QuestionCaption,
+                                   MessageBoxButtons.YesNo,
+                                   MessageBoxIcon.Question,
+                                   MessageBoxDefaultButton.Button2
                                    );
         }
     }
