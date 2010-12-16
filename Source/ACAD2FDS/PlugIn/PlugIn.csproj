@@ -103,10 +103,12 @@
     <Compile Include="BLL\DefaultFactory.cs" />
     <Compile Include="BLL\Entities\InfoCollectorType.cs" />
     <Compile Include="BLL\Entities\InfoCollector.cs" />
+    <Compile Include="BLL\FdsStartInfo.cs" />
     <Compile Include="BLL\Helpers\CommonHelper.cs" />
     <Compile Include="BLL\Helpers\XmlSerializer.cs" />
     <Compile Include="BLL\NativeMethods\NativeMethods.cs" />
     <Compile Include="BLL\PluginInfoProvider.cs" />
+    <Compile Include="BLL\ThreadedCalculationManager.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resources.Designer.cs">

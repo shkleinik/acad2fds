@@ -30,9 +30,14 @@ namespace Fds2AcadPlugin.BLL
             return (AcadApplication)Application.AcadApplication;
         }
 
-        public Window CreateAcadActiveWindow()
+        public Window GetAcadActiveWindow()
         {
             return Application.DocumentManager.MdiActiveDocument.Window;
+        }
+
+        public Window GetAcadMainWindows()
+        {
+            return Application.MainWindow;
         }
 
         public DocumentCollection CreateDocumentManager()
