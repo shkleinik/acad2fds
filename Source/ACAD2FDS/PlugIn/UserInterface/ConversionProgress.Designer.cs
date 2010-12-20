@@ -60,7 +60,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConversionProgress";
-            this.Text = "Convertion Progress";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Conversion Progress";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConversionProgress_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -163,7 +163,6 @@ namespace Fds2AcadPlugin
                 var calculationInfo = new CalculationInfo();
                 var dialogResult = calculationInfo.ShowDialog();
 
-
                 var calcTime = calculationInfo.CalculationTime;
                 var workingDir = calculationInfo.OutputPath;
 
@@ -191,23 +190,19 @@ namespace Fds2AcadPlugin
                                            CalculationTime = calcTime,
                                            DocumentName = AcadInfoProvider.GetDocumentName(),
                                            PathToFds = pluginConfig.PathToFds,
-                                           SelectedSolids = selectedSolids.CloneList(),
+                                           SelectedSolids = selectedSolids,
                                            UsedSurfaces = CommonHelper.GetAllUsedSurfaces(Log),
                                            WorkingDirectory = workingDir
                                        };
 
-                selectedSolids.Clear();
-                selectedSolids = null;
+                var progressWindow = new ConversionProgress(fdsStartInfo.SelectedSolids.Count);
+                var calculationManager = new ThreadedCalculationManager(fdsStartInfo, Log, progressWindow);
+                progressWindow.Shown += (s, e) => calculationManager.WaitEvent.Set();
+                calculationManager.StartCalculation();
 
-                var calcManager = new ThreadedCalculationManager(fdsStartInfo, Log);
-                calcManager.StartCalculation();
-
-                //var fdsThread = new Thread(StartFdsProcess)
-                //                {
-                //                    Name = "FDS process start thread"
-                //                };
-
-                //fdsThread.Start(fdsStartInfo);
+                progressWindow.ShowDialog();
+                progressWindow.Dispose();
+                progressWindow = null;
 
                 #endregion
             }
@@ -302,20 +297,5 @@ namespace Fds2AcadPlugin
         }
 
         #endregion
-    }
-
-    public static class SomeExtensions
-    {
-        public static IList<Entity> CloneList(this IList<Entity> list)
-        {
-            var clonedList = new List<Entity>();
-
-            foreach (var entity in list)
-            {
-                clonedList.Add((Entity)entity.Clone());
-            }
-
-            return clonedList;
-        }
     }
 }
