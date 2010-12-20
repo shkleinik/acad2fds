@@ -1,10 +1,9 @@
-﻿using Common.UI;
-
-namespace Fds2AcadPlugin.UserInterface
+﻿namespace Fds2AcadPlugin.UserInterface
 {
     using System.Windows.Forms;
+    using Common.UI;
 
-    public partial class ConversionProgress : Form
+    public partial class ConversionProgress : FormBase
     {
         #region Fields
 
@@ -54,6 +53,7 @@ namespace Fds2AcadPlugin.UserInterface
                     lblProgressStatus.Text = description;
                     lblProgressStatus.Update();
                 };
+
                 Invoke(invokeDelegate);
             }
         }

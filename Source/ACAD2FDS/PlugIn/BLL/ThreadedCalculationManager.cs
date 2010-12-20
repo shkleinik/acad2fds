@@ -19,58 +19,53 @@ namespace Fds2AcadPlugin.BLL
 
     public class ThreadedCalculationManager : IDisposable
     {
-        private const string GuiThreadName = "Gui Thread";
+        #region Contants
+
         private const string CalculationThreadName = "Calculation Thread";
 
-        private ManualResetEvent waitEvent;
-        private ConversionProgress progressWindow;
-        private Thread guiThread;
+        #endregion
+
+        #region Fields
+
+        private readonly ConversionProgress progressWindow;
         private Thread calculationThread;
         private readonly FdsStartInfo fdsStartInfo;
         private readonly ILogger log;
 
-        public ThreadedCalculationManager(FdsStartInfo fdsStartInfo, ILogger logger)
+        #endregion
+
+        public ThreadedCalculationManager(FdsStartInfo fdsStartInfo, ILogger logger, ConversionProgress conversionProgressForm)
         {
             log = logger;
+            progressWindow = conversionProgressForm;
             this.fdsStartInfo = fdsStartInfo;
         }
 
+        public ManualResetEvent WaitEvent { get; set; }
+
         public void StartCalculation()
         {
-            waitEvent = new ManualResetEvent(false);
-
-            guiThread = new Thread(GuiThread);
-            guiThread.Name = GuiThreadName;
-            guiThread.Start();
+            WaitEvent = new ManualResetEvent(false);
 
             calculationThread = new Thread(CalculationThread);
             calculationThread.Name = CalculationThreadName;
             calculationThread.Start();
         }
 
-        private void GuiThread()
+        public void Dispose()
         {
-            progressWindow = new ConversionProgress(fdsStartInfo.SelectedSolids.Count);
-            progressWindow.Shown += (s, e) => waitEvent.Set();
-            progressWindow.ShowDialog();
-            progressWindow.Dispose();
-            progressWindow = null;
-
             if (calculationThread.IsAlive)
+            {
                 calculationThread.Abort();
+                calculationThread = null;
+            }
         }
 
         private void CalculationThread()
         {
-            waitEvent.WaitOne(); // Waiting for gui thread.
+            WaitEvent.WaitOne(); // Waiting for GUI thread.
 
-            //for (var i = 0; i < Count; i += 1000)
-            //{
-            //    var message = string.Format("{0} of {1} steps passed:", i, Count);
-
-            //    if (progressWindow != null)
-            //        progressWindow.Update(i, message);
-            //}
+            #region Input validation
 
             if (fdsStartInfo == null)
             {
@@ -82,7 +77,7 @@ namespace Fds2AcadPlugin.BLL
 
             if (selectedSolids == null || selectedSolids.Count < 1)
             {
-                log.LogInfo("No solids to convers were provided.");
+                log.LogInfo("No solids to convert were provided.");
                 return;
             }
 
@@ -90,9 +85,11 @@ namespace Fds2AcadPlugin.BLL
 
             if (pluginConfig == null)
             {
-                log.LogInfo("No confign was provided.");
+                log.LogInfo("No config was provided.");
                 return;
             }
+
+            #endregion
 
             #region Convert geometry
 
@@ -102,8 +99,6 @@ namespace Fds2AcadPlugin.BLL
 
             foreach (var solid in selectedSolids)
             {
-                Thread.Sleep(300);
-
                 // LEVEL OPTIMIZER TEST
 
                 SolidToElementConverter converter = pluginConfig.UseCustomElementSize
@@ -200,34 +195,23 @@ namespace Fds2AcadPlugin.BLL
 
             #endregion
 
+            #region Start FDS
+
             var startInfo = new ProcessStartInfo
-            {
-                Arguments = string.Concat("\"", pathToFile, "\""),//fdsStartInfo.Arguments,
-                FileName = fdsStartInfo.PathToFds,
-                WorkingDirectory = fdsStartInfo.WorkingDirectory
-            };
+                            {
+                                Arguments = string.Concat("\"", pathToFile, "\""),//fdsStartInfo.Arguments,
+                                FileName = fdsStartInfo.PathToFds,
+                                WorkingDirectory = fdsStartInfo.WorkingDirectory
+                            };
 
             Process.Start(startInfo);
+
+            #endregion
 
             if (progressWindow != null)
             {
                 progressWindow.ForceClose = true;
                 progressWindow.Close();
-            }
-        }
-
-        public void Dispose()
-        {
-            if (guiThread.IsAlive)
-            {
-                guiThread.Abort();
-                guiThread = null;
-            }
-
-            if (calculationThread.IsAlive)
-            {
-                calculationThread.Abort();
-                calculationThread = null;
             }
         }
     }
