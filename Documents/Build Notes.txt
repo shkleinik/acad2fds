@@ -1,0 +1,20 @@
+AutoCAD to FDS plugin Build notes
+
+-----------------------------------------------------------
+Version: 1.0.0.58978 Datetime: 2010.12.21 12:20 AM
+
+1 Previous version uninstalling is required now.
+2 Plugin icon was change for all UI forms and installer.
+3 Support of installing to multiple AutoCAD versions was implemented.
+4 Common version for all assemblies was set.
+5 Logging was implemented and applied in somewhere.
+6 Installation prerequisites for setup project were updated. Now it is .Net Framework 3.5.
+7 About form was implemented.
+8 User notification process was improved.
+9 Viewing calculation results in AutoCAD through SmokeView was enhanced.
+10 Conversion process was moved to separate thread and made asynchronous.
+
+Known issues:
+1 During installation notification windows could be shown behind main installation window.
+2 There is propability that AutoCAD will crash (close with error) during conversion process (but conversion will be continued and finished successfully).
+3 Plugin was tested (no QA just run and check) only with AutoCAD 2009 English.
