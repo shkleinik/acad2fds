@@ -5,4 +5,4 @@ using System.Reflection;
 [assembly: AssemblyProduct("AutoCAD to FDS plugin")]
 [assembly: AssemblyDescription("AutoCAD plugin to convert 3D objects to FDS format.")]
 // [assembly: AssemblyTrademark("")]
-[assembly: AssemblyVersion("1.0.0.58379")]
+[assembly: AssemblyVersion("1.0.0.58978")]
