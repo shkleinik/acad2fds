@@ -24,16 +24,16 @@ namespace Fds2AcadPlugin.BLL
 
         #region Menu
 
-        public const string FdsMenuName = "Acad to FDS plugin";
-        public const string RunFdsMenuItem = "Start calculation";
+        public const string FdsMenuName = "FDS (Fire Dynamics Simulator)";
+        public const string RunFdsMenuItem = "Calculation";
         public const string RunFdsCommandName = "RunCalculationInFds";
         public const string RunSmokeViewMenuItem = "View result in SmokeView";
         public const string RunSmokeViewCommandName = "ViewResultInSmokeView";
         public const string ConvertTo3dSolidsMenuItem = "Convert Objects to 3D Solids";
         public const string ConvertTo3dSolidsCommandName = "ConvertTo3dSolids";
-        public const string OpenMaterialManagerMenuItem = "Material and Surfaces Manager";
+        public const string OpenMaterialManagerMenuItem = "Materials and Surfaces";
         public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
-        public const string EditMaterialsMappingsMenuItem = "Edit materials mappings";
+        public const string EditMaterialsMappingsMenuItem = "Material mappings";
         public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
         public const string OptionsMenuItem = "Options";
         public const string OptionsCommandName = "PluginOptions";
