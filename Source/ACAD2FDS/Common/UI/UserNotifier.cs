@@ -6,17 +6,15 @@ namespace Common.UI
     {
         #region Constants
 
-        public const string WarningCaption = "Warning" + CaptionPattern;
+        private static readonly string WarningCaption = string.Format(CommonConstants.WindowCaptionPattern, "Warning");
 
-        public const string ErrorCaption = "Error" + CaptionPattern;
+        private static readonly string ErrorCaption = string.Format(CommonConstants.WindowCaptionPattern, "Error");
 
-        public const string InfoCaption = "Info" + CaptionPattern;
+        private static readonly string InfoCaption = string.Format(CommonConstants.WindowCaptionPattern, "Info");
 
-        public const string RetryCaption = "Retry" + CaptionPattern;
+        private static readonly string RetryCaption = string.Format(CommonConstants.WindowCaptionPattern, "Retry");
 
-        public const string QuestionCaption = "Question" + CaptionPattern;
-
-        private const string CaptionPattern = " - AutoCAD to FDS plugin";
+        private static readonly string QuestionCaption = string.Format(CommonConstants.WindowCaptionPattern, "Question"); 
 
         #endregion
 

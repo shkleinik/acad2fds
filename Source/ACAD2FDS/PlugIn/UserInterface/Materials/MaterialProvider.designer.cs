@@ -185,7 +185,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(395, 380);
             this.Name = "MaterialProvider";
-            this.Text = "Materials Provider";
+            this.Text = "Material Provider";
             this.Load += new System.EventHandler(this.On_MaterialProvider_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.On_MaterialProvider_FormClosing);
             this.tabsContainer.ResumeLayout(false);

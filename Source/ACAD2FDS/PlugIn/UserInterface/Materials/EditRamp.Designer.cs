@@ -67,7 +67,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditRamp";
-            this.Text = "EditRamp";
+            this.Text = "Ramp Editor";
             this.Load += new System.EventHandler(this.On_EditRamp_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);

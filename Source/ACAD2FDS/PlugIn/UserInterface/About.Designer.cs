@@ -141,7 +141,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 250);
             this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About - AutoCAD to FDS plugin";
+            this.Text = "About";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnFormKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.ResumeLayout(false);

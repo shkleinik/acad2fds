@@ -102,7 +102,7 @@ namespace Fds2AcadPlugin.UserInterface.Materials
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(600, 350);
             this.Name = "MaterialMapper";
-            this.Text = "MaterialMapper";
+            this.Text = "Material Mappings";
             this.Load += new System.EventHandler(this.On_MaterialMapper_Load);
             this.pnlBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMapping)).EndInit();
