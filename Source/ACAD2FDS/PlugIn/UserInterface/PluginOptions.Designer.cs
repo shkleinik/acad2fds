@@ -254,7 +254,7 @@
             this.MinimizeBox = false;
             this.Name = "PluginOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Fds to AutoCad plugin Options";
+            this.Text = "Options";
             this.Load += new System.EventHandler(this.On_PluginOptions_Load);
             this.gbFdsOptions.ResumeLayout(false);
             this.gbFdsOptions.PerformLayout();

@@ -43,6 +43,7 @@
     <Compile Include="..\SolutionItems\CommonInfo.cs">
       <Link>Properties\CommonInfo.cs</Link>
     </Compile>
+    <Compile Include="CommonConstants.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Logger.cs" />

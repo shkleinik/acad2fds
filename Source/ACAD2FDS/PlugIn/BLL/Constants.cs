@@ -33,7 +33,7 @@ namespace Fds2AcadPlugin.BLL
         public const string ConvertTo3dSolidsCommandName = "ConvertTo3dSolids";
         public const string OpenMaterialManagerMenuItem = "Materials and Surfaces";
         public const string OpenMaterialManagerCommandName = "OpenMaterialManager";
-        public const string EditMaterialsMappingsMenuItem = "Material mappings";
+        public const string EditMaterialsMappingsMenuItem = "Material Mappings";
         public const string EditMaterialsMappingsCommandName = "EditMaterialsMappings";
         public const string OptionsMenuItem = "Options";
         public const string OptionsCommandName = "PluginOptions";
