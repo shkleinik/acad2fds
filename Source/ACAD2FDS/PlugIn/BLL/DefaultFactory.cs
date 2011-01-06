@@ -25,9 +25,9 @@ namespace Fds2AcadPlugin.BLL
             return XmlSerializer<FdsPluginConfig>.Deserialize(PluginInfoProvider.PathToPluginConfig, Log);
         }
 
-        public AcadApplication CreateAcadApplication()
+        public IAcadApplication CreateAcadApplication()
         {
-            return (AcadApplication)Application.AcadApplication;
+            return (IAcadApplication)Application.AcadApplication;
         }
 
         public Window GetAcadActiveWindow()
