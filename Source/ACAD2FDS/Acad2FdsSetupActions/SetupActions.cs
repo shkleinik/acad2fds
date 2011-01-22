@@ -15,8 +15,21 @@
     [RunInstaller(true)]
     public partial class SetupActions : Installer
     {
+        private const string InstallerProcessName = "msiexec";
 
         private ILogger Log { get; set; }
+
+        private IWin32Window InstallerMainWindow
+        {
+            get
+            {
+                var mainWindowHandle = CommonHelper.GetProcessMainWindowHandle(InstallerProcessName);
+
+                Log.LogInfo("Installer's Main Window Handle - " + mainWindowHandle);
+
+                return new WindowWrapper(mainWindowHandle);
+            }
+        }
 
         #region Constructors
 
@@ -96,7 +109,7 @@
         {
             if (updatedInstances.Count <= 0)
             {
-                UserNotifier.ShowInfo(Resources.AcadNotInstalledMessage);
+                UserNotifier.ShowInfo(InstallerMainWindow, Resources.AcadNotInstalledMessage);
 
                 if (stopInstallation)
                     throw new InvalidOperationException(Resources.AcadNotInstalledMessage);
@@ -111,7 +124,8 @@
                 }
 
                 Log.LogInfo(infoMessage);
-                UserNotifier.ShowInfo(infoMessage);
+
+                UserNotifier.ShowInfo(InstallerMainWindow, infoMessage);
             }
         }
 
