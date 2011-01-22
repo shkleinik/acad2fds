@@ -14,7 +14,7 @@ namespace Common.UI
 
         private static readonly string RetryCaption = string.Format(CommonConstants.WindowCaptionPattern, "Retry");
 
-        private static readonly string QuestionCaption = string.Format(CommonConstants.WindowCaptionPattern, "Question"); 
+        private static readonly string QuestionCaption = string.Format(CommonConstants.WindowCaptionPattern, "Question");
 
         #endregion
 
@@ -48,12 +48,17 @@ namespace Common.UI
 
         public static void ShowInfo(string text)
         {
-            MessageBox.Show(text,
+            ShowInfo(null, text);
+        }
+
+        public static void ShowInfo(IWin32Window owner, string text)
+        {
+            MessageBox.Show(owner, text,
                             InfoCaption,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information,
                             MessageBoxDefaultButton.Button1
-                );
+                            );
         }
 
         public static DialogResult ShowRetry(string text)

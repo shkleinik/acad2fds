@@ -55,6 +55,7 @@
       <DependentUpon>FormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UserNotifier.cs" />
+    <Compile Include="WindowWrapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
