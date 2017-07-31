@@ -1,3 +1,4 @@
+![Logo](https://github.com/shkleinik/acad2fds/blob/master/assets/Logo.png)
 # acad2fds
 
 AutoCAD to [FDS](https://github.com/firemodels/fds) ( Fire Dynamics Simulator ) bridge. Plugin provides possibility to convert AutoCAD geometry to FDS format, automate calculation in FDS and view calculation results in AutoCAD. 
