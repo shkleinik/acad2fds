@@ -6,6 +6,8 @@ You are welcome to view [AutoCAD to FDS Presentation](https://github.com/shklein
 
 Some simple [geometry samples](https://github.com/shkleinik/acad2fds/raw/master/assets/Home_Plugin%20Samples.zip).
 
+[Downlaod latest version](https://github.com/shkleinik/acad2fds/raw/master/distr/ACAD2FDS_Setup.1.0.0.58978.msi)
+
 # Overview
 
 ## Plugin's Menu
